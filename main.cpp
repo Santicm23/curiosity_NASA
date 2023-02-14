@@ -11,7 +11,6 @@ int main(){
     do  {
         cout<<"$ ";
         getline(cin,command);
-        cout<<command<<endl;
         if (command == "") 
         {
 
@@ -118,7 +117,7 @@ int main(){
         {
             
         }
-        else if(command=="ayuda ruta_mas_larga")
+        else if(command == "ayuda ruta_mas_larga")
         {
             
         }
