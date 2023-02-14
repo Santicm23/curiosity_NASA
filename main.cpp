@@ -15,7 +15,7 @@ int main(){
         {
 
         }
-        if (command.find("cargar_comandos")!=string::npos)
+        else if (command.find("cargar_comandos")!=string::npos)
         {
             string parametro1,parametro2;
             stringstream partir(command);
@@ -27,39 +27,39 @@ int main(){
         {
             string a;
         }
-        else if(command=="agregar_movimiento")
+        else if(command == "agregar_movimiento")
         {
             string a;
         }
-        else if(command=="agregar_analisis")
+        else if(command == "agregar_analisis")
         {
             string a;
         }
-        else if(command=="agregar_elemento")
+        else if(command == "agregar_elemento")
         {
             string a;
         }
-        else if(command=="guardar")
+        else if(command == "guardar")
         {
             string a;
         }
-        else if(command=="simular_comandos")
+        else if(command == "simular_comandos")
         {
             string a;
         }
-        else if(command=="ubicar_elementos")
+        else if(command == "ubicar_elementos")
         {
             string a;
         }
-        else if(command=="en_cuadrante")
+        else if(command == "en_cuadrante")
         {
             string a;
         }
-        else if(command=="crear_mapa")
+        else if(command == "crear_mapa")
         {
             
         }
-        else if(command=="ruta_mas_larga")
+        else if(command == "ruta_mas_larga")
         {
             
         }
@@ -85,35 +85,35 @@ int main(){
         {
 
         }
-        else if(command=="ayuda agregar_movimiento")
+        else if(command == "ayuda agregar_movimiento")
         {
             
         }
-        else if(command=="ayuda agregar_analisis")
+        else if(command == "ayuda agregar_analisis")
         {
             
         }
-        else if(command=="ayuda agregar_elemento")
+        else if(command == "ayuda agregar_elemento")
         {
             
         }
-        else if(command=="ayuda guardar")
+        else if(command == "ayuda guardar")
         {
             
         }
-        else if(command=="ayuda simular_comandos")
+        else if(command == "ayuda simular_comandos")
         {
             
         }
-        else if(command=="ayuda ubicar_elementos")
+        else if(command == "ayuda ubicar_elementos")
         {
             
         }
-        else if(command=="ayuda en_cuadrante")
+        else if(command == "ayuda en_cuadrante")
         {
             
         }
-        else if(command=="ayuda crear_mapa")
+        else if(command == "ayuda crear_mapa")
         {
             
         }
