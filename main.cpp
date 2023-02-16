@@ -20,16 +20,15 @@ void ayuda(vector<string> args) {
         for(map<string, string>::iterator it = commandHelps.begin(); it != commandHelps.end(); ++it) {
             cout << "\t" << it->first << endl;
         }
-    } else if (args.size() == 1){
-        if (commandHelps.count(args[0]) > 0){
+    } else if (args.size() == 1) {
+        if (commandHelps.count(args[0]) > 0) {
             cout << "\t" << commandHelps[args[0]] << endl;
         } else {
-            cout << "No se encontro el comando '" << args[0] << "'\n";
+            cout << "ERROR: No se encontro el comando '" << args[0] << "'\n";
         }
     } else {
-        cout << "El comando 'ayuda' solo recibe un argumento\n";
+        cout << "ERROR: El comando 'ayuda' solo recibe un argumento\n";
     }
-    
 }
 
 void fillMaps(map<string, string> &descMap, map<string, void(*)(vector<string>)>&exeMap) {
@@ -37,7 +36,8 @@ void fillMaps(map<string, string> &descMap, map<string, void(*)(vector<string>)>
     // command name, command callback function
 
     descMap.insert({"cargar_comandos",
-        "Carga en memoria los comandos de desplazamiento contenidos en el archivo identificado por nombre_archivo,\n"
+        "Comando: cargar_comandos nombre_archivo"
+        "\tCarga en memoria los comandos de desplazamiento contenidos en el archivo identificado por nombre_archivo,\n"
         "\tes decir, utiliza adecuadamente las estructuras lineales para cargar la informacion de los comandos en memoria.\n"
         "\tSi dentro de la misma sesion de trabajo ya se han cargado otros archivos de comandos (usando el comando\n"
         "\tcargar_comandos), la informacion debe sobreescribirse en memoria, es decir, no se deben combinar informaciones\n"
@@ -45,15 +45,22 @@ void fillMaps(map<string, string> &descMap, map<string, void(*)(vector<string>)>
     });
     exeMap.insert({"cargar_comandos", cargar_comandos});
 
-    descMap.insert({"salir", "Termina la ejecución de la aplicación."});
+    descMap.insert({"salir",
+        "Comando: salir\n"
+        "\tTermina la ejecución de la aplicación."
+    });
     exeMap.insert({"salir", salir});
 
-    descMap.insert({"ayuda", "Permite la visualizacion de la descripción de cada uno de los comandos"});
+    descMap.insert({"ayuda",
+        "Comando: ayuda | ayuda nombre_comando\n"
+        "\tPermite la visualizacion de la descripción de cada uno de los comandos"
+    });
     exeMap.insert({"ayuda", ayuda});
 
 }
 
 int main(){
+    char delim = ' ';
     string commandLine, command, word;
 
 
@@ -67,19 +74,19 @@ int main(){
 
 
         stringstream stream(commandLine);
-        getline(stream, command, ' ');
+        getline(stream, command, delim);
 
-        while(getline(stream, word, ' ')){
+        while(getline(stream, word, delim)) {
             args.push_back(word);
         }
 
         if (commandLine == "") {
             continue;
-        } else if (commands.count(command) > 0){
+        } else if (commands.count(command) > 0) {
             commands[command](args);
         } else {
-            cout << "El comando '"<< command <<"' no existe" << '\n';
+            cout << "ERROR: El comando '"<< command <<"' no existe" << '\n';
         }
-            
-    }while (command!="salir");
+
+    } while (command!="salir");
 }
