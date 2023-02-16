@@ -3,54 +3,73 @@
 #include<string>
 #include<sstream>
 #include<map>
+#include<vector>
 
 using namespace std;
 
 
-void salir(string) {};
+map<string, string> commandHelps;
+map<string, void(*)(vector<string>)> commands;
 
-void ayuda(string command) {
-    cout<<"cargar_comandos      \n"
-        <<"cargar_elementos     \n"
-        <<"agregar_movimiento   \n"
-        <<"agregar_analisis     \n"
-        <<"agregar_elemento     \n"
-        <<"guardar              \n"
-        <<"simular_comandos     \n"
-        <<"ubicar_elementos     \n"
-        <<"en_cuadrante         \n"
-        <<"crear_mapa           \n"
-        <<"ruta_mas_larga       \n";
+void fillMaps(map<string, string> &descMap, map<string, void(*)(vector<string>)>&exeMap) {
+    descMap.insert({"cargar_comandos", "c"});
+    exeMap.insert({"cargar_comandos", cargar_comandos});
+
+    descMap.insert({"salir", "a"});
+    exeMap.insert({"salir", salir});
+
+    descMap.insert({"ayuda", "b"});
+    exeMap.insert({"ayuda", ayuda});
+
 }
 
-void cargar_comandos(string command) {
-    string parametro1,parametro2;
-    stringstream partir(command);
-    partir>>parametro1>>parametro1;
-    cout<<"1."<<parametro1<<endl;
+void salir(vector<string>) {}
+
+void cargar_comandos(vector<string> args) {}
+
+void ayuda(vector<string> args) {
+    if (args.empty()){
+        for(map<string, string>::iterator it = commandHelps.begin(); it != commandHelps.end(); ++it) {
+            cout << "\t" << it->first << endl;
+        }
+    } else if (args.size() == 1){
+        if (commandHelps.count(args[0]) > 0){
+            cout << "\t" << commandHelps[args[0]] << endl;
+        } else {
+            cout << "No se encontro el comando '" << args[0] << "'\n";
+        }
+    } else {
+        cout << "El comando 'ayuda' solo recibe un argumento\n";
+    }
+    
 }
 
 int main(){
-    string command, word;
+    string commandLine, command, word;
 
-    map<string, void(*)(string)> commands;
-    commands.insert({"salir", salir});
-    commands.insert({"ayuda", ayuda});
-    commands.insert({"cargar_comandos", cargar_comandos});
+
+    fillMaps(commandHelps, commands);
 
     do {
+        vector<string> inputCommand;
+
         cout<<"$ ";
-        getline(cin, command);
+        getline(cin, commandLine);
 
-        stringstream stream(command);
-        getline(stream, word, ' ');
 
-        if (command == "") {
+        stringstream stream(commandLine);
+        getline(stream, command, ' ');
+
+        while(getline(stream, word, ' ')){
+            inputCommand.push_back(word);
+        }
+
+        if (commandLine == "") {
             continue;
-        } else if (commands.count(word) > 0){
-                commands[word](command);
+        } else if (commands.count(command) > 0){
+            commands[command](inputCommand);
         } else {
-            cerr << "El comando no existe" << '\n';
+            cout << "El comando '"<< command <<"' no existe" << '\n';
         }
             
     }while (command!="salir");
