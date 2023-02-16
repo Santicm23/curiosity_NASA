@@ -38,17 +38,17 @@ void fillMaps(map<string, string> &descMap, map<string, void(*)(vector<string>)>
 
     descMap.insert({"cargar_comandos",
         "Carga en memoria los comandos de desplazamiento contenidos en el archivo identificado por nombre_archivo,\n"
-        "es decir, utiliza adecuadamente las estructuras lineales para cargar la información de los comandos en memoria.\n"
-        "Si dentro de la misma sesión de trabajo ya se han cargado otros archivos de comandos (usando el comando\n"
-        "cargar_comandos), la información debe sobreescribirse en memoria, es decir, no se deben combinar informaciones\n"
-        "de comandos de diferentes archivos."
+        "\tes decir, utiliza adecuadamente las estructuras lineales para cargar la informacion de los comandos en memoria.\n"
+        "\tSi dentro de la misma sesion de trabajo ya se han cargado otros archivos de comandos (usando el comando\n"
+        "\tcargar_comandos), la informacion debe sobreescribirse en memoria, es decir, no se deben combinar informaciones\n"
+        "\tde comandos de diferentes archivos."
     });
     exeMap.insert({"cargar_comandos", cargar_comandos});
 
-    descMap.insert({"salir", "a"});
+    descMap.insert({"salir", "Termina la ejecución de la aplicación."});
     exeMap.insert({"salir", salir});
 
-    descMap.insert({"ayuda", "b"});
+    descMap.insert({"ayuda", "Permite la visualizacion de la descripción de cada uno de los comandos"});
     exeMap.insert({"ayuda", ayuda});
 
 }
