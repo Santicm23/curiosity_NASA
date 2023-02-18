@@ -44,7 +44,15 @@ void fillMaps(map<string, string> &descMap, map<string, void(*)(vector<string>)>
         "\tde comandos de diferentes archivos."
     });
     exeMap.insert({"cargar_comandos", cargar_comandos});
-
+    descMap.insert({"cargar_elementos",
+        "comando: cargar_elementos nombre_archivo"
+        "\tCarga en memoria los datos de puntos de interés o elementos contenidos en el archivo\n"
+        "\tidentificado por nombre_archivo , es decir, utiliza adecuadamente las estructuras lineales para cargar\n"
+        "\tla información de los elementos en memoria. Si dentro de la misma sesión de trabajo ya se han cargado\n"
+        "\totros archivos de puntos de interés (usando el comando cargar_elementos), la información debe\n"
+        "\tsobreescribirse en memoria, es decir, no se deben combinar informaciones de elementos de diferentes\n"
+        "\tarchivos."
+    });
     descMap.insert({"salir",
         "Comando: salir\n"
         "\tTermina la ejecución de la aplicación."
