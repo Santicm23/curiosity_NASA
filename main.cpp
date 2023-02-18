@@ -36,22 +36,22 @@ void fillMaps(map<string, string> &descMap, map<string, void(*)(vector<string>)>
     // command name, command callback function
 
     descMap.insert({"cargar_comandos",
-        "Comando: cargar_comandos nombre_archivo"
-        "\tCarga en memoria los comandos de desplazamiento contenidos en el archivo identificado por nombre_archivo,\n"
-        "\tes decir, utiliza adecuadamente las estructuras lineales para cargar la informacion de los comandos en memoria.\n"
-        "\tSi dentro de la misma sesion de trabajo ya se han cargado otros archivos de comandos (usando el comando\n"
-        "\tcargar_comandos), la informacion debe sobreescribirse en memoria, es decir, no se deben combinar informaciones\n"
-        "\tde comandos de diferentes archivos."
+        "Comando: cargar_comandos nombre_archivo\n"
+        "Carga en memoria los comandos de desplazamiento contenidos en el archivo identificado por nombre_archivo, "
+        "es decir, utiliza adecuadamente las estructuras lineales para cargar la informacion de los comandos en memoria. "
+        "Si dentro de la misma sesion de trabajo ya se han cargado otros archivos de comandos (usando el comando "
+        "cargar_comandos), la informacion debe sobreescribirse en memoria, es decir, no se deben combinar informaciones "
+        "de comandos de diferentes archivos."
     });
     exeMap.insert({"cargar_comandos", cargar_comandos});
     descMap.insert({"cargar_elementos",
-        "comando: cargar_elementos nombre_archivo"
-        "\tCarga en memoria los datos de puntos de interés o elementos contenidos en el archivo\n"
-        "\tidentificado por nombre_archivo , es decir, utiliza adecuadamente las estructuras lineales para cargar\n"
-        "\tla información de los elementos en memoria. Si dentro de la misma sesión de trabajo ya se han cargado\n"
-        "\totros archivos de puntos de interés (usando el comando cargar_elementos), la información debe\n"
-        "\tsobreescribirse en memoria, es decir, no se deben combinar informaciones de elementos de diferentes\n"
-        "\tarchivos."
+        "comando: cargar_elementos nombre_archivo\n"
+        "Carga en memoria los datos de puntos de interes o elementos contenidos en el archivo "
+        "identificado por nombre_archivo , es decir, utiliza adecuadamente las estructuras lineales para cargar "
+        "la informacion de los elementos en memoria. Si dentro de la misma sesion de trabajo ya se han cargado "
+        "otros archivos de puntos de interes (usando el comando cargar_elementos), la informacion debe "
+        "sobreescribirse en memoria, es decir, no se deben combinar informaciones de elementos de diferentes "
+        "archivos."
     });
     descMap.insert({"salir",
         "Comando: salir\n"
