@@ -14,6 +14,7 @@ map<string, void(*)(vector<string>)> commands;
 void salir(vector<string>) {}
 
 void cargar_comandos(vector<string> args) {}
+void cargar_elementos(vector<string> args) {}
 
 void ayuda(vector<string> args) {
     if (args.empty()){
@@ -53,6 +54,8 @@ void fillMaps(map<string, string> &descMap, map<string, void(*)(vector<string>)>
         "sobreescribirse en memoria, es decir, no se deben combinar informaciones de elementos de diferentes "
         "archivos."
     });
+    exeMap.insert({"cargar_elementos", cargar_elementos});
+    
     descMap.insert({"salir",
         "Comando: salir\n"
         "\tTermina la ejecución de la aplicación."
