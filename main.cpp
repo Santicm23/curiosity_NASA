@@ -107,7 +107,7 @@ void fillMaps(map<string, string> &descMap, map<string, void(*)(vector<string>)>
         "\tde componente puede ser uno entre roca, crater, monticulo o duna. El tamaño es un valor real que da\n"
         "\tcuenta de que tan grande es el elemento; y la unidad de medida complementa este valor con la convencion\n"
         "\tque se uso para su medicion (centimetros, metros, ...). Finalmente, las coordenadas x y y corresponden\n"
-        "\ta números reales que permiten conocer la ubicacion del elemento en el sistema de coordenadas del suelo\n"
+        "\ta numeros reales que permiten conocer la ubicacion del elemento en el sistema de coordenadas del suelo\n"
         "\tmarciano utilizado por el vehiculo. Si no se envia la informacion completa y adecuada del elemento,\n"
         "\teste no puede agregarse a la lista de puntos de interes que se enviaran al robot desde la tierra."
     });
