@@ -97,37 +97,37 @@ void fillMaps(map<string, string> &descMap, map<string, void(*)(vector<string>)>
         "\tanalizar (roca, arena, monticulo, ...). El comentario es opcional y permite agregar mas informacion sobre\n"
         "\tel elemento o el analisis, este comentario estara encerrado entre comillas simples (ejemplo: 'roca_cuadrante_32').\n"
         "\tSi no se envia la informacion completa y adecuada del comando de analisis, este no puede agregarse a la lista\n"
-        "\tde los comandos que se enviarán al robot desde la tierra."
+        "\tde los comandos que se enviaran al robot desde la tierra."
     });
     exeMap.insert({"agregar_analisis", agregar_analisis});
 
     descMap.insert({"agregar_elementos",
         "Comando: agregar_elementos tipo_comp tamaño unidad_med coordX coordY\n"
-        "\tAgrega el componente o elemento descrito a la lista de puntos de interes del robot “Curiosity”. El tipo\n"
+        "\tAgrega el componente o elemento descrito a la lista de puntos de interes del robot \"Curiosity\". El tipo\n"
         "\tde componente puede ser uno entre roca, crater, monticulo o duna. El tamaño es un valor real que da\n"
         "\tcuenta de que tan grande es el elemento; y la unidad de medida complementa este valor con la convencion\n"
         "\tque se uso para su medicion (centimetros, metros, ...). Finalmente, las coordenadas x y y corresponden\n"
         "\ta números reales que permiten conocer la ubicacion del elemento en el sistema de coordenadas del suelo\n"
         "\tmarciano utilizado por el vehiculo. Si no se envia la informacion completa y adecuada del elemento,\n"
-        "\teste no puede agregarse a la lista de puntos de interes que se enviarán al robot desde la tierra."
+        "\teste no puede agregarse a la lista de puntos de interes que se enviaran al robot desde la tierra."
     });
     exeMap.insert({"agregar_elementos", agregar_elementos});
     
     descMap.insert({"guardar",
         "Comando: guardar tipo_archivo nombre_archivo\n"
         "\tGuarda en el archivo nombre_archivo la informacion solicitada de acuerdo al tipo de archivo: comandos\n"
-        "\talmacena en el archivo la informacion de comandos de movimiento y de análisis que debe ejecutar el robot,\n"
-        "\telementos almacena en el archivo la informacion de los componentes o puntos e interés conocidos en el suelo\n"
+        "\talmacena en el archivo la informacion de comandos de movimiento y de analisis que debe ejecutar el robot,\n"
+        "\telementos almacena en el archivo la informacion de los componentes o puntos e interes conocidos en el suelo\n"
         "\tmarciano."
     });
     exeMap.insert({"guardar", guardar});
 
     descMap.insert({"simular_comandos",
         "Comando: simular_comandos coordX coordY\n"
-        "\tPermite simular el resultado de los comandos de movimiento que se enviarán al robot \"Curiosity\" desde\n"
-        "\tla Tierra, facilitando asi la validacion de la nueva posicion en la que podría ubicarse. Para ejecutarse\n"
-        "\tadecuadamente, requiere conocer la posicion actual (coordenadas x y y) del vehículo. Hay que tener en cuenta\n"
-        "\tque solo los comandos de movimiento son necesarios, no los de análisis."
+        "\tPermite simular el resultado de los comandos de movimiento que se enviaran al robot \"Curiosity\" desde\n"
+        "\tla Tierra, facilitando asi la validacion de la nueva posicion en la que podria ubicarse. Para ejecutarse\n"
+        "\tadecuadamente, requiere conocer la posicion actual (coordenadas x y y) del vehiculo. Hay que tener en cuenta\n"
+        "\tque solo los comandos de movimiento son necesarios, no los de analisis."
     });
     exeMap.insert({"simular_comandos", simular_comandos});
 
@@ -139,8 +139,8 @@ void fillMaps(map<string, string> &descMap, map<string, void(*)(vector<string>)>
 
     descMap.insert({"ubicar_elementos",
         "Comando: ubicar_elementos\n"
-        "\tEl comando debe utilizar la información de puntos de interés almacenada en memoria para ubicarlos en\n"
-        "\tuna estructura de datos jerárquica adecuada, que permita luego realizar consultas geográficas sobre estos\n"
+        "\tEl comando debe utilizar la informacion de puntos de interes almacenada en memoria para ubicarlos en\n"
+        "\tuna estructura de datos jerarquica adecuada, que permita luego realizar consultas geograficas sobre estos\n"
         "\telementos. Si alguno de los elementos no puede agregarse adecuadamente, debe generarse un mensaje de error,\n"
         "\tpero deben terminarse de procesar todos los elementos almacenados en memoria."
     });
@@ -148,12 +148,12 @@ void fillMaps(map<string, string> &descMap, map<string, void(*)(vector<string>)>
     
     descMap.insert({"crear_mapa",
         "Comando: crear_mapa coeficiente_conectividad\n"
-        "\tEl comando debe utilizar la información de puntos de interés almacenada en memoria para ubicarlos en una\n"
-        "\testructura no lineal y conectarlos entre sí teniendo en cuenta el coeficiente de conectividad dado. El\n"
-        "\tobjetivo es que cada elemento esté conectado a los demás elementos más cercanos a él, midiendo la cercanía\n"
-        "\ta través de la distancia euclidiana entre los elementos. Esta distancia euclidiana también se utiliza como\n"
-        "\tel peso o etiqueta de la conexión entre los elementos. Con el coeficiente de conectividad se identifica la\n"
-        "\tcantidad de vecinos que puede tener cada elemento tomando como base el total de elementos que se ubicarán\n"
+        "\tEl comando debe utilizar la informacion de puntos de interes almacenada en memoria para ubicarlos en una\n"
+        "\testructura no lineal y conectarlos entre si teniendo en cuenta el coeficiente de conectividad dado. El\n"
+        "\tobjetivo es que cada elemento este conectado a los demas elementos mas cercanos a el, midiendo la cercania\n"
+        "\ta traves de la distancia euclidiana entre los elementos. Esta distancia euclidiana tambien se utiliza como\n"
+        "\tel peso o etiqueta de la conexion entre los elementos. Con el coeficiente de conectividad se identifica la\n"
+        "\tcantidad de vecinos que puede tener cada elemento tomando como base el total de elementos que se ubicaran\n"
         "\ten el mapa (ejemplo: si se van a ubicar 35 elementos, y el coeficiente de conectividad es 0.4, la cantidad\n"
         "\tde vecinos que cada elemento debe tener es 35 * 0.4 = 14)."
     });
@@ -161,10 +161,10 @@ void fillMaps(map<string, string> &descMap, map<string, void(*)(vector<string>)>
     
     descMap.insert({"ruta_mas_larga",
         "Comando: ruta_mas_larga\n"
-        "\tCon el mapa ya creado, el comando permite identificar los dos componentes más alejados entre sí de acuerdo\n"
-        "\ta las conexiones generadas. Es importante aclarar que el comando retorna los elementos más alejados de\n"
-        "\tacuerdo a las conexiones que se encuentran en el mapa, no los elementos que estén a mayor distancia\n"
-        "\teuclidiana entre sí. Al encontrar esa ruta más larga dentro del mapa, el comando imprime en pantalla los\n"
+        "\tCon el mapa ya creado, el comando permite identificar los dos componentes mas alejados entre si de acuerdo\n"
+        "\ta las conexiones generadas. Es importante aclarar que el comando retorna los elementos mas alejados de\n"
+        "\tacuerdo a las conexiones que se encuentran en el mapa, no los elementos que esten a mayor distancia\n"
+        "\teuclidiana entre si. Al encontrar esa ruta mas larga dentro del mapa, el comando imprime en pantalla los\n"
         "\telementos de origen y destino, la longitud total de la ruta, y la secuencia de elementos que hay que seguir\n"
         "\tpara ir del elemento origen al elemento destino."
     });
