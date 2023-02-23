@@ -1,8 +1,9 @@
 
+#include<fstream>
 #include<iostream>
+#include<map>
 #include<string>
 #include<sstream>
-#include<map>
 #include<vector>
 
 using namespace std;
@@ -13,7 +14,29 @@ map<string, void(*)(vector<string>)> commands;
 
 void salir(vector<string>) {}
 
-void cargar_comandos(vector<string> args) {}
+void cargar_comandos(vector<string> args) {
+    if (args.size() != 1)
+        throw runtime_error("Debe ingresar un nombre de archivo y solo uno.");
+
+    fstream fs;
+    string line;
+    
+    fs.open(args[0], ios::in);
+
+    if (!fs.is_open())
+        throw runtime_error("'" + args[0] + "' no se encuentra o no puede leerse.");
+
+    if (fs.peek() == EOF)
+        throw runtime_error("'" + args[0] + "' no contiene comandos.");
+    
+    while(!fs.eof()) {
+        getline(fs, line);
+        cout << line << endl;
+    }
+
+    fs.close();
+    
+}
 
 void cargar_elementos(vector<string> args) {}
 
@@ -42,10 +65,10 @@ void ayuda(vector<string> args) {
         if (commandHelps.count(args[0]) > 0) {
             cout << "\t" << commandHelps[args[0]] << endl;
         } else {
-            cout << "ERROR: No se encontro el comando '" << args[0] << "'\n";
+            throw runtime_error("No se encontro el comando '" + args[0] + "'");
         }
     } else {
-        cout << "ERROR: El comando 'ayuda' solo recibe un argumento\n";
+        throw runtime_error("El comando 'ayuda' recibe maximo un argumento");
     }
 }
 
@@ -173,6 +196,7 @@ void fillMaps(map<string, string> &descMap, map<string, void(*)(vector<string>)>
 
 }
 
+
 int main(){
     char delim = ' ';
     string commandLine, command, word;
@@ -194,12 +218,16 @@ int main(){
             args.push_back(word);
         }
 
-        if (commandLine == "") {
-            continue;
-        } else if (commands.count(command) > 0) {
-            commands[command](args);
-        } else {
-            cout << "ERROR: El comando '"<< command <<"' no existe" << '\n';
+        try {
+            if (commandLine == "") {
+                continue;
+            } else if (commands.count(command) > 0) {
+                commands[command](args);
+            } else {
+                throw runtime_error("El comando '" + command + "' no existe");
+            }
+        } catch(const runtime_error& e) {
+            cerr << "Error: " << e.what() << '\n';
         }
 
     } while (command!="salir");
