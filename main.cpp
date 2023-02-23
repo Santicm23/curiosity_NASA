@@ -10,12 +10,18 @@ using namespace std;
 
 
 // ----- variables globales -----
-
+    
+// maps comandos consola:
 map<string, string> commandHelps;
 map<string, void(*)(vector<string>)> commands;
 
+// TODO: listas comandos cargados
+// TODO: listas elementos cargados
+
 
 // ----- componente 1 -----
+// TODO: terminar componente para entrega 1 (preguntar al profe duda de archivos (solo txt?))
+    // con documentación de comandos => (diagramas, graficos, dibujos), plan de pruebas (simular_comandos)
 
 void cargar_comandos(vector<string> args) {
     if (args.size() != 1)
