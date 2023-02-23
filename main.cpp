@@ -9,10 +9,13 @@
 using namespace std;
 
 
+// ----- variables globales -----
+
 map<string, string> commandHelps;
 map<string, void(*)(vector<string>)> commands;
 
-void salir(vector<string>) {}
+
+// ----- componente 1 -----
 
 void cargar_comandos(vector<string> args) {
     if (args.size() != 1)
@@ -50,11 +53,24 @@ void guardar(vector<string> args) {}
 
 void simular_comandos(vector<string> args) {}
 
+void salir(vector<string>) {}
+
+
+// ----- componente 2 -----
+
 void ubicar_elementos(vector<string> args) {}
 
 void en_cuadrante(vector<string> args) {}
 
+
+// ----- componente 3 -----
+
 void crear_mapa(vector<string> args) {}
+
+void ruta_mas_larga(vector<string> args) {}
+
+
+// ----- comandos y funciones adicionales -----
 
 void ayuda(vector<string> args) {
     if (args.empty()){
@@ -191,11 +207,13 @@ void fillMaps(map<string, string> &descMap, map<string, void(*)(vector<string>)>
         "\telementos de origen y destino, la longitud total de la ruta, y la secuencia de elementos que hay que seguir\n"
         "\tpara ir del elemento origen al elemento destino."
     });
-    exeMap.insert({"ruta_mas_larga", crear_mapa});
+    exeMap.insert({"ruta_mas_larga", ruta_mas_larga});
 
 
 }
 
+
+// ----- main -----
 
 int main(){
     char delim = ' ';
