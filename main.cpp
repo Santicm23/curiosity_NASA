@@ -1,10 +1,16 @@
 
-#include<fstream>
-#include<iostream>
-#include<map>
-#include<string>
-#include<sstream>
-#include<vector>
+#include <fstream>
+#include <iostream>
+#include <list>
+#include <map>
+#include <string>
+#include <sstream>
+#include <vector>
+#include <regex>
+
+#include "desplazamiento.h"
+#include "movimiento.h"
+#include "analisis.h"
 
 using namespace std;
 
@@ -15,11 +21,63 @@ using namespace std;
 map<string, string> commandHelps;
 map<string, void(*)(vector<string>)> commands;
 
-// TODO: listas comandos cargados
-// TODO: listas elementos cargados
+// lista comandos cargados
+list<Desplazamiento> disp_commands;
+
+// TODO: lista elementos cargados
+
+
+// funciones de ayuda
+Desplazamiento createDispCommand(string line) {
+    char delim = ' ';
+    string word;
+
+    stringstream ss(line);
+    vector<string> words;
+
+
+    getline(ss, word, delim);
+    words.push_back(word);
+
+    if (word == "avanzar" || word == "girar") {
+
+        while (getline(ss, word, delim)){
+            words.push_back(word);
+        }
+        if (words.size() != 3)
+            throw runtime_error(
+                "Los comandos de movimiento requieren tipo_movimiento, magnitud y unidad_medida como argumentos");
+        try {
+            return Movimiento(words[0], stof(words[1]), words[2]);
+        } catch (...) {
+            throw runtime_error("La magnitud del comando no es un decimal");
+        }
+        
+    } else if (words[0] == "fotografiar" || words[0] == "composicion" || words[0] == "perforar") {
+        getline(ss, word, delim);
+        words.push_back(word);
+        if (getline(ss, word))
+            words.push_back(word);
+
+        if (words.size() == 2)
+            return Analisis(words[0], words[1]);
+        else if (words.size() == 3)
+            if (regex_match(words[2], regex("'([a-zA_Z0-9_!.,;+/*%?¡¿@#()><= ]|-)*'")))
+                return Analisis(words[0], words[1], words[2]);
+            else throw runtime_error(
+            "El comentario debe estar entre comillas simples, sin acentos");
+        else throw runtime_error(
+            "Los comandos de analisis requieren tipo_analisis, objeto y comentario(opcional) como argumentos");
+        
+        return Analisis(words[0], words[1], words[2]);
+    }
+    else
+        throw runtime_error("El tipo de comando no es valido");
+}
 
 
 // ----- componente 1 -----
+
 // TODO: terminar componente para entrega 1 (preguntar al profe duda de archivos (solo txt?))
     // con documentación de comandos => (diagramas, graficos, dibujos), plan de pruebas (simular_comandos)
 
@@ -37,17 +95,45 @@ void cargar_comandos(vector<string> args) {
 
     if (fs.peek() == EOF)
         throw runtime_error("'" + args[0] + "' no contiene comandos.");
-    
-    while(!fs.eof()) {
+
+    disp_commands.clear();
+
+    int n;
+    for (n = 0; !fs.eof(); n++) {
         getline(fs, line);
-        cout << line << endl;
+        disp_commands.push_back(createDispCommand(line));
     }
+    cout << n << " comandos cargados cargados desde " << args[0] << endl;
 
     fs.close();
-    
 }
 
-void cargar_elementos(vector<string> args) {}
+void cargar_elementos(vector<string> args) {
+    if (args.size() != 1)
+        throw runtime_error("Debe ingresar un nombre de archivo y solo uno.");
+
+    fstream fs;
+    string line;
+    
+    fs.open(args[0], ios::in);
+
+    if (!fs.is_open())
+        throw runtime_error("'" + args[0] + "' no se encuentra o no puede leerse.");
+
+    if (fs.peek() == EOF)
+        throw runtime_error("'" + args[0] + "' no contiene elementos.");
+    
+    int n;
+    for (n = 0; !fs.eof(); n++) {
+        getline(fs, line);
+        stringstream ss(line);
+
+        cout << line << endl;
+    }
+    cout << n << " elementos cargados cargados desde " << args[0] << endl;
+
+    fs.close();
+}
 
 void agregar_movimiento(vector<string> args) {}
 
@@ -80,7 +166,7 @@ void ruta_mas_larga(vector<string> args) {}
 
 void ayuda(vector<string> args) {
     if (args.empty()){
-        for(map<string, string>::iterator it = commandHelps.begin(); it != commandHelps.end(); ++it) {
+        for (map<string, string>::iterator it = commandHelps.begin(); it != commandHelps.end(); ++it) {
             cout << "\t" << it->first << endl;
         }
     } else if (args.size() == 1) {
@@ -94,15 +180,9 @@ void ayuda(vector<string> args) {
     }
 }
 
-void fillMaps(map<string, string> &descMap, map<string, void(*)(vector<string>)>&exeMap) {
+void fillMaps(map<string, string> &descMap, map<string, void(*)(vector<string>)> &exeMap) {
     // command name, command description
     // command name, command callback function
-
-    descMap.insert({"ayuda",
-        "Comando: ayuda | ayuda nombre_comando\n"
-        "\tPermite la visualizacion de la descripcion de cada uno de los comandos."
-    });
-    exeMap.insert({"ayuda", ayuda});
 
     descMap.insert({"cargar_comandos",
         "Comando: cargar_comandos nombre_archivo\n"
@@ -215,7 +295,11 @@ void fillMaps(map<string, string> &descMap, map<string, void(*)(vector<string>)>
     });
     exeMap.insert({"ruta_mas_larga", ruta_mas_larga});
 
-
+    descMap.insert({"ayuda",
+        "Comando: ayuda | ayuda nombre_comando\n"
+        "\tPermite la visualizacion de la descripcion de cada uno de los comandos."
+    });
+    exeMap.insert({"ayuda", ayuda});
 }
 
 
@@ -238,7 +322,7 @@ int main(){
         stringstream stream(commandLine);
         getline(stream, command, delim);
 
-        while(getline(stream, word, delim)) {
+        while (getline(stream, word, delim)) {
             args.push_back(word);
         }
 
@@ -250,7 +334,7 @@ int main(){
             } else {
                 throw runtime_error("El comando '" + command + "' no existe");
             }
-        } catch(const runtime_error& e) {
+        } catch (const runtime_error& e) {
             cerr << "Error: " << e.what() << '\n';
         }
 
