@@ -81,7 +81,7 @@ Desplazamiento createDispCommand(string line) {
 // TODO: terminar componente para entrega 1 (preguntar al profe duda de archivos (solo txt?))
     // con documentación de comandos => (diagramas, graficos, dibujos), plan de pruebas (simular_comandos)
 
-void cargar_comandos(vector<string> args) {
+void cargar_comandos(vector<string> args) { // de santi
     if (args.size() != 1)
         throw runtime_error("Debe ingresar un nombre de archivo y solo uno.");
 
@@ -108,7 +108,7 @@ void cargar_comandos(vector<string> args) {
     fs.close();
 }
 
-void cargar_elementos(vector<string> args) {
+void cargar_elementos(vector<string> args) { // de santi
     if (args.size() != 1)
         throw runtime_error("Debe ingresar un nombre de archivo y solo uno.");
 
@@ -135,15 +135,25 @@ void cargar_elementos(vector<string> args) {
     fs.close();
 }
 
-void agregar_movimiento(vector<string> args) {}
+void agregar_movimiento(vector<string> args) { // de alejo
 
-void agregar_analisis(vector<string> args) {}
+}
 
-void agregar_elementos(vector<string> args) {}
+void agregar_analisis(vector<string> args) { // de alejo
 
-void guardar(vector<string> args) {}
+}
 
-void simular_comandos(vector<string> args) {}
+void agregar_elementos(vector<string> args) { // de jose
+
+}
+
+void guardar(vector<string> args) { // de jose
+
+}
+
+void simular_comandos(vector<string> args) { // de todos
+
+}
 
 void salir(vector<string>) {}
 

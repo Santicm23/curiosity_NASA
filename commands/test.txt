@@ -1,2 +1,2 @@
 girar 3 cm
-perforar obj 'alsdkf aygsaygdfk/-+*¿?¡@()'
+perforar obj
