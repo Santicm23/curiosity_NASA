@@ -22,6 +22,10 @@ class Movimiento : public Desplazamiento {
             magnitud = magn;
             unidad_medida = um;
         }
+
+        // string toString() {
+        //     return tipo_movimiento + " " + to_string(magnitud) + " " + unidad_medida;
+        // }
 };
 
 #endif

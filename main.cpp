@@ -42,12 +42,12 @@ Desplazamiento createDispCommand(string line) {
 
     if (word == "avanzar" || word == "girar") {
 
-        while (getline(ss, word, delim)){
+        while (getline(ss, word, delim))
             words.push_back(word);
-        }
-        if (words.size() != 3)
-            throw runtime_error(
-                "Los comandos de movimiento requieren tipo_movimiento, magnitud y unidad_medida como argumentos");
+
+        if (words.size() != 3) throw runtime_error(
+            "Los comandos de movimiento requieren tipo_movimiento, magnitud y unidad_medida como argumentos");
+
         try {
             return Movimiento(words[0], stof(words[1]), words[2]);
         } catch (...) {
@@ -55,30 +55,41 @@ Desplazamiento createDispCommand(string line) {
         }
         
     } else if (words[0] == "fotografiar" || words[0] == "composicion" || words[0] == "perforar") {
+        
         getline(ss, word, delim);
         words.push_back(word);
+
         if (getline(ss, word))
             words.push_back(word);
 
         if (words.size() == 2)
             return Analisis(words[0], words[1]);
+
         else if (words.size() == 3)
             if (regex_match(words[2], regex("'([a-zA_Z0-9_!.,;+/*%?¡¿@#()><= ]|-)*'")))
                 return Analisis(words[0], words[1], words[2]);
+            
             else throw runtime_error(
             "El comentario debe estar entre comillas simples, sin acentos");
+
         else throw runtime_error(
             "Los comandos de analisis requieren tipo_analisis, objeto y comentario(opcional) como argumentos");
         
         return Analisis(words[0], words[1], words[2]);
-    }
-    else
-        throw runtime_error("El tipo de comando no es valido");
+
+    } else throw runtime_error("El tipo de comando no es valido");
 }
 
-// Elemento createElement(string line) {
+Elemento createElement(string line) {
+    char delim = ' ';
+    string word;
+    vector<string> words;
 
-// }
+    stringstream ss(line);
+
+    while (getline(ss, word, delim))
+        words.push_back(word);
+}
 
 // ----- componente 1 -----
 
@@ -130,7 +141,7 @@ void cargar_elementos(vector<string> args) { // de santi
     int n;
     for (n = 0; !fs.eof(); n++) {
         getline(fs, line);
-        
+        elements.push_back(createElement(line));
     }
     cout << n << " elementos cargados cargados desde " << args[0] << endl;
 

@@ -9,7 +9,8 @@ using namespace std;
 
 
 class Desplazamiento {
-    // public:
+    public:
+        virtual string toString();
     //     virtual void ejecutar();
 };
 
