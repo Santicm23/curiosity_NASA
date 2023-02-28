@@ -89,6 +89,18 @@ Elemento createElement(string line) {
 
     while (getline(ss, word, delim))
         words.push_back(word);
+
+    if (words.size() != 5) throw runtime_error(
+        "Los comandos de movimiento requieren tipo_elemento, tamano, unidad_medida, coordenada_x, coordenada_y");
+    
+    if (words[0] != "roca" && words[0] != "crater" && words[0] != "monticulo" && words[0] != "duna")
+        throw runtime_error("El tipo de elemento no es valido ('roca', 'crater', 'monticulo' o 'duna')");
+
+    try {
+        return Elemento(words[0], stof(words[1]), words[2], stof(words[3]), stof(words[4]));
+    } catch (...) {
+        throw runtime_error("El tamano, y las coordenadas X y Y deben ser numeros flotantes");
+    }
 }
 
 // ----- componente 1 -----
