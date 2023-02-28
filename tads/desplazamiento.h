@@ -9,7 +9,11 @@ using namespace std;
 
 
 class Desplazamiento {
-    //     virtual void ejecutar();
+    public:
+        //virtual void ejecutar();
+        string toString(){
+            return "";
+        }
 };
 
 #endif
