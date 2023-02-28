@@ -22,6 +22,9 @@ class Analisis : public Desplazamiento {
             objeto = obj;
             comentario = coment;
         }
+         string toString() {
+            return tipo_analisis + " " + objeto + " " + comentario;
+        }
 };
 
 #endif

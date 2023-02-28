@@ -25,7 +25,7 @@ map<string, void(*)(vector<string>)> commands;
 // lista comandos cargados
 list<Desplazamiento> desp_commands;
 
-// lista elementos cargados
+// lista elementos de interes cargados
 list<Elemento> elements;
 
 
@@ -159,21 +159,27 @@ void agregar_analisis(vector<string> args) { // de alejo
 void agregar_elementos(vector<string> args) { // de jose
 
 }
-
+//No se que debo hacer con el tipo del archivo
 void guardar(vector<string> args) { // de jose
     if (args.size() != 2)
         throw runtime_error("Debe enviarse el tipo de archivo y nombre de archivo");
 
+    if(desp_commands.empty() || elements.empty())
+        throw runtime_error(" La información requerida no está almacenada en memoria");
     ofstream archivo(args[1]);
 
-    if(archivo.is_open())
+    if(archivo.is_open())/* Guardo todos los elementos de la lista de desplazamientos y de elementos */
     {
         for (Desplazamiento despla:desp_commands)
         {
-            
+            archivo<<despla.toString()<<endl;
         }
-        
+        for (Elemento element:elements)
+        {
+            archivo<<element.toString()<<endl;
+        }
     }
+    cout<<"La información ha sido guardada en "+args[2]+"\n";
     
 }
 
