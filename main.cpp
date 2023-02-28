@@ -23,7 +23,7 @@ map<string, string> commandHelps;
 map<string, void(*)(vector<string>)> commands;
 
 // lista comandos cargados
-list<Desplazamiento> disp_commands;
+list<Desplazamiento> desp_commands;
 
 // lista elementos cargados
 list<Elemento> elements;
@@ -100,12 +100,12 @@ void cargar_comandos(vector<string> args) { // de santi
     if (fs.peek() == EOF)
         throw runtime_error("'" + args[0] + "' no contiene comandos.");
 
-    disp_commands.clear();
+    desp_commands.clear();
 
     int n;
     for (n = 0; !fs.eof(); n++) {
         getline(fs, line);
-        disp_commands.push_back(createDispCommand(line));
+        desp_commands.push_back(createDispCommand(line));
     }
     cout << n << " comandos cargados cargados desde " << args[0] << endl;
 
@@ -150,7 +150,20 @@ void agregar_elementos(vector<string> args) { // de jose
 }
 
 void guardar(vector<string> args) { // de jose
+    if (args.size() != 2)
+        throw runtime_error("Debe enviarse el tipo de archivo y nombre de archivo");
 
+    ofstream archivo(args[1]);
+
+    if(archivo.is_open())
+    {
+        for (Desplazamiento despla:desp_commands)
+        {
+            
+        }
+        
+    }
+    
 }
 
 void simular_comandos(vector<string> args) { // de todos
