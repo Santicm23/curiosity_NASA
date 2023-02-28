@@ -161,7 +161,7 @@ void cargar_elementos(vector<string> args) { // de santi
 }
 
 void agregar_movimiento(vector<string> args) { // de alejo
-
+    //Aqui va la función
 }
 
 void agregar_analisis(vector<string> args) { // de alejo
