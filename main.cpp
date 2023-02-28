@@ -8,9 +8,10 @@
 #include <vector>
 #include <regex>
 
-#include "desplazamiento.h"
-#include "movimiento.h"
-#include "analisis.h"
+#include "tads/desplazamiento.h"
+#include "tads/movimiento.h"
+#include "tads/analisis.h"
+#include "tads/elemento.h"
 
 using namespace std;
 
@@ -24,7 +25,8 @@ map<string, void(*)(vector<string>)> commands;
 // lista comandos cargados
 list<Desplazamiento> disp_commands;
 
-// TODO: lista elementos cargados
+// lista elementos cargados
+list<Elemento> elements;
 
 
 // funciones de ayuda
@@ -34,7 +36,6 @@ Desplazamiento createDispCommand(string line) {
 
     stringstream ss(line);
     vector<string> words;
-
 
     getline(ss, word, delim);
     words.push_back(word);
@@ -75,6 +76,9 @@ Desplazamiento createDispCommand(string line) {
         throw runtime_error("El tipo de comando no es valido");
 }
 
+// Elemento createElement(string line) {
+
+// }
 
 // ----- componente 1 -----
 
@@ -126,9 +130,7 @@ void cargar_elementos(vector<string> args) { // de santi
     int n;
     for (n = 0; !fs.eof(); n++) {
         getline(fs, line);
-        stringstream ss(line);
-
-        cout << line << endl;
+        
     }
     cout << n << " elementos cargados cargados desde " << args[0] << endl;
 
@@ -322,10 +324,12 @@ int main(){
 
     fillMaps(commandHelps, commands);
 
+    cout << "Curiosity\n";
+
     do {
         vector<string> args;
 
-        cout<<"$ ";
+        cout << "$ ";
         getline(cin, commandLine);
 
 

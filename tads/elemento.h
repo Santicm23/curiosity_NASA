@@ -1,5 +1,4 @@
 
-
 #ifndef ELEMENTO
 #define ELEMENTO
 
@@ -18,7 +17,13 @@ class Elemento {
         float coordenada_y;
     
     public:
-        Elemento(string tipo, float tam, string um, float x, float y);
+        Elemento(string tipo, float tam, string um, float x, float y) {
+            tipo_elemento = tipo;
+            tamano = tam;
+            unidad_medida = um;
+            coordenada_x = x;
+            coordenada_y = y;
+        }
 };
 
 #endif
