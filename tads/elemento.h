@@ -24,6 +24,11 @@ class Elemento {
             coordenada_x = x;
             coordenada_y = y;
         }
+
+        string toString() {
+            return tipo_elemento + " " + to_string(tamano) + " " + unidad_medida
+                + " " + to_string(coordenada_x) + " " + to_string(coordenada_y);
+        }
 };
 
 #endif
