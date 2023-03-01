@@ -11,9 +11,7 @@ using namespace std;
 class Desplazamiento {
     public:
         //virtual void ejecutar();
-        string toString(){
-            return "";
-        }
+        virtual string toString() = 0;
 };
 
 #endif

@@ -23,14 +23,14 @@ map<string, string> commandHelps;
 map<string, void(*)(vector<string>)> commands;
 
 // lista comandos cargados
-list<Desplazamiento> desp_commands;
+list<Desplazamiento*> desp_commands;
 
 // lista elementos de interes cargados
-list<Elemento> elements;
+list<Elemento*> elements;
 
 
 // funciones de ayuda
-Desplazamiento createDispCommand(string line) {
+Desplazamiento* createDispCommand(string line) {
     char delim = ' ';
     string word;
 
@@ -49,7 +49,7 @@ Desplazamiento createDispCommand(string line) {
             "Los comandos de movimiento requieren tipo_movimiento, magnitud y unidad_medida como argumentos");
 
         try {
-            return Movimiento(words[0], stof(words[1]), words[2]);
+            return new Movimiento(words[0], stof(words[1]), words[2]);
         } catch (...) {
             throw runtime_error("La magnitud del comando no es un decimal");
         }
@@ -63,24 +63,22 @@ Desplazamiento createDispCommand(string line) {
             words.push_back(word);
 
         if (words.size() == 2)
-            return Analisis(words[0], words[1]);
+            return new Analisis(words[0], words[1]);
 
         else if (words.size() == 3)
             if (regex_match(words[2], regex("'([a-zA_Z0-9_!.,;+/*%?¡¿@#()><= ]|-)*'")))
-                return Analisis(words[0], words[1], words[2]);
+                return new Analisis(words[0], words[1], words[2]);
             
             else throw runtime_error(
-            "El comentario debe estar entre comillas simples, sin acentos");
+                "El comentario debe estar entre comillas simples, sin acentos");
 
         else throw runtime_error(
             "Los comandos de analisis requieren tipo_analisis, objeto y comentario(opcional) como argumentos");
-        
-        return Analisis(words[0], words[1], words[2]);
 
     } else throw runtime_error("El tipo de comando no es valido");
 }
 
-Elemento createElement(string line) {
+Elemento* createElement(string line) {
     char delim = ' ';
     string word;
     vector<string> words;
@@ -97,7 +95,7 @@ Elemento createElement(string line) {
         throw runtime_error("El tipo de elemento no es valido ('roca', 'crater', 'monticulo' o 'duna')");
 
     try {
-        return Elemento(words[0], stof(words[1]), words[2], stof(words[3]), stof(words[4]));
+        return new Elemento(words[0], stof(words[1]), words[2], stof(words[3]), stof(words[4]));
     } catch (...) {
         throw runtime_error("El tamano, y las coordenadas X y Y deben ser numeros flotantes");
     }
@@ -171,27 +169,24 @@ void agregar_analisis(vector<string> args) { // de alejo
 void agregar_elementos(vector<string> args) { // de jose
 
 }
-//No se que debo hacer con el tipo del archivo
-void guardar(vector<string> args) { // de jose
+
+void guardar(vector<string> args) { // de jose //No se que debo hacer con el tipo del archivo
     if (args.size() != 2)
         throw runtime_error("Debe enviarse el tipo de archivo y nombre de archivo");
 
     if(desp_commands.empty() || elements.empty())
         throw runtime_error(" La información requerida no está almacenada en memoria");
-    ofstream archivo(args[1]);
 
-    if(archivo.is_open())/* Guardo todos los elementos de la lista de desplazamientos y de elementos */
-    {
-        for (Desplazamiento despla:desp_commands)
-        {
-            archivo<<despla.toString()<<endl;
+    ofstream archivo(args[1]);
+    if(archivo.is_open()) { /* Guardo todos los elementos de la lista de desplazamientos y de elementos */
+        for (Desplazamiento* despla:desp_commands) {
+            archivo << despla->toString() << endl;
         }
-        for (Elemento element:elements)
-        {
-            archivo<<element.toString()<<endl;
+        for (Elemento* element:elements) {
+            archivo << element->toString() << endl;
         }
     }
-    cout<<"La información ha sido guardada en "+args[2]+"\n";
+    cout << "La informacion ha sido guardada en " + args[1] << endl;
     
 }
 
