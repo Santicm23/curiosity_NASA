@@ -12,6 +12,7 @@
 #include "tads/movimiento.h"
 #include "tads/analisis.h"
 #include "tads/elemento.h"
+#include "tads/robotCuriosity.h"
 
 using namespace std;
 
@@ -40,13 +41,15 @@ Desplazamiento* createDispCommand(string line) {
     getline(ss, word, delim);
     words.push_back(word);
 
-    if (word == "avanzar" || word == "girar") {
+    if (words[0] == "avanzar" || words[0] == "girar") {
 
         while (getline(ss, word, delim))
             words.push_back(word);
 
         if (words.size() != 3) throw runtime_error(
             "Los comandos de movimiento requieren tipo_movimiento, magnitud y unidad_medida como argumentos");
+
+        Movimiento::verificarDatos(words[0], words[2]);
 
         try {
             return new Movimiento(words[0], stof(words[1]), words[2]);
@@ -104,11 +107,11 @@ Elemento* createElement(string line) {
 // ----- componente 1 -----
 
 // TODO: terminar componente para entrega 1 (preguntar al profe duda de archivos (solo txt?))
-    // con documentación de comandos => (diagramas, graficos, dibujos), plan de pruebas (simular_comandos)
+    // con documentacion de comandos => (diagramas, graficos, dibujos), plan de pruebas (simular_comandos)
 
 void cargar_comandos(vector<string> args) { // de santi
     if (args.size() != 1)
-        throw runtime_error("Debe ingresar un nombre de archivo y solo uno.");
+        throw runtime_error("Debe ingresar un nombre de archivo.");
 
     fstream fs;
     string line;
@@ -128,14 +131,14 @@ void cargar_comandos(vector<string> args) { // de santi
         getline(fs, line);
         desp_commands.push_back(createDispCommand(line));
     }
-    cout << n << " comandos cargados cargados desde " << args[0] << endl;
+    cout << n << " comandos cargados cargados desde '" << args[0] << "'\n";
 
     fs.close();
 }
 
 void cargar_elementos(vector<string> args) { // de santi
     if (args.size() != 1)
-        throw runtime_error("Debe ingresar un nombre de archivo y solo uno.");
+        throw runtime_error("Se requiere ingresar un nombre de archivo.");
 
     fstream fs;
     string line;
@@ -153,13 +156,13 @@ void cargar_elementos(vector<string> args) { // de santi
         getline(fs, line);
         elements.push_back(createElement(line));
     }
-    cout << n << " elementos cargados cargados desde " << args[0] << endl;
+    cout << n << " elementos cargados cargados desde '" << args[0] << "'\n";
 
     fs.close();
 }
 
 void agregar_movimiento(vector<string> args) { // de alejo
-    //Aqui va la función
+    //Aqui va la funcion
 }
 
 void agregar_analisis(vector<string> args) { // de alejo
@@ -172,13 +175,13 @@ void agregar_elementos(vector<string> args) { // de jose
 
 void guardar(vector<string> args) { // de jose //No se que debo hacer con el tipo del archivo
     if (args.size() != 2)
-        throw runtime_error("Debe enviarse el tipo de archivo y nombre de archivo");
+        throw runtime_error("Se requiere el tipo de archivo y el nombre de archivo");
 
-    if(desp_commands.empty() || elements.empty())
-        throw runtime_error(" La información requerida no está almacenada en memoria");
+    if (desp_commands.empty() || elements.empty())
+        throw runtime_error("La informacion requerida no esta almacenada en memoria");
 
     ofstream archivo(args[1]);
-    if(archivo.is_open()) { /* Guardo todos los elementos de la lista de desplazamientos y de elementos */
+    if(archivo.is_open()) { // Guardo todos los elementos de la lista de desplazamientos y de elementos
         for (Desplazamiento* despla:desp_commands) {
             archivo << despla->toString() << endl;
         }
@@ -186,12 +189,37 @@ void guardar(vector<string> args) { // de jose //No se que debo hacer con el tip
             archivo << element->toString() << endl;
         }
     }
-    cout << "La informacion ha sido guardada en " + args[1] << endl;
+    cout << "La informacion ha sido guardada en '" << args[0] << "'\n";
     
 }
 
 void simular_comandos(vector<string> args) { // de todos
+    if (args.size() != 2)
+        throw runtime_error("Se requieren los parametros coordX y coordY");
 
+    if (desp_commands.empty())
+        throw runtime_error("La informacion requerida no esta almacenada en memoria");
+    
+    float x, y, direction = 0;
+
+    try {
+        x = stof(args[0]);
+        y = stof(args[1]); 
+    } catch(...) {
+        throw runtime_error("Los argumentos coordX y coordY deben ser de tipo flotante");
+    }
+
+    RobotCuriosity robot = RobotCuriosity(x, y);
+
+    for (Desplazamiento* despla:desp_commands) {
+        Movimiento* tmp = dynamic_cast<Movimiento*>(despla);
+        if (tmp != nullptr) {
+            tmp->ejecutar(robot);
+        }
+    }
+
+    cout << "La simulacion de los comandos, a partir de la posicion (" << x <<", "<< y << "), "
+        "deja al robot en la nueva posicion (" << robot.getX() << ", "<< robot.getY() <<").\n";
 }
 
 void salir(vector<string>) {}
@@ -361,7 +389,7 @@ int main(){
 
     fillMaps(commandHelps, commands);
 
-    cout << "Curiosity\n";
+    cout << " --- Curiosity --- \n";
 
     do {
         vector<string> args;

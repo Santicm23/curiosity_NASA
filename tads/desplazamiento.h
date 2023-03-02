@@ -5,12 +5,13 @@
 
 #include <string>
 
+#include "robotCuriosity.h"
+
 using namespace std;
 
 
 class Desplazamiento {
     public:
-        //virtual void ejecutar();
         virtual string toString() = 0;
 };
 
