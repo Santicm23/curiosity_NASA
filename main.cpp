@@ -138,7 +138,7 @@ void cargar_comandos(vector<string> args) { // de santi
 
 void cargar_elementos(vector<string> args) { // de santi
     if (args.size() != 1)
-        throw runtime_error("Se requiere ingresar un nombre de archivo.");
+        throw runtime_error("Debe ingresar un nombre de archivo.");
 
     fstream fs;
     string line;
@@ -170,7 +170,20 @@ void agregar_analisis(vector<string> args) { // de alejo
 }
 
 void agregar_elementos(vector<string> args) { // de jose
+    if (args.size() != 5)
+        throw runtime_error(
+            "Los comandos de movimiento requieren tipo_elemento, tamano, unidad_medida, coordenada_x, coordenada_y");
+    
+    
+    if (args[0] != "roca" && args[0] != "crater" && args[0] != "monticulo" && args[0] != "duna")
+        throw runtime_error("El tipo de elemento no es valido ('roca', 'crater', 'monticulo' o 'duna')");
 
+    try {
+        elements.push_back(new Elemento(args[0], stof(args[1]), args[2], stof(args[3]), stof(args[4])));
+        cout<<"El elemento ha sido agregado exitosamente";
+    } catch (...) {
+        throw runtime_error("El tamano, y las coordenadas X y Y deben ser numeros flotantes");
+    }
 }
 
 void guardar(vector<string> args) { // de jose //No se que debo hacer con el tipo del archivo
@@ -182,14 +195,20 @@ void guardar(vector<string> args) { // de jose //No se que debo hacer con el tip
 
     ofstream archivo(args[1]);
     if(archivo.is_open()) { // Guardo todos los elementos de la lista de desplazamientos y de elementos
-        for (Desplazamiento* despla:desp_commands) {
-            archivo << despla->toString() << endl;
+        if(args[0]=="desplazamiento")
+        {
+            for (Desplazamiento* despla:desp_commands) {
+                archivo << despla->toString() << endl;
+            }
         }
-        for (Elemento* element:elements) {
-            archivo << element->toString() << endl;
+        if(args[0]=="elemento")
+        {
+            for (Elemento* element:elements) {
+                archivo << element->toString() << endl;
+            }
         }
     }
-    cout << "La informacion ha sido guardada en '" << args[0] << "'\n";
+    cout << "La informacion de tipo "<<args[0]<<" ha sido guardada en '" << args[0] <<"'\n";
     
 }
 
