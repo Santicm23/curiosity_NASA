@@ -49,7 +49,7 @@ class Movimiento : public Desplazamiento {
 
         string toString() {
             return tipo_movimiento + " " + to_string(magnitud) + " " + unidad_medida;
-        }
+        }  
 };
 
 #endif

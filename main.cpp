@@ -162,11 +162,23 @@ void cargar_elementos(vector<string> args) { // de santi
 }
 
 void agregar_movimiento(vector<string> args) { // de alejo
-    //Aqui va la funcion
+    if (args.size() != 3)
+        throw runtime_error(
+            "La información del movimiento no corresponde a los datos esperados (tipo, magnitud, unidad).");
+    
+    if (args[0] != "avanzar" && args[0] != "girar")
+        throw runtime_error(
+            "El tipo del movimiento no corresponde a los datos esperados (avanzar, girar).");
+
+    Movimiento m(args[0], stof((args[1])), args[2]); //Se instancia un Movimiento m
+    m.verificarDatos(args[0], args[2]); //Se usa el método implementado en Movimiento para verificar unidades de medida
+
+    desp_commands.push_back(&m); //Se envía referencia al Movimiento m, que fue previamente instanciado
+    cout << "El movimiento fue agregado exitosamente!" << endl;
 }
 
 void agregar_analisis(vector<string> args) { // de alejo
-
+    
 }
 
 void agregar_elementos(vector<string> args) { // de jose
@@ -180,7 +192,7 @@ void agregar_elementos(vector<string> args) { // de jose
 
     try {
         elements.push_back(new Elemento(args[0], stof(args[1]), args[2], stof(args[3]), stof(args[4])));
-        cout<<"El elemento ha sido agregado exitosamente";
+        cout<<"El elemento ha sido agregado exitosamente" << endl;
     } catch (...) {
         throw runtime_error("El tamano, y las coordenadas X y Y deben ser numeros flotantes");
     }
