@@ -162,23 +162,52 @@ void cargar_elementos(vector<string> args) { // de santi
 }
 
 void agregar_movimiento(vector<string> args) { // de alejo
-    if (args.size() != 3)
+    if (args.size() != 3) //tamaño de argumentos diferente
         throw runtime_error(
             "La información del movimiento no corresponde a los datos esperados (tipo, magnitud, unidad).");
     
-    if (args[0] != "avanzar" && args[0] != "girar")
+    if (args[0] != "avanzar" && args[0] != "girar") //tipo de movimiento no valido
         throw runtime_error(
             "El tipo del movimiento no corresponde a los datos esperados (avanzar, girar).");
 
-    Movimiento m(args[0], stof((args[1])), args[2]); //Se instancia un Movimiento m
-    m.verificarDatos(args[0], args[2]); //Se usa el método implementado en Movimiento para verificar unidades de medida
+    
 
-    desp_commands.push_back(&m); //Se envía referencia al Movimiento m, que fue previamente instanciado
-    cout << "El movimiento fue agregado exitosamente!" << endl;
+    try { //Añadir movimiento
+        Movimiento m(args[0], stof((args[1])), args[2]); //Se instancia un Movimiento m
+        m.verificarDatos(args[0], args[2]); //Se usa el método implementado en Movimiento para verificar unidades de medida
+        desp_commands.push_back(&m); //Se envía referencia al Movimiento m, que fue previamente instanciado
+        cout << "El movimiento fue agregado exitosamente!" << endl;
+    } catch (... ) { 
+        throw runtime_error("Error en los datos ingresados");
+    }
 }
 
-void agregar_analisis(vector<string> args) { // de alejo
+void agregar_analisis(vector<string> args) { // tipo_analisis objeto comentario
+    if (args.size() != 2 && args.size() != 3) //tamaño de argumentos distinto
+        throw runtime_error(
+            "La información del análisis no corresponde a los datos esperados (tipo, objeto, comentario opcional).");
     
+    if (args[0] != "fotografiar" && args[0] != "composicion" && args[0] != "perforar") //tipo de analisis no valido
+        throw runtime_error(
+            "El tipo del analisis no corresponde a los datos esperados (fotografiar, composicion, perforar).");
+
+    if (args.size() == 2){    
+        try { //Añadir analisis sin comentario
+            desp_commands.push_back(new Analisis(args[0], args[1], ""));
+            cout<<"El analisis ha sido agregado exitosamente" << endl;
+        } catch (...) {
+            throw runtime_error("Error en los datos ingresados");
+        }
+    }
+    else {
+        try { //Añadir analisis con comentario
+            desp_commands.push_back(new Analisis(args[0], args[1], args[2]));
+            cout<<"El analisis ha sido agregado exitosamente" << endl;
+        } catch (...) {
+            throw runtime_error("Error en los datos ingresados");
+        }
+    }
+
 }
 
 void agregar_elementos(vector<string> args) { // de jose
