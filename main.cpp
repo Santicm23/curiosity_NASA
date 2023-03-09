@@ -174,19 +174,18 @@ void agregar_elementos(vector<string> args) { // de jose
         throw runtime_error(
             "Los comandos de movimiento requieren tipo_elemento, tamano, unidad_medida, coordenada_x, coordenada_y");
     
-    
     if (args[0] != "roca" && args[0] != "crater" && args[0] != "monticulo" && args[0] != "duna")
         throw runtime_error("El tipo de elemento no es valido ('roca', 'crater', 'monticulo' o 'duna')");
 
     try {
         elements.push_back(new Elemento(args[0], stof(args[1]), args[2], stof(args[3]), stof(args[4])));
-        cout<<"El elemento ha sido agregado exitosamente";
+        cout<<"El elemento ha sido agregado exitosamente\n";
     } catch (...) {
         throw runtime_error("El tamano, y las coordenadas X y Y deben ser numeros flotantes");
     }
 }
 
-void guardar(vector<string> args) { // de jose //No se que debo hacer con el tipo del archivo
+void guardar(vector<string> args) { // de jose
     if (args.size() != 2)
         throw runtime_error("Se requiere el tipo de archivo y el nombre de archivo");
 
@@ -194,20 +193,22 @@ void guardar(vector<string> args) { // de jose //No se que debo hacer con el tip
         throw runtime_error("La informacion requerida no esta almacenada en memoria");
 
     ofstream archivo(args[1]);
-    if(archivo.is_open()) { // Guardo todos los elementos de la lista de desplazamientos y de elementos
-        if(args[0]=="desplazamiento")
-        {
-            for (Desplazamiento* despla:desp_commands) {
-                archivo << despla->toString() << endl;
-            }
+    if(!archivo.is_open())
+        throw runtime_error("'" + args[1] + "' no se encuentra o no puede leerse.");
+        
+    // Guardo todos los elementos de la lista de desplazamientos y de elementos
+    if(args[0]=="desplazamiento") {
+        for (Desplazamiento* despla:desp_commands) {
+            archivo << despla->toString() << endl;
         }
-        if(args[0]=="elemento")
-        {
-            for (Elemento* element:elements) {
-                archivo << element->toString() << endl;
-            }
+    } else if(args[0]=="elemento") {
+        for (Elemento* element:elements) {
+            archivo << element->toString() << endl;
         }
+    } else {
+        throw runtime_error("El tipo de archivo solo puede ser desplazamiento o elemento");
     }
+
     cout << "La informacion de tipo "<<args[0]<<" ha sido guardada en '" << args[0] <<"'\n";
     
 }
@@ -262,7 +263,7 @@ void ruta_mas_larga(vector<string> args) {}
 
 void ayuda(vector<string> args) {
     if (args.empty()){
-        for (map<string, string>::iterator it = commandHelps.begin(); it != commandHelps.end(); ++it) {
+        for (auto it = commandHelps.begin(); it != commandHelps.end(); ++it) {
             cout << "\t" << it->first << endl;
         }
     } else if (args.size() == 1) {
