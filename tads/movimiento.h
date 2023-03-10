@@ -26,10 +26,10 @@ class Movimiento : public Desplazamiento {
                         "y 'kilometros' como unidades de medida");
             } else if (tipo == "girar") {
                 if (um != "grados" && um != "radianes")
-                    throw runtime_error("El tipo de movimiento 'girar' solo permite 'grados', 'radianes' "
+                    throw runtime_error("El tipo de movimiento 'girar' solo permite 'grados' y 'radianes' "
                         "como unidades de medida");
             } else
-                throw runtime_error("El tipo de movimiento debe ser un valor entre 'girar' y 'avanzar'");
+                throw runtime_error("El tipo del movimiento no corresponde a los datos esperados (avanzar, girar).");
         }
 
         Movimiento(string tipo, float magn, string um) {

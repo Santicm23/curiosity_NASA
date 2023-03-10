@@ -53,7 +53,7 @@ Desplazamiento* createDispCommand(string line) {
 
         try {
             return new Movimiento(words[0], stof(words[1]), words[2]);
-        } catch (...) {
+        } catch (const invalid_argument& e) {
             throw runtime_error("La magnitud del comando no es un decimal");
         }
         
@@ -99,7 +99,7 @@ Elemento* createElement(string line) {
 
     try {
         return new Elemento(words[0], stof(words[1]), words[2], stof(words[3]), stof(words[4]));
-    } catch (...) {
+    } catch (const invalid_argument& e) {
         throw runtime_error("El tamano, y las coordenadas X y Y deben ser numeros flotantes");
     }
 }
@@ -162,48 +162,39 @@ void cargar_elementos(vector<string> args) { // de santi
 }
 
 void agregar_movimiento(vector<string> args) { // de alejo
-    if (args.size() != 3) //tamaño de argumentos diferente
+    if (args.size() != 3) //tamano de argumentos diferente
         throw runtime_error(
-            "La información del movimiento no corresponde a los datos esperados (tipo, magnitud, unidad).");
-    
-    if (args[0] != "avanzar" && args[0] != "girar") //tipo de movimiento no valido
-        throw runtime_error(
-            "El tipo del movimiento no corresponde a los datos esperados (avanzar, girar).");
+            "La informacion del movimiento no corresponde a los datos esperados (tipo, magnitud, unidad).");
 
-    
+    Movimiento::verificarDatos(args[0], args[2]); //Se usa el método implementado en Movimiento para verificar unidades de medida
 
-    try { //Añadir movimiento
-        Movimiento m(args[0], stof((args[1])), args[2]); //Se instancia un Movimiento m
-        m.verificarDatos(args[0], args[2]); //Se usa el método implementado en Movimiento para verificar unidades de medida
-        desp_commands.push_back(&m); //Se envía referencia al Movimiento m, que fue previamente instanciado
+    try { //Anadir movimiento
+        desp_commands.push_back(new Movimiento(args[0], stof((args[1])), args[2])); //Se envía referencia al Movimiento m, que fue previamente instanciado
         cout << "El movimiento fue agregado exitosamente!" << endl;
-    } catch (... ) { 
+    } catch (const invalid_argument& e) { 
         throw runtime_error("Error en los datos ingresados");
     }
 }
 
 void agregar_analisis(vector<string> args) { // tipo_analisis objeto comentario
-    if (args.size() != 2 && args.size() != 3) //tamaño de argumentos distinto
+    if (args.size() != 2 && args.size() != 3) //tamano de argumentos distinto
         throw runtime_error(
-            "La información del análisis no corresponde a los datos esperados (tipo, objeto, comentario opcional).");
+            "La informacion del analisis no corresponde a los datos esperados (tipo, objeto, comentario opcional).");
     
-    if (args[0] != "fotografiar" && args[0] != "composicion" && args[0] != "perforar") //tipo de analisis no valido
-        throw runtime_error(
-            "El tipo del analisis no corresponde a los datos esperados (fotografiar, composicion, perforar).");
+    Analisis::verificarDatos(args[0], args[1]);
 
     if (args.size() == 2){    
-        try { //Añadir analisis sin comentario
+        try { //Anadir analisis sin comentario
             desp_commands.push_back(new Analisis(args[0], args[1], ""));
             cout<<"El analisis ha sido agregado exitosamente" << endl;
-        } catch (...) {
+        } catch (const invalid_argument& e) {
             throw runtime_error("Error en los datos ingresados");
         }
-    }
-    else {
-        try { //Añadir analisis con comentario
+    } else {
+        try { //Anadir analisis con comentario
             desp_commands.push_back(new Analisis(args[0], args[1], args[2]));
             cout<<"El analisis ha sido agregado exitosamente" << endl;
-        } catch (...) {
+        } catch (const invalid_argument& e) {
             throw runtime_error("Error en los datos ingresados");
         }
     }
@@ -215,13 +206,11 @@ void agregar_elementos(vector<string> args) { // de jose
         throw runtime_error(
             "Los comandos de movimiento requieren tipo_elemento, tamano, unidad_medida, coordenada_x, coordenada_y");
     
-    if (args[0] != "roca" && args[0] != "crater" && args[0] != "monticulo" && args[0] != "duna")
-        throw runtime_error("El tipo de elemento no es valido ('roca', 'crater', 'monticulo' o 'duna')");
-
     try {
+        Elemento::verificarDatos(args[0], stof(args[1]), args[2]);
         elements.push_back(new Elemento(args[0], stof(args[1]), args[2], stof(args[3]), stof(args[4])));
         cout<<"El elemento ha sido agregado exitosamente\n";
-    } catch (...) {
+    } catch (const invalid_argument& e) {
         throw runtime_error("El tamano, y las coordenadas X y Y deben ser numeros flotantes");
     }
 }
@@ -229,20 +218,27 @@ void agregar_elementos(vector<string> args) { // de jose
 void guardar(vector<string> args) { // de jose
     if (args.size() != 2)
         throw runtime_error("Se requiere el tipo de archivo y el nombre de archivo");
-
-    if (desp_commands.empty() || elements.empty())
-        throw runtime_error("La informacion requerida no esta almacenada en memoria");
-
-    ofstream archivo(args[1]);
-    if(!archivo.is_open())
-        throw runtime_error("'" + args[1] + "' no se encuentra o no puede leerse.");
         
     // Guardo todos los elementos de la lista de desplazamientos y de elementos
     if(args[0]=="desplazamiento") {
+        if (desp_commands.empty())
+            throw runtime_error("La informacion requerida no esta almacenada en memoria");
+        
+        ofstream archivo(args[1]);
+        if(!archivo.is_open())
+            throw runtime_error("'" + args[1] + "' no se encuentra o no puede leerse.");
+        
         for (Desplazamiento* despla:desp_commands) {
             archivo << despla->toString() << endl;
         }
     } else if(args[0]=="elemento") {
+        if (elements.empty())
+            throw runtime_error("La informacion requerida no esta almacenada en memoria");
+        
+        ofstream archivo(args[1]);
+        if(!archivo.is_open())
+            throw runtime_error("'" + args[1] + "' no se encuentra o no puede leerse.");
+
         for (Elemento* element:elements) {
             archivo << element->toString() << endl;
         }
@@ -250,7 +246,7 @@ void guardar(vector<string> args) { // de jose
         throw runtime_error("El tipo de archivo solo puede ser desplazamiento o elemento");
     }
 
-    cout << "La informacion de tipo "<<args[0]<<" ha sido guardada en '" << args[0] <<"'\n";
+    cout << "La informacion de tipo "<<args[0]<<" ha sido guardada en '" << args[1] <<"'\n";
     
 }
 
@@ -365,9 +361,9 @@ void fillMaps(map<string, string> &descMap, map<string, void(*)(vector<string>)>
     exeMap.insert({"agregar_analisis", agregar_analisis});
 
     descMap.insert({"agregar_elementos",
-        "Comando: agregar_elementos tipo_comp tamaño unidad_med coordX coordY\n"
+        "Comando: agregar_elementos tipo_comp tamano unidad_med coordX coordY\n"
         "\tAgrega el componente o elemento descrito a la lista de puntos de interes del robot \"Curiosity\". El tipo\n"
-        "\tde componente puede ser uno entre roca, crater, monticulo o duna. El tamaño es un valor real que da\n"
+        "\tde componente puede ser uno entre roca, crater, monticulo o duna. El tamano es un valor real que da\n"
         "\tcuenta de que tan grande es el elemento; y la unidad de medida complementa este valor con la convencion\n"
         "\tque se uso para su medicion (centimetros, metros, ...). Finalmente, las coordenadas x y y corresponden\n"
         "\ta numeros reales que permiten conocer la ubicacion del elemento en el sistema de coordenadas del suelo\n"
