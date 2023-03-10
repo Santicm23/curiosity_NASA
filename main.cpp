@@ -29,7 +29,6 @@ list<Desplazamiento*> desp_commands;
 // lista elementos de interes cargados
 list<Elemento*> elements;
 
-
 // funciones de ayuda
 Desplazamiento* createDispCommand(string line) {
     char delim = ' ';
@@ -104,14 +103,28 @@ Elemento* createElement(string line) {
     }
 }
 
+string getExtension(string filename) {
+    char delim = '.';
+    string word;
+    stringstream ss(filename);
+    while (getline(ss, word, delim)) {}
+    return word;
+}
+
+
 // ----- componente 1 -----
 
 // TODO: terminar componente para entrega 1 (preguntar al profe duda de archivos (solo txt?))
     // con documentacion de comandos => (diagramas, graficos, dibujos), plan de pruebas (simular_comandos)
 
 void cargar_comandos(vector<string> args) { // de santi
+    string extension = getExtension(args[0]);
+
     if (args.size() != 1)
         throw runtime_error("Debe ingresar un nombre de archivo.");
+    
+    if (extension != "txt" && extension != "csv")
+        throw runtime_error("La extension es invalida. (txt o csv)");
 
     fstream fs;
     string line;
@@ -137,8 +150,13 @@ void cargar_comandos(vector<string> args) { // de santi
 }
 
 void cargar_elementos(vector<string> args) { // de santi
+    string extension = getExtension(args[0]);
+
     if (args.size() != 1)
         throw runtime_error("Debe ingresar un nombre de archivo.");
+    
+    if (extension != "txt" && extension != "csv")
+        throw runtime_error("La extension es invalida. (txt o csv)");
 
     fstream fs;
     string line;
@@ -177,7 +195,11 @@ void agregar_movimiento(vector<string> args) { // de alejo
 }
 
 void agregar_analisis(vector<string> args) { // tipo_analisis objeto comentario
-    if (args.size() != 2 && args.size() != 3) //tamano de argumentos distinto
+    string comment = args[2];
+    for (int i=3; i<args.size(); i++) {
+        comment += " " + args[i];
+    }
+    if (args.size() < 2) //tamano de argumentos distinto
         throw runtime_error(
             "La informacion del analisis no corresponde a los datos esperados (tipo, objeto, comentario opcional).");
     
@@ -191,8 +213,12 @@ void agregar_analisis(vector<string> args) { // tipo_analisis objeto comentario
             throw runtime_error("Error en los datos ingresados");
         }
     } else {
+        if (!regex_match(comment, regex("'([a-zA_Z0-9_!.,;+/*%?¡¿@#()><= ]|-)*'")))
+            throw runtime_error(
+                "El comentario debe estar entre comillas simples, sin acentos");
+        
         try { //Anadir analisis con comentario
-            desp_commands.push_back(new Analisis(args[0], args[1], args[2]));
+            desp_commands.push_back(new Analisis(args[0], args[1], comment));
             cout<<"El analisis ha sido agregado exitosamente" << endl;
         } catch (const invalid_argument& e) {
             throw runtime_error("Error en los datos ingresados");
@@ -216,11 +242,16 @@ void agregar_elementos(vector<string> args) { // de jose
 }
 
 void guardar(vector<string> args) { // de jose
+    string extension = getExtension(args[1]);
+
     if (args.size() != 2)
         throw runtime_error("Se requiere el tipo de archivo y el nombre de archivo");
+    
+    if (extension != "txt" && extension != "csv")
+        throw runtime_error("La extension es invalida. (txt o csv)");
         
     // Guardo todos los elementos de la lista de desplazamientos y de elementos
-    if(args[0]=="desplazamiento") {
+    if(args[0]=="comandos") {
         if (desp_commands.empty())
             throw runtime_error("La informacion requerida no esta almacenada en memoria");
         
@@ -228,7 +259,7 @@ void guardar(vector<string> args) { // de jose
         if(!archivo.is_open())
             throw runtime_error("'" + args[1] + "' no se encuentra o no puede leerse.");
         
-        for (Desplazamiento* despla:desp_commands) {
+        for (Desplazamiento* despla: desp_commands) {
             archivo << despla->toString() << endl;
         }
     } else if(args[0]=="elemento") {
@@ -239,7 +270,7 @@ void guardar(vector<string> args) { // de jose
         if(!archivo.is_open())
             throw runtime_error("'" + args[1] + "' no se encuentra o no puede leerse.");
 
-        for (Elemento* element:elements) {
+        for (Elemento* element: elements) {
             archivo << element->toString() << endl;
         }
     } else {
@@ -374,9 +405,9 @@ void fillMaps(map<string, string> &descMap, map<string, void(*)(vector<string>)>
     
     descMap.insert({"guardar",
         "Comando: guardar tipo_archivo nombre_archivo\n"
-        "\tGuarda en el archivo nombre_archivo la informacion solicitada de acuerdo al tipo de archivo: comandos\n"
+        "\tGuarda en el archivo nombre_archivo la informacion solicitada de acuerdo al tipo de archivo: 'comandos'\n"
         "\talmacena en el archivo la informacion de comandos de movimiento y de analisis que debe ejecutar el robot,\n"
-        "\telementos almacena en el archivo la informacion de los componentes o puntos e interes conocidos en el suelo\n"
+        "\t'elementos' almacena en el archivo la informacion de los componentes o puntos e interes conocidos en el suelo\n"
         "\tmarciano."
     });
     exeMap.insert({"guardar", guardar});
