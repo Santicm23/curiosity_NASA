@@ -12,8 +12,8 @@ using namespace std;
 
 class Desplazamiento {
     public:
-        virtual string toString() = 0;
         static void verificarDatos();
+        virtual string toString(char delim = ' ') = 0;
 };
 
 #endif

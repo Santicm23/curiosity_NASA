@@ -18,11 +18,12 @@ class Analisis : public Desplazamiento {
     
     public:
         static void verificarDatos(string tipo, string elem) {
-            if (tipo != "fotografiar" && tipo != "composicion" && tipo != "perforar")
+            if (tipo != "fotografiar" && tipo != "composicion" && tipo != "perforar") {
                 throw runtime_error(
                     "El tipo del analisis no corresponde a los datos esperados (fotografiar, composicion, perforar).");
-            if (elem != "roca" && elem != "crater" && elem != "monticulo" && elem != "duna" && elem != "arena")
+            } else if (elem != "roca" && elem != "crater" && elem != "monticulo" && elem != "duna" && elem != "arena") {
                 throw runtime_error("El tipo de elemento no es valido ('roca', 'crater', 'monticulo', 'duna' o 'arena')");
+            }
         }
 
         Analisis(string tipo, string obj, string coment = "") {
@@ -31,8 +32,8 @@ class Analisis : public Desplazamiento {
             comentario = coment;
         }
         
-        string toString() {
-            return tipo_analisis + " " + objeto + " " + comentario;
+        string toString(char delim = ' ') {
+            return tipo_analisis + delim + objeto + delim + comentario;
         }
 };
 

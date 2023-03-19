@@ -35,9 +35,9 @@ class Elemento {
             coordenada_y = y;
         }
 
-        string toString() {
-            return tipo_elemento + " " + to_string(tamano) + " " + unidad_medida
-                + " " + to_string(coordenada_x) + " " + to_string(coordenada_y);
+        string toString(char delim = ' ') {
+            return tipo_elemento + delim + to_string(tamano) + delim + unidad_medida
+                + delim + to_string(coordenada_x) + delim + to_string(coordenada_y);
         }
 };
 
