@@ -42,9 +42,9 @@ class Movimiento : public Desplazamiento {
 
         void ejecutar(RobotCuriosity &robot) {
             if (tipo_movimiento == "girar") {
-                robot.turn(magnitud, unidad_medida);
+                robot.girar(magnitud, unidad_medida);
             } else {
-                robot.advance(magnitud, unidad_medida);
+                robot.avanzar(magnitud, unidad_medida);
             }
         }
 

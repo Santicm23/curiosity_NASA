@@ -43,8 +43,8 @@ Desplazamiento* crearDesplazamiento(string linea) {
     stringstream ss(linea);
     vector<string> palabras;
 
-    getline(ss, palabra, delim);
-    palabras.push_back(palabra);
+    getline(ss, palabra, delim); 
+    palabras.push_back(palabra); 
 
     if (palabras[0] == "avanzar" || palabras[0] == "girar") {
 
@@ -59,7 +59,7 @@ Desplazamiento* crearDesplazamiento(string linea) {
         try {
             return new Movimiento(palabras[0], stof(palabras[1]), palabras[2]);
         } catch (const invalid_argument& e) {
-            throw runtime_error("La magnitud del comando no es un decimal");
+            throw runtime_error("La magnitud del comando debe ser un numero flotante");
         }
         
     } else if (palabras[0] == "fotografiar" || palabras[0] == "composicion" || palabras[0] == "perforar") {
@@ -199,7 +199,7 @@ void agregar_movimiento(vector<string> args) {
         desplazamientos.push_back(new Movimiento(args[0], stof((args[1])), args[2])); //Se envia referencia al Movimiento m, que fue previamente instanciado
         cout << "El movimiento fue agregado exitosamente!" << endl;
     } catch (const invalid_argument& e) { 
-        throw runtime_error("Error en los datos ingresados");
+        throw runtime_error("La magnitud debe ser un numero flotante");
     }
 }
 
@@ -226,13 +226,9 @@ void agregar_analisis(vector<string> args) {
         if (!regex_match(comment, regex("'([a-zA_Z0-9_!.,;+/*%?¡¿@#()><= ]|-)*'")))
             throw runtime_error(
                 "El comentario debe estar entre comillas simples, sin acentos");
-        
-        try { //Anadir analisis con comentario
-            desplazamientos.push_back(new Analisis(args[0], args[1], comment));
-            cout<<"El analisis ha sido agregado exitosamente" << endl;
-        } catch (const invalid_argument& e) {
-            throw runtime_error("Error en los datos ingresados");
-        }
+
+        desplazamientos.push_back(new Analisis(args[0], args[1], comment));
+        cout<<"El analisis ha sido agregado exitosamente" << endl;
     }
 
 }

@@ -14,21 +14,22 @@ using namespace std;
 
 class RobotCuriosity {
     private:
-        float coordX; // on meters
-        float coordY; // on meters
-        float angle = 0; // on radians
+        float coordX; // en metros
+        float coordY; // en metros
+        float angulo; // en radianes
     
     public:
-        RobotCuriosity(float x, float y) {
+        RobotCuriosity(float x, float y, float a = 0) {
             coordX = x;
             coordY = y;
+            angulo = a;
         }
 
         float getX() { return coordX; }
 
         float getY() { return coordY; }
 
-        void advance(float dist, string unit = "metros") {
+        void avanzar(float dist, string unit = "metros") {
             if (unit == "centimetros") {
                 dist *= 0.01;
             } else if (unit == "kilometros") {
@@ -36,19 +37,17 @@ class RobotCuriosity {
             } else if (unit != "metros") {
                 throw runtime_error("Unidad invalida o no soportada");
             }
-            
-            coordX += dist*cos(angle);
-            coordY += dist*sin(angle);
+            coordX += dist*cos(angulo);
+            coordY += dist*sin(angulo);
         }
 
-        void turn(float a, string unit = "radianes"){
+        void girar(float a, string unit = "radianes"){
             if (unit == "grados") {
                 a *= PI/180;
             } else if (unit != "radianes") {
                 throw runtime_error("Unidad invalida");
             }
-            
-            angle += a;
+            angulo += a;
         }
 };
 
