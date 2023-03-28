@@ -41,7 +41,7 @@ class RobotCuriosity {
             coordY += dist*sin(angulo);
         }
 
-        void girar(float a, string unit = "radianes"){
+        void girar(float a, string unit = "radianes") {
             if (unit == "grados") {
                 a *= PI/180;
             } else if (unit != "radianes") {

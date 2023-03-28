@@ -8,6 +8,7 @@
 #include <vector>
 #include <regex>
 
+#include "tads/sistema.h"
 #include "tads/desplazamiento.h"
 #include "tads/movimiento.h"
 #include "tads/analisis.h"
@@ -70,17 +71,15 @@ Desplazamiento* crearDesplazamiento(string linea) {
         if (getline(ss, palabra))
             palabras.push_back(palabra);
 
-        if (palabras.size() == 2)
+        if (palabras.size() == 2) {
             return new Analisis(palabras[0], palabras[1]);
-
-        else if (palabras.size() == 3)
-            if (regex_match(palabras[2], regex("'([a-zA_Z0-9_!.,;+/*%?¡¿@#()><= ]|-)*'")))
-                return new Analisis(palabras[0], palabras[1], palabras[2]);
             
-            else throw runtime_error(
-                "El comentario debe estar entre comillas simples, sin acentos");
+        } else if (palabras.size() == 3) {
+            if (!regex_match(palabras[2], regex("'([a-zA_Z0-9_!.,;+/*%?¡¿@#()><= ]|-)*'"))) 
+                throw runtime_error("El comentario debe estar entre comillas simples, sin acentos");
+            return new Analisis(palabras[0], palabras[1], palabras[2]);
 
-        else throw runtime_error(
+        } else throw runtime_error(
             "Los comandos de analisis requieren tipo_analisis, objeto y comentario(opcional) como argumentos");
 
     } else throw runtime_error("El tipo de comando no es valido");
@@ -509,6 +508,8 @@ int main(){
     string lineaComando, comando, palabra;
 
     llenarMaps(descComandosConsola, comandosConsola);
+
+    Sistema sistema;
 
     cout << " --- Curiosity --- \n";
 
