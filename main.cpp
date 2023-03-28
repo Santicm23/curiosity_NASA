@@ -237,7 +237,7 @@ void agregar_analisis(vector<string> args) {
 void agregar_elementos(vector<string> args) {
     if (args.size() != 5)
         throw runtime_error(
-            "Los comandos de movimiento requieren tipo_elemento, tamano, unidad_medida, coordenada_x, coordenada_y");
+            "La informacion del elemento no corresponde a los datos esperados (tipo, tamano, unidad, x, y)");
     
     try {
         Elemento::verificarDatos(args[0], stof(args[1]), args[2]);
@@ -507,7 +507,6 @@ void llenarMaps(map<string, string> &descComandosConsola, map<string, void(*)(ve
 int main(){
     char delim = ' ';
     string lineaComando, comando, palabra;
-
 
     llenarMaps(descComandosConsola, comandosConsola);
 
