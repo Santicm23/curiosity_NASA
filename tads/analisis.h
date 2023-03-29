@@ -4,6 +4,7 @@
 
 
 #include <string>
+#include <regex>
 
 #include "desplazamiento.h"
 
@@ -17,12 +18,15 @@ class Analisis : public Desplazamiento {
         string comentario;
     
     public:
-        static void verificarDatos(string tipo, string elem) {
-            if (tipo != "fotografiar" && tipo != "composicion" && tipo != "perforar") {
+        static void verificarDatos(vector<string> args) {
+            if (args.size() != 2 && args.size() != 3) throw runtime_error(
+                "Los comandos de analisis requieren tipo_analisis, objeto y comentario(opcional) como argumentos");
+                
+            if (args[0] != "fotografiar" && args[0] != "composicion" && args[0] != "perforar") {
                 throw runtime_error(
                     "El tipo del analisis no corresponde a los datos esperados (fotografiar, composicion, perforar).");
-            } else if (elem != "roca" && elem != "crater" && elem != "monticulo" && elem != "duna" && elem != "arena") {
-                throw runtime_error("El tipo de elemento no es valido ('roca', 'crater', 'monticulo', 'duna' o 'arena')");
+            } else if (args.size() == 3 && !regex_match(args[2], regex("'([a-zA_Z0-9_!.,;+/*%?¡¿@#()><= ]|-)*'"))) {
+                throw runtime_error("El comentario debe estar entre comillas simples, sin acentos");
             }
         }
 

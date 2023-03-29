@@ -38,37 +38,25 @@ class ComandoSistema {
                 while (getline(ss, palabra, delim))
                     palabras.push_back(palabra);
 
-                if (palabras.size() != 3) throw runtime_error(
-                    "Los comandos de movimiento requieren tipo_movimiento, magnitud y unidad_medida como argumentos");
+                Movimiento::verificarDatos(palabras); // verifica el cast y los valores antes de crear el objeto
 
-                Movimiento::verificarDatos(palabras[0], palabras[2]);
-
-                try {
-                    return new Movimiento(palabras[0], stof(palabras[1]), palabras[2]);
-                } catch (const invalid_argument& e) {
-                    throw runtime_error("La magnitud del comando debe ser un numero flotante");
-                }
+                return new Movimiento(palabras[0], stof(palabras[1]), palabras[2]);
                 
             } else if (palabras[0] == "fotografiar" || palabras[0] == "composicion" || palabras[0] == "perforar") {
-                
-                getline(ss, palabra, delim);
-                palabras.push_back(palabra);
-
-                if (getline(ss, palabra))
+                while (getline(ss, palabra, delim)) {
                     palabras.push_back(palabra);
+                }
+                    
+                Analisis::verificarDatos(palabras);
 
                 if (palabras.size() == 2) {
                     return new Analisis(palabras[0], palabras[1]);
-                    
                 } else if (palabras.size() == 3) {
-                    if (!regex_match(palabras[2], regex("'([a-zA_Z0-9_!.,;+/*%?¡¿@#()><= ]|-)*'"))) 
-                        throw runtime_error("El comentario debe estar entre comillas simples, sin acentos");
                     return new Analisis(palabras[0], palabras[1], palabras[2]);
+                }
 
-                } else throw runtime_error(
-                    "Los comandos de analisis requieren tipo_analisis, objeto y comentario(opcional) como argumentos");
-
-            } else throw runtime_error("El tipo de comando no es valido");
+            } else throw runtime_error("El tipo de comando no es valido "
+                "(Movimiento: avanzar o girar; Analisis: fotografiar, composicion o perforar)");
         }
 
         // funcion que crea y retorna un elemento de interes a partir de una linea
@@ -80,18 +68,10 @@ class ComandoSistema {
 
             while (getline(ss, palabra, delim))
                 palabras.push_back(palabra);
-
-            if (palabras.size() != 5) throw runtime_error(
-                "Los comandos de movimiento requieren tipo_elemento, tamano, unidad_medida, coordenada_x, coordenada_y");
             
-            if (palabras[0] != "roca" && palabras[0] != "crater" && palabras[0] != "monticulo" && palabras[0] != "duna")
-                throw runtime_error("El tipo de elemento no es valido ('roca', 'crater', 'monticulo' o 'duna')");
+            Elemento::verificarDatos(palabras[0]);
 
-            try {
-                return new Elemento(palabras[0], stof(palabras[1]), palabras[2], stof(palabras[3]), stof(palabras[4]));
-            } catch (const invalid_argument& e) {
-                throw runtime_error("El tamano, y las coordenadas X y Y deben ser numeros flotantes");
-            }
+            return new Elemento(palabras[0], stof(palabras[1]), palabras[2], stof(palabras[3]), stof(palabras[4]));
         }
 
         // funcion que retorna la extension de un nombre de archivo dado
@@ -99,7 +79,7 @@ class ComandoSistema {
             char delim = '.';
             string palabra;
             stringstream ss(nombreArchivo);
-            while (getline(ss, palabra, delim)) {}
+            while (getline(ss, palabra, delim));
             return palabra;
         }
 

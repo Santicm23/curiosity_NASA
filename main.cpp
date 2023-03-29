@@ -93,14 +93,10 @@ void agregar_movimiento(Sistema sistema, vector<string> args) {
         throw runtime_error(
             "La informacion del movimiento no corresponde a los datos esperados (tipo, magnitud, unidad).");
 
-    Movimiento::verificarDatos(args[0], args[2]); //Se usa el método implementado en Movimiento para verificar unidades de medida
+    Movimiento::verificarDatos(args); //Se usa el método implementado en Movimiento para verificar unidades de medida
 
-    try { //Anadir movimiento
-        sistema.getDesplazamientos().push_back(new Movimiento(args[0], stof((args[1])), args[2])); //Se envia referencia al Movimiento m, que fue previamente instanciado
-        cout << "El movimiento fue agregado exitosamente!" << endl;
-    } catch (const invalid_argument& e) {
-        throw runtime_error("La magnitud debe ser un numero flotante");
-    }
+    sistema.getDesplazamientos().push_back(new Movimiento(args[0], stof(args[1]), args[2])); //Se envia referencia al Movimiento m, que fue previamente instanciado
+    cout << "El movimiento fue agregado exitosamente" << endl;
 }
 
 // Comando: agregar_analisis tipo_analisis objeto comentario(opcional)
@@ -109,43 +105,24 @@ void agregar_analisis(Sistema sistema, vector<string> args) {
     for (int i=3; i<args.size(); i++) {
         comment += " " + args[i];
     }
-    if (args.size() < 2) //tamano de argumentos distinto
-        throw runtime_error(
-            "La informacion del analisis no corresponde a los datos esperados (tipo, objeto, comentario opcional).");
     
-    Analisis::verificarDatos(args[0], args[1]);
+    Analisis::verificarDatos(args);
 
     if (args.size() == 2){    
-        try { //Anadir analisis sin comentario
-            sistema.getDesplazamientos().push_back(new Analisis(args[0], args[1], ""));
-            cout<<"El analisis ha sido agregado exitosamente" << endl;
-        } catch (const invalid_argument& e) {
-            throw runtime_error("Error en los datos ingresados");
-        }
+        sistema.getDesplazamientos().push_back(new Analisis(args[0], args[1]));
+        cout << "El analisis ha sido agregado exitosamente" << endl;
     } else {
-        if (!regex_match(comment, regex("'([a-zA_Z0-9_!.,;+/*%?¡¿@#()><= ]|-)*'")))
-            throw runtime_error(
-                "El comentario debe estar entre comillas simples, sin acentos");
-
         sistema.getDesplazamientos().push_back(new Analisis(args[0], args[1], comment));
-        cout<<"El analisis ha sido agregado exitosamente" << endl;
+        cout << "El analisis ha sido agregado exitosamente" << endl;
     }
 
 }
 
 // Comando: agregar_elementos tipo_comp tamano unidad_med coordX coordY
 void agregar_elementos(Sistema sistema, vector<string> args) {
-    if (args.size() != 5)
-        throw runtime_error(
-            "La informacion del elemento no corresponde a los datos esperados (tipo, tamano, unidad, x, y)");
-    
-    try {
-        Elemento::verificarDatos(args[0], stof(args[1]), args[2]);
-        sistema.getElementos().push_back(new Elemento(args[0], stof(args[1]), args[2], stof(args[3]), stof(args[4])));
-        cout<<"El elemento ha sido agregado exitosamente\n";
-    } catch (const invalid_argument& e) {
-        throw runtime_error("El tamano, y las coordenadas X y Y deben ser numeros flotantes");
-    }
+    Elemento::verificarDatos(args);
+    sistema.getElementos().push_back(new Elemento(args[0], stof(args[1]), args[2], stof(args[3]), stof(args[4])));
+    cout<<"El elemento ha sido agregado exitosamente\n";
 }
 
 // Comando: guardar tipo_archivo nombre_archivo
