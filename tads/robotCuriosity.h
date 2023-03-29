@@ -45,7 +45,7 @@ class RobotCuriosity {
             if (unit == "grados") {
                 a *= PI/180;
             } else if (unit != "radianes") {
-                throw runtime_error("Unidad invalida");
+                throw runtime_error("Unidad de medida invalida");
             }
             angulo += a;
         }

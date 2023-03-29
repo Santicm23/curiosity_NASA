@@ -15,18 +15,28 @@
 using namespace std;
 
 
+void nada(list<Desplazamiento*>&,list<Elemento*>&,vector<string>) {}
+
 class Sistema {
-    using funcion = function<void(list<Desplazamiento>&,list<Elemento>&,vector<string>)>;
+    using funcion = function<void(list<Desplazamiento*>&,list<Elemento*>&,vector<string>)>;
 
     private:
-        map<string, ComandoSistema> comandos;
-        list<Desplazamiento> desplazamientos;
-        list<Elemento> elementos;
+        map<string,ComandoSistema> comandos;
+        list<Desplazamiento*> desplazamientos;
+        list<Elemento*> elementos;
         
     public:
         Sistema() {}
 
-        void agregar_comando(string nombre, string desc, funcion func) {
+        list<Desplazamiento*>& getDesplazamientos() {
+            return desplazamientos;
+        }
+
+        list<Elemento*>& getElementos() {
+            return elementos;
+        }
+
+        void agregar_comando(string nombre, string desc, funcion func = nada) {
             comandos.insert({nombre, ComandoSistema(nombre, desc, func)});
         }
 
@@ -47,7 +57,7 @@ class Sistema {
         }
 
         bool comando_existe(string nombre) {
-            return comandos.count(nombre) > 0;
+            return comandos.count(nombre) > 0 || nombre == "ayuda";
         }
 
         void ejecutar(string comando, vector<string> args) {
