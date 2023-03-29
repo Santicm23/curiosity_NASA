@@ -26,8 +26,7 @@ class ComandoSistema {
         funcion func;
 
     public:
-        static Desplazamiento* crearDesplazamiento(string linea) {
-            char delim = ' ';
+        static Desplazamiento* crearDesplazamiento(string linea, char delim = ' ') {
             string palabra;
 
             stringstream ss(linea);
@@ -37,7 +36,6 @@ class ComandoSistema {
             palabras.push_back(palabra); 
 
             if (palabras[0] == "avanzar" || palabras[0] == "girar") {
-
                 while (getline(ss, palabra, delim))
                     palabras.push_back(palabra);
 
@@ -75,8 +73,7 @@ class ComandoSistema {
         }
 
         // funcion que crea y retorna un elemento de interes a partir de una linea
-        static Elemento* crearElemento(string linea) {
-            char delim = ' ';
+        static Elemento* crearElemento(string linea, char delim = ' ') {
             string palabra;
             vector<string> palabras;
 

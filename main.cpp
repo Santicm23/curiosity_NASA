@@ -49,7 +49,7 @@ void cargar_comandos(list<Desplazamiento*>& desplazamientos, list<Elemento*>& el
     int n;
     for (n = 0; !fs.eof(); n++) {
         getline(fs, line);
-        // desplazamientos.push_back(crearDesplazamiento(line));
+        desplazamientos.push_back(ComandoSistema::crearDesplazamiento(line, ','));
     }
     cout << n << " comandos cargados cargados desde '" << args[0] << "'\n";
 
@@ -80,7 +80,7 @@ void cargar_elementos(list<Desplazamiento*>& desplazamientos, list<Elemento*>& e
     int n;
     for (n = 0; !fs.eof(); n++) {
         getline(fs, line);
-        elementos.push_back(ComandoSistema::crearElemento(line));
+        elementos.push_back(ComandoSistema::crearElemento(line, ','));
     }
     cout << n << " elementos cargados cargados desde '" << args[0] << "'\n";
 
