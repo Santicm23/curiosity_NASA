@@ -24,11 +24,11 @@ using namespace std;
     // con documentacion de comandos => (diagramas, graficos, dibujos), plan de pruebas (simular_comandos)
 
 // Comando: cargar_comandos nombre_archivo
-void cargar_comandos(list<Desplazamiento*>& desplazamientos, list<Elemento*>& elementos, vector<string> args) {
+void cargar_comandos(Sistema sistema, vector<string> args) {
     if (args.size() != 1)
         throw runtime_error("Debe ingresar un nombre de archivo.");
     
-    string extension = ComandoSistema::obtenerExtension(args[0]);
+    string extension = ComandoSistema<Sistema>::obtenerExtension(args[0]);
 
     if (extension != "txt" && extension != "csv")
         throw runtime_error("La extension es invalida. (txt o csv)");
@@ -44,12 +44,12 @@ void cargar_comandos(list<Desplazamiento*>& desplazamientos, list<Elemento*>& el
     if (fs.peek() == EOF)
         throw runtime_error("'" + args[0] + "' no contiene comandos.");
 
-    desplazamientos.clear();
+    sistema.getDesplazamientos().clear();
 
     int n;
     for (n = 0; !fs.eof(); n++) {
         getline(fs, line);
-        desplazamientos.push_back(ComandoSistema::crearDesplazamiento(line, ','));
+        sistema.getDesplazamientos().push_back(ComandoSistema<Sistema>::crearDesplazamiento(line, ','));
     }
     cout << n << " comandos cargados cargados desde '" << args[0] << "'\n";
 
@@ -57,8 +57,8 @@ void cargar_comandos(list<Desplazamiento*>& desplazamientos, list<Elemento*>& el
 }
 
 // Comando: cargar_elementos nombre_archivo
-void cargar_elementos(list<Desplazamiento*>& desplazamientos, list<Elemento*>& elementos, vector<string> args) {
-    string extension = ComandoSistema::obtenerExtension(args[0]);
+void cargar_elementos(Sistema sistema, vector<string> args) {
+    string extension = ComandoSistema<Sistema>::obtenerExtension(args[0]);
 
     if (args.size() != 1)
         throw runtime_error("Debe ingresar un nombre de archivo.");
@@ -80,7 +80,7 @@ void cargar_elementos(list<Desplazamiento*>& desplazamientos, list<Elemento*>& e
     int n;
     for (n = 0; !fs.eof(); n++) {
         getline(fs, line);
-        elementos.push_back(ComandoSistema::crearElemento(line, ','));
+        sistema.getElementos().push_back(ComandoSistema<Sistema>::crearElemento(line, ','));
     }
     cout << n << " elementos cargados cargados desde '" << args[0] << "'\n";
 
@@ -88,7 +88,7 @@ void cargar_elementos(list<Desplazamiento*>& desplazamientos, list<Elemento*>& e
 }
 
 // Comando: agregar_movimiento tipo_mov magnitud unidad_med
-void agregar_movimiento(list<Desplazamiento*>& desplazamientos, list<Elemento*>& elementos, vector<string> args) {
+void agregar_movimiento(Sistema sistema, vector<string> args) {
     if (args.size() != 3) //tamano de argumentos diferente
         throw runtime_error(
             "La informacion del movimiento no corresponde a los datos esperados (tipo, magnitud, unidad).");
@@ -96,7 +96,7 @@ void agregar_movimiento(list<Desplazamiento*>& desplazamientos, list<Elemento*>&
     Movimiento::verificarDatos(args[0], args[2]); //Se usa el método implementado en Movimiento para verificar unidades de medida
 
     try { //Anadir movimiento
-        desplazamientos.push_back(new Movimiento(args[0], stof((args[1])), args[2])); //Se envia referencia al Movimiento m, que fue previamente instanciado
+        sistema.getDesplazamientos().push_back(new Movimiento(args[0], stof((args[1])), args[2])); //Se envia referencia al Movimiento m, que fue previamente instanciado
         cout << "El movimiento fue agregado exitosamente!" << endl;
     } catch (const invalid_argument& e) {
         throw runtime_error("La magnitud debe ser un numero flotante");
@@ -104,7 +104,7 @@ void agregar_movimiento(list<Desplazamiento*>& desplazamientos, list<Elemento*>&
 }
 
 // Comando: agregar_analisis tipo_analisis objeto comentario(opcional)
-void agregar_analisis(list<Desplazamiento*>& desplazamientos, list<Elemento*>& elementos, vector<string> args) {
+void agregar_analisis(Sistema sistema, vector<string> args) {
     string comment = args[2];
     for (int i=3; i<args.size(); i++) {
         comment += " " + args[i];
@@ -117,7 +117,7 @@ void agregar_analisis(list<Desplazamiento*>& desplazamientos, list<Elemento*>& e
 
     if (args.size() == 2){    
         try { //Anadir analisis sin comentario
-            desplazamientos.push_back(new Analisis(args[0], args[1], ""));
+            sistema.getDesplazamientos().push_back(new Analisis(args[0], args[1], ""));
             cout<<"El analisis ha sido agregado exitosamente" << endl;
         } catch (const invalid_argument& e) {
             throw runtime_error("Error en los datos ingresados");
@@ -127,21 +127,21 @@ void agregar_analisis(list<Desplazamiento*>& desplazamientos, list<Elemento*>& e
             throw runtime_error(
                 "El comentario debe estar entre comillas simples, sin acentos");
 
-        desplazamientos.push_back(new Analisis(args[0], args[1], comment));
+        sistema.getDesplazamientos().push_back(new Analisis(args[0], args[1], comment));
         cout<<"El analisis ha sido agregado exitosamente" << endl;
     }
 
 }
 
 // Comando: agregar_elementos tipo_comp tamano unidad_med coordX coordY
-void agregar_elementos(list<Desplazamiento*>& desplazamientos, list<Elemento*>& elementos, vector<string> args) {
+void agregar_elementos(Sistema sistema, vector<string> args) {
     if (args.size() != 5)
         throw runtime_error(
             "La informacion del elemento no corresponde a los datos esperados (tipo, tamano, unidad, x, y)");
     
     try {
         Elemento::verificarDatos(args[0], stof(args[1]), args[2]);
-        elementos.push_back(new Elemento(args[0], stof(args[1]), args[2], stof(args[3]), stof(args[4])));
+        sistema.getElementos().push_back(new Elemento(args[0], stof(args[1]), args[2], stof(args[3]), stof(args[4])));
         cout<<"El elemento ha sido agregado exitosamente\n";
     } catch (const invalid_argument& e) {
         throw runtime_error("El tamano, y las coordenadas X y Y deben ser numeros flotantes");
@@ -149,8 +149,8 @@ void agregar_elementos(list<Desplazamiento*>& desplazamientos, list<Elemento*>& 
 }
 
 // Comando: guardar tipo_archivo nombre_archivo
-void guardar(list<Desplazamiento*>& desplazamientos, list<Elemento*>& elementos, vector<string> args) {
-    string extension = ComandoSistema::obtenerExtension(args[1]);
+void guardar(Sistema sistema, vector<string> args) {
+    string extension = ComandoSistema<Sistema>::obtenerExtension(args[1]);
 
     if (args.size() != 2)
         throw runtime_error("Se requiere el tipo de archivo y el nombre de archivo");
@@ -160,25 +160,25 @@ void guardar(list<Desplazamiento*>& desplazamientos, list<Elemento*>& elementos,
         
     // Guardo todos los elementos de la lista de desplazamientos y de elementos
     if(args[0]=="comandos") {
-        if (desplazamientos.empty())
+        if (sistema.getDesplazamientos().empty())
             throw runtime_error("La informacion requerida no esta almacenada en memoria");
         
         ofstream archivo(args[1]);
         if(!archivo.is_open())
             throw runtime_error("'" + args[1] + "' no se encuentra o no puede leerse.");
         
-        for (Desplazamiento* despla: desplazamientos) {
+        for (Desplazamiento* despla: sistema.getDesplazamientos()) {
             archivo << despla->toString(',') << endl;
         }
     } else if(args[0]=="elemento") {
-        if (elementos.empty())
+        if (sistema.getElementos().empty())
             throw runtime_error("La informacion requerida no esta almacenada en memoria");
         
         ofstream archivo(args[1]);
         if(!archivo.is_open())
             throw runtime_error("'" + args[1] + "' no se encuentra o no puede leerse.");
 
-        for (Elemento* element: elementos) {
+        for (Elemento* element: sistema.getElementos()) {
             archivo << element->toString(',') << endl;
         }
     } else {
@@ -190,11 +190,11 @@ void guardar(list<Desplazamiento*>& desplazamientos, list<Elemento*>& elementos,
 }
 
 // Comando: simular_comandos coordX coordY
-void simular_comandos(list<Desplazamiento*>& desplazamientos, list<Elemento*>& elementos, vector<string> args) {
+void simular_comandos(Sistema sistema, vector<string> args) {
     if (args.size() != 2)
         throw runtime_error("Se requieren los parametros coordX y coordY");
 
-    if (desplazamientos.empty())
+    if (sistema.getDesplazamientos().empty())
         throw runtime_error("La informacion requerida no esta almacenada en memoria");
     
     float x, y;
@@ -208,7 +208,7 @@ void simular_comandos(list<Desplazamiento*>& desplazamientos, list<Elemento*>& e
 
     RobotCuriosity robot = RobotCuriosity(x, y);
 
-    for (Desplazamiento* despla: desplazamientos) {
+    for (Desplazamiento* despla: sistema.getDesplazamientos()) {
         Movimiento* tmp = dynamic_cast<Movimiento*>(despla);
         if (tmp != nullptr) {
             tmp->ejecutar(robot);
@@ -220,11 +220,11 @@ void simular_comandos(list<Desplazamiento*>& desplazamientos, list<Elemento*>& e
 }
 
 // Comando: salir
-void salir(list<Desplazamiento*>& desplazamientos, list<Elemento*>& elementos, vector<string> args) {
-    for (Desplazamiento* desp: desplazamientos) {
+void salir(Sistema sistema, vector<string> args) {
+    for (Desplazamiento* desp: sistema.getDesplazamientos()) {
         delete desp;
     }
-    for (Elemento* elem: elementos) {
+    for (Elemento* elem: sistema.getElementos()) {
         delete elem;
     }
     cout << "Fin del programa\n";
@@ -234,19 +234,19 @@ void salir(list<Desplazamiento*>& desplazamientos, list<Elemento*>& elementos, v
 // ----- componente 2 -----
 
 // Comando: ubicar_elementos
-void ubicar_elementos(list<Desplazamiento*>& desplazamientos, list<Elemento*>& elementos, vector<string> args) {}
+void ubicar_elementos(Sistema sistema, vector<string> args) {}
 
 // Comando: en_cuadrante coordX1 coordX2 coordY1 coordY2
-void en_cuadrante(list<Desplazamiento*>& desplazamientos, list<Elemento*>& elementos, vector<string> args) {}
+void en_cuadrante(Sistema sistema, vector<string> args) {}
 
 
 // ----- componente 3 -----
 
 // Comando: crear_mapa coeficiente_conectividad
-void crear_mapa(list<Desplazamiento*>& desplazamientos, list<Elemento*>& elementos, vector<string> args) {}
+void crear_mapa(Sistema sistema, vector<string> args) {}
 
 // Comando: ruta_mas_larga
-void ruta_mas_larga(list<Desplazamiento*>& desplazamientos, list<Elemento*>& elementos, vector<string> args) {}
+void ruta_mas_larga(Sistema sistema, vector<string> args) {}
 
 
 // ----- funciones adicionales -----

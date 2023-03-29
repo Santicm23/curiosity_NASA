@@ -7,7 +7,6 @@
 #include <vector>
 #include <functional>
 
-#include "sistema.h"
 #include "desplazamiento.h"
 #include "movimiento.h"
 #include "analisis.h"
@@ -16,9 +15,9 @@
 using namespace std;
 
 
-
+template<class sis>
 class ComandoSistema {
-    using funcion = function<void(list<Desplazamiento*>&,list<Elemento*>&,vector<string>)>;
+    using funcion = function<void(sis&,vector<string>)>;
 
     private:
         string nombre;
@@ -122,8 +121,8 @@ class ComandoSistema {
             return descricion;
         }
 
-        void operator()(list<Desplazamiento*>& ld,list<Elemento*>& le, vector<string> args) {
-            func(ld, le, args);
+        void operator()(sis& sistema, vector<string> args) {
+            func(sistema, args);
         }
 };
 

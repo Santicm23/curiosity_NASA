@@ -15,13 +15,14 @@
 using namespace std;
 
 
-void nada(list<Desplazamiento*>&,list<Elemento*>&,vector<string>) {}
+void nada(...) {}
 
 class Sistema {
-    using funcion = function<void(list<Desplazamiento*>&,list<Elemento*>&,vector<string>)>;
+
+    using funcion = function<void(Sistema&,vector<string>)>;
 
     private:
-        map<string,ComandoSistema> comandos;
+        map<string,ComandoSistema<Sistema>> comandos;
         list<Desplazamiento*> desplazamientos;
         list<Elemento*> elementos;
         
@@ -37,12 +38,12 @@ class Sistema {
         }
 
         void agregar_comando(string nombre, string desc, funcion func = nada) {
-            comandos.insert({nombre, ComandoSistema(nombre, desc, func)});
+            comandos.insert({nombre, ComandoSistema<Sistema>(nombre, desc, func)});
         }
 
         void ayuda(vector<string> args) {
             if (args.empty()){
-                for (pair<const string, ComandoSistema> tupla: comandos) {
+                for (pair<const string,ComandoSistema<Sistema>> tupla: comandos) {
                     cout << "\t" << tupla.first << endl;
                 }
             } else if (args.size() == 1) {
@@ -67,7 +68,7 @@ class Sistema {
             if (comando == "ayuda") {
                 ayuda(args);
             } else {
-                comandos[comando](desplazamientos, elementos, args);
+                comandos[comando](*this, args);
             }
         }
 };
