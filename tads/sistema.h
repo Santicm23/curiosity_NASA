@@ -11,6 +11,7 @@
 #include "desplazamiento.h"
 #include "elemento.h"
 #include "comandoSistema.h"
+#include "robotCuriosity.h"
 
 using namespace std;
 
@@ -25,17 +26,16 @@ class Sistema {
         map<string,ComandoSistema<Sistema>> comandos;
         list<Desplazamiento*> desplazamientos;
         list<Elemento*> elementos;
+        RobotCuriosity robot;
         
     public:
         Sistema() {}
 
-        list<Desplazamiento*>& getDesplazamientos() {
-            return desplazamientos;
-        }
+        list<Desplazamiento*>& getDesplazamientos() { return desplazamientos; }
 
-        list<Elemento*>& getElementos() {
-            return elementos;
-        }
+        list<Elemento*>& getElementos() { return elementos; }
+
+        RobotCuriosity& getRobot() { return robot; }
 
         void agregar_comando(string nombre, string desc, funcion func = nada) {
             comandos.insert({nombre, ComandoSistema<Sistema>(nombre, desc, func)});

@@ -179,21 +179,21 @@ void simular_comandos(Sistema sistema, vector<string> args) {
     try {
         x = stof(args[0]);
         y = stof(args[1]); 
-    } catch(...) {
+    } catch(const invalid_argument& e) {
         throw runtime_error("Los argumentos coordX y coordY deben ser de tipo flotante");
     }
 
-    RobotCuriosity robot = RobotCuriosity(x, y);
+    sistema.getRobot().setCoords(x, y);
 
     for (Desplazamiento* despla: sistema.getDesplazamientos()) {
         Movimiento* tmp = dynamic_cast<Movimiento*>(despla);
         if (tmp != nullptr) {
-            tmp->ejecutar(robot);
+            tmp->ejecutar(sistema.getRobot());
         }
     }
 
     cout << "La simulacion de los comandos, a partir de la posicion (" << x << ", " << y << "), "
-        "deja al robot en la nueva posicion (" << robot.getX() << ", " << robot.getY() << ").\n";
+        "deja al robot en la nueva posicion (" << sistema.getRobot().getX() << ", " << sistema.getRobot().getY() << ").\n";
 }
 
 // Comando: salir

@@ -1,0 +1,6 @@
+monticulo,-1,metros,-100,6
+craters,0,centimetros,10,-7
+roca,1,metro,-3,4
+duna,2,kilometros,-5,-8
+crater,3,metro,10,-7
+arena,7,centimetro,-8,12
