@@ -20,7 +20,7 @@ class Analisis : public Desplazamiento {
     public:
         static void verificarDatos(vector<string> args) {
             if (args.size() < 2) throw runtime_error(
-                "La informacion del análisis no corresponde a los datos esperados (tipo, objeto, comentario).");
+                "La informacion del analisis no corresponde a los datos esperados (tipo, objeto, comentario).");
                 
             if (args[0] != "fotografiar" && args[0] != "composicion" && args[0] != "perforar") {
                 throw runtime_error(
@@ -43,7 +43,7 @@ class Analisis : public Desplazamiento {
         }
         
         string toString(char delim = ' ') {
-            return tipo_analisis + delim + objeto + delim + comentario;
+            return tipo_analisis + delim + objeto + ((comentario != "")? delim + comentario : "");
         }
 };
 

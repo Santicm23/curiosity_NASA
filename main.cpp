@@ -28,15 +28,15 @@ void cargar_comandos(Sistema& sistema, vector<string> args) {
     if (args.size() != 1)
         throw runtime_error("Debe ingresar un nombre de archivo.");
     
-    string extension = ComandoSistema<Sistema>::obtenerExtension(args[0]);
+    string extension = sistema.obtenerExtension(args[0]);
 
     if (extension != "txt" && extension != "csv")
         throw runtime_error("La extension es invalida. (txt o csv)");
 
-    fstream fs;
-    string line;
+    ifstream fs;
+    string linea;
     
-    fs.open(args[0], ios::in);
+    fs.open(args[0]);
 
     if (!fs.is_open())
         throw runtime_error("'" + args[0] + "' no se encuentra o no puede leerse.");
@@ -48,8 +48,8 @@ void cargar_comandos(Sistema& sistema, vector<string> args) {
 
     int n;
     for (n = 0; !fs.eof(); n++) {
-        getline(fs, line);
-        sistema.agregar_desplazamiento(ComandoSistema<Sistema>::crearDesplazamiento(line, ','));
+        getline(fs, linea);
+        sistema.agregar_desplazamiento(linea);
         
     }
     cout << n << " comandos cargados cargados desde '" << args[0] << "'\n";
@@ -62,15 +62,15 @@ void cargar_elementos(Sistema& sistema, vector<string> args) {
     if (args.size() != 1)
         throw runtime_error("Debe ingresar un nombre de archivo.");
     
-    string extension = ComandoSistema<Sistema>::obtenerExtension(args[0]);
+    string extension = sistema.obtenerExtension(args[0]);
     
     if (extension != "txt" && extension != "csv")
         throw runtime_error("La extension es invalida. (txt o csv)");
 
-    fstream fs;
-    string line;
+    ifstream fs;
+    string linea;
     
-    fs.open(args[0], ios::in);
+    fs.open(args[0]);
 
     if (!fs.is_open())
         throw runtime_error("'" + args[0] + "' no se encuentra o no puede leerse.");
@@ -82,8 +82,8 @@ void cargar_elementos(Sistema& sistema, vector<string> args) {
 
     int n;
     for (n = 0; !fs.eof(); n++) {
-        getline(fs, line);
-        sistema.agregar_elemento(ComandoSistema<Sistema>::crearElemento(line, ','));
+        getline(fs, linea);
+        sistema.agregar_elemento(linea);
     }
     cout << n << " elementos cargados cargados desde '" << args[0] << "'\n";
 
@@ -134,7 +134,7 @@ void guardar(Sistema& sistema, vector<string> args) {
     if (args.size() != 2)
         throw runtime_error("Se requiere el tipo de archivo y el nombre de archivo");
 
-    string extension = ComandoSistema<Sistema>::obtenerExtension(args[1]);
+    string extension = sistema.obtenerExtension(args[1]);
     
     if (extension != "txt" && extension != "csv")
         throw runtime_error("La extension es invalida. (txt o csv)");
@@ -151,7 +151,7 @@ void guardar(Sistema& sistema, vector<string> args) {
         for (Desplazamiento* despla: sistema.getDesplazamientos()) {
             archivo << despla->toString(',') << endl;
         }
-    } else if(args[0]=="elemento") {
+    } else if(args[0]=="elementos") {
         if (sistema.getElementos().empty())
             throw runtime_error("La informacion requerida no esta almacenada en memoria");
         
@@ -163,10 +163,10 @@ void guardar(Sistema& sistema, vector<string> args) {
             archivo << element->toString(',') << endl;
         }
     } else {
-        throw runtime_error("El tipo de archivo solo puede ser comando o elemento");
+        throw runtime_error("El tipo de archivo solo puede ser 'comandos' o 'elementos'");
     }
 
-    cout << "La informacion de tipo "<<args[0]<<" ha sido guardada en '" << args[1] <<"'\n";
+    cout << "La informacion de tipo '"<<args[0]<<"' ha sido guardada en '" << args[1] <<"'\n";
     
 }
 
