@@ -1,3 +1,0 @@
-girar 3 grados
-avanzar 10 metros
-perforar obj

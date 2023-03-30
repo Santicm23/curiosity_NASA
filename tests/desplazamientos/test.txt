@@ -1,0 +1,3 @@
+girar,30,grados
+avanzar,400,metros
+perforar,obj1

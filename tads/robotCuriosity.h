@@ -19,6 +19,12 @@ class RobotCuriosity {
         float angulo; // en radianes
     
     public:
+        RobotCuriosity() {
+            coordX = 0;
+            coordY = 0;
+            angulo = 0;
+        }
+
         RobotCuriosity(float x, float y, float a = 0) {
             coordX = x;
             coordY = y;
@@ -28,6 +34,11 @@ class RobotCuriosity {
         float getX() { return coordX; }
 
         float getY() { return coordY; }
+
+        void setCoords(float x, float y) {
+            coordX = x;
+            coordY = y;
+        }
 
         void avanzar(float dist, string unit = "metros") {
             if (unit == "centimetros") {
@@ -41,11 +52,11 @@ class RobotCuriosity {
             coordY += dist*sin(angulo);
         }
 
-        void girar(float a, string unit = "radianes"){
+        void girar(float a, string unit = "radianes") {
             if (unit == "grados") {
                 a *= PI/180;
             } else if (unit != "radianes") {
-                throw runtime_error("Unidad invalida");
+                throw runtime_error("Unidad de medida invalida");
             }
             angulo += a;
         }
