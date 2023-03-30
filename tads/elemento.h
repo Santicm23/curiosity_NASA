@@ -21,7 +21,7 @@ class Elemento {
         static void verificarDatos(vector<string> args) {
             float tam, x, y;
             if (args.size() != 5) throw runtime_error(
-                "Los comandos de movimiento requieren tipo_elemento, tamano, unidad_medida, coordenada_x, coordenada_y");
+                "La informacion del elemento no corresponde a los datos esperados (tipo, tamano, unidad, x, y).");
             try {
                 tam = stof(args[1]);
                 x = stof(args[3]);
@@ -36,7 +36,7 @@ class Elemento {
                 throw runtime_error("El tamano del elemento no es valido, debe ser mayor que 0");
             } else if (args[2] != "centimetros" && args[2] != "metros" && args[2] != "kilometros") {
                 throw runtime_error(
-                    "La unidad de medida del elemento no es valida ('centimetro', 'metro' o 'kilometro')");
+                    "La unidad de medida del elemento no es valida ('centimetros', 'metros' o 'kilometros')");
             }
         }
 

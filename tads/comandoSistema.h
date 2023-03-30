@@ -43,20 +43,26 @@ class ComandoSistema {
                 return new Movimiento(palabras[0], stof(palabras[1]), palabras[2]);
                 
             } else if (palabras[0] == "fotografiar" || palabras[0] == "composicion" || palabras[0] == "perforar") {
-                while (getline(ss, palabra, delim)) {
+                while (getline(ss, palabra, delim))
                     palabras.push_back(palabra);
-                }
                     
                 Analisis::verificarDatos(palabras);
 
                 if (palabras.size() == 2) {
                     return new Analisis(palabras[0], palabras[1]);
-                } else if (palabras.size() == 3) {
-                    return new Analisis(palabras[0], palabras[1], palabras[2]);
+                } else {
+                    string comentario = palabras[2];
+                    for (int i=3; i<palabras.size(); i++) {
+                        comentario += " " + palabras[i];
+                    }
+                    return new Analisis(palabras[0], palabras[1], comentario);
                 }
 
-            } else throw runtime_error("El tipo de comando no es valido "
-                "(Movimiento: avanzar o girar; Analisis: fotografiar, composicion o perforar)");
+            } else {
+                throw runtime_error("El tipo de comando no es valido (Movimiento: avanzar o girar; "
+                    "Analisis: fotografiar, composicion o perforar)");
+            }
+            
         }
 
         // funcion que crea y retorna un elemento de interes a partir de una linea
@@ -69,7 +75,7 @@ class ComandoSistema {
             while (getline(ss, palabra, delim))
                 palabras.push_back(palabra);
             
-            Elemento::verificarDatos(palabras[0]);
+            Elemento::verificarDatos(palabras);
 
             return new Elemento(palabras[0], stof(palabras[1]), palabras[2], stof(palabras[3]), stof(palabras[4]));
         }

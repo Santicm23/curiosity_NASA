@@ -24,7 +24,7 @@ using namespace std;
     // con documentacion de comandos => (diagramas, graficos, dibujos), plan de pruebas (simular_comandos)
 
 // Comando: cargar_comandos nombre_archivo
-void cargar_comandos(Sistema sistema, vector<string> args) {
+void cargar_comandos(Sistema& sistema, vector<string> args) {
     if (args.size() != 1)
         throw runtime_error("Debe ingresar un nombre de archivo.");
     
@@ -44,12 +44,13 @@ void cargar_comandos(Sistema sistema, vector<string> args) {
     if (fs.peek() == EOF)
         throw runtime_error("'" + args[0] + "' no contiene comandos.");
 
-    sistema.getDesplazamientos().clear();
+    sistema.borrar_desplazamientos();
 
     int n;
     for (n = 0; !fs.eof(); n++) {
         getline(fs, line);
-        sistema.getDesplazamientos().push_back(ComandoSistema<Sistema>::crearDesplazamiento(line, ','));
+        sistema.agregar_desplazamiento(ComandoSistema<Sistema>::crearDesplazamiento(line, ','));
+        
     }
     cout << n << " comandos cargados cargados desde '" << args[0] << "'\n";
 
@@ -57,11 +58,11 @@ void cargar_comandos(Sistema sistema, vector<string> args) {
 }
 
 // Comando: cargar_elementos nombre_archivo
-void cargar_elementos(Sistema sistema, vector<string> args) {
-    string extension = ComandoSistema<Sistema>::obtenerExtension(args[0]);
-
+void cargar_elementos(Sistema& sistema, vector<string> args) {
     if (args.size() != 1)
         throw runtime_error("Debe ingresar un nombre de archivo.");
+    
+    string extension = ComandoSistema<Sistema>::obtenerExtension(args[0]);
     
     if (extension != "txt" && extension != "csv")
         throw runtime_error("La extension es invalida. (txt o csv)");
@@ -77,10 +78,12 @@ void cargar_elementos(Sistema sistema, vector<string> args) {
     if (fs.peek() == EOF)
         throw runtime_error("'" + args[0] + "' no contiene elementos.");
     
+    sistema.borrar_elementos();
+
     int n;
     for (n = 0; !fs.eof(); n++) {
         getline(fs, line);
-        sistema.getElementos().push_back(ComandoSistema<Sistema>::crearElemento(line, ','));
+        sistema.agregar_elemento(ComandoSistema<Sistema>::crearElemento(line, ','));
     }
     cout << n << " elementos cargados cargados desde '" << args[0] << "'\n";
 
@@ -88,49 +91,50 @@ void cargar_elementos(Sistema sistema, vector<string> args) {
 }
 
 // Comando: agregar_movimiento tipo_mov magnitud unidad_med
-void agregar_movimiento(Sistema sistema, vector<string> args) {
-    if (args.size() != 3) //tamano de argumentos diferente
-        throw runtime_error(
-            "La informacion del movimiento no corresponde a los datos esperados (tipo, magnitud, unidad).");
+void agregar_movimiento(Sistema& sistema, vector<string> args) {
+    // Se verifica la cantidad de argumentos y que corresponda con lo solicitado
+    Movimiento::verificarDatos(args);
 
-    Movimiento::verificarDatos(args); //Se usa el método implementado en Movimiento para verificar unidades de medida
-
-    sistema.getDesplazamientos().push_back(new Movimiento(args[0], stof(args[1]), args[2])); //Se envia referencia al Movimiento m, que fue previamente instanciado
+    sistema.agregar_desplazamiento(new Movimiento(args[0], stof(args[1]), args[2]));
     cout << "El movimiento fue agregado exitosamente" << endl;
 }
 
 // Comando: agregar_analisis tipo_analisis objeto comentario(opcional)
-void agregar_analisis(Sistema sistema, vector<string> args) {
+void agregar_analisis(Sistema& sistema, vector<string> args) {
+    // Se verifica la cantidad de argumentos y que corresponda con lo solicitado
+    Analisis::verificarDatos(args);
+
     string comment = args[2];
     for (int i=3; i<args.size(); i++) {
         comment += " " + args[i];
     }
-    
-    Analisis::verificarDatos(args);
+
+    Analisis* a;
 
     if (args.size() == 2){    
-        sistema.getDesplazamientos().push_back(new Analisis(args[0], args[1]));
-        cout << "El analisis ha sido agregado exitosamente" << endl;
+        a = new Analisis(args[0], args[1]);
     } else {
-        sistema.getDesplazamientos().push_back(new Analisis(args[0], args[1], comment));
-        cout << "El analisis ha sido agregado exitosamente" << endl;
+        a = new Analisis(args[0], args[1], comment);
     }
-
+    sistema.agregar_desplazamiento(a);
+    cout << "El analisis ha sido agregado exitosamente" << endl;
 }
 
 // Comando: agregar_elementos tipo_comp tamano unidad_med coordX coordY
-void agregar_elementos(Sistema sistema, vector<string> args) {
+void agregar_elementos(Sistema& sistema, vector<string> args) {
+    // Se verifica la cantidad de argumentos y que corresponda con lo solicitado
     Elemento::verificarDatos(args);
-    sistema.getElementos().push_back(new Elemento(args[0], stof(args[1]), args[2], stof(args[3]), stof(args[4])));
+
+    sistema.agregar_elemento(new Elemento(args[0], stof(args[1]), args[2], stof(args[3]), stof(args[4])));
     cout<<"El elemento ha sido agregado exitosamente\n";
 }
 
 // Comando: guardar tipo_archivo nombre_archivo
-void guardar(Sistema sistema, vector<string> args) {
-    string extension = ComandoSistema<Sistema>::obtenerExtension(args[1]);
-
+void guardar(Sistema& sistema, vector<string> args) {
     if (args.size() != 2)
         throw runtime_error("Se requiere el tipo de archivo y el nombre de archivo");
+
+    string extension = ComandoSistema<Sistema>::obtenerExtension(args[1]);
     
     if (extension != "txt" && extension != "csv")
         throw runtime_error("La extension es invalida. (txt o csv)");
@@ -159,7 +163,7 @@ void guardar(Sistema sistema, vector<string> args) {
             archivo << element->toString(',') << endl;
         }
     } else {
-        throw runtime_error("El tipo de archivo solo puede ser desplazamiento o elemento");
+        throw runtime_error("El tipo de archivo solo puede ser comando o elemento");
     }
 
     cout << "La informacion de tipo "<<args[0]<<" ha sido guardada en '" << args[1] <<"'\n";
@@ -167,7 +171,7 @@ void guardar(Sistema sistema, vector<string> args) {
 }
 
 // Comando: simular_comandos coordX coordY
-void simular_comandos(Sistema sistema, vector<string> args) {
+void simular_comandos(Sistema& sistema, vector<string> args) {
     if (args.size() != 2)
         throw runtime_error("Se requieren los parametros coordX y coordY");
 
@@ -197,13 +201,9 @@ void simular_comandos(Sistema sistema, vector<string> args) {
 }
 
 // Comando: salir
-void salir(Sistema sistema, vector<string> args) {
-    for (Desplazamiento* desp: sistema.getDesplazamientos()) {
-        delete desp;
-    }
-    for (Elemento* elem: sistema.getElementos()) {
-        delete elem;
-    }
+void salir(Sistema& sistema, vector<string> args) {
+    sistema.borrar_desplazamientos();
+    sistema.borrar_elementos();
     cout << "Fin del programa\n";
 }
 
@@ -211,22 +211,38 @@ void salir(Sistema sistema, vector<string> args) {
 // ----- componente 2 -----
 
 // Comando: ubicar_elementos
-void ubicar_elementos(Sistema sistema, vector<string> args) {}
+void ubicar_elementos(Sistema& sistema, vector<string> args) {}
 
 // Comando: en_cuadrante coordX1 coordX2 coordY1 coordY2
-void en_cuadrante(Sistema sistema, vector<string> args) {}
+void en_cuadrante(Sistema& sistema, vector<string> args) {}
 
 
 // ----- componente 3 -----
 
 // Comando: crear_mapa coeficiente_conectividad
-void crear_mapa(Sistema sistema, vector<string> args) {}
+void crear_mapa(Sistema& sistema, vector<string> args) {}
 
 // Comando: ruta_mas_larga
-void ruta_mas_larga(Sistema sistema, vector<string> args) {}
+void ruta_mas_larga(Sistema& sistema, vector<string> args) {}
 
 
-// ----- funciones adicionales -----
+// ----- comandos y funciones adicionales -----
+
+void ayuda(Sistema& sistema, vector<string> args) {
+    if (args.empty()){
+        for (pair<const string,ComandoSistema<Sistema>> tupla: sistema.getComandos()) {
+            cout << "\t" << tupla.first << endl;
+        }
+    } else if (args.size() == 1) {
+        if (sistema.comando_existe(args[0])) {
+            cout << "\t" << sistema.getComandos()[args[0]].getDescripcion() << endl;
+        } else {
+            throw runtime_error("No se encontro el comando '" + args[0] + "'");
+        }
+    } else {
+        throw runtime_error("El comando 'ayuda' recibe maximo un argumento");
+    }
+}
 
 // Funcion que inicializa los maps donde se guarda la descripcion y la funcion correspondiente a cada comando
 void llenarComandosSistema(Sistema& sistema) {
@@ -369,7 +385,8 @@ void llenarComandosSistema(Sistema& sistema) {
     sistema.agregar_comando(
         "ayuda",
         "Comando: ayuda nombre_comando(opcional)\n"
-        "Permite la visualizacion de la descripcion de cada uno de los comandos."
+        "Permite la visualizacion de la descripcion de cada uno de los comandos.",
+        ayuda
     );
 }
 

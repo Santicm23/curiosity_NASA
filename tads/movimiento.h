@@ -22,7 +22,7 @@ class Movimiento : public Desplazamiento {
         static void verificarDatos(vector<string> args) {
             float magn;
             if (args.size() != 3) throw runtime_error(
-                "Los comandos de movimiento requieren tipo_movimiento, magnitud y unidad_medida como argumentos");
+                "La informacion del movimiento no corresponde a los datos esperados (tipo, magnitud, unidad).");
             try {
                 magn = stof(args[1]);
             } catch (const invalid_argument& e) {

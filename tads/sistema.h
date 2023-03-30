@@ -16,8 +16,6 @@
 using namespace std;
 
 
-void nada(...) {}
-
 class Sistema {
 
     using funcion = function<void(Sistema&,vector<string>)>;
@@ -31,30 +29,38 @@ class Sistema {
     public:
         Sistema() {}
 
+        map<string,ComandoSistema<Sistema>>& getComandos() { return comandos; }
+
         list<Desplazamiento*>& getDesplazamientos() { return desplazamientos; }
 
         list<Elemento*>& getElementos() { return elementos; }
 
         RobotCuriosity& getRobot() { return robot; }
 
-        void agregar_comando(string nombre, string desc, funcion func = nada) {
+        void agregar_comando(string nombre, string desc, funcion func) {
             comandos.insert({nombre, ComandoSistema<Sistema>(nombre, desc, func)});
         }
+        
+        void agregar_desplazamiento(Desplazamiento* desp) {
+            desplazamientos.push_back(desp);
+        }
+        
+        void agregar_elemento(Elemento* elem) {
+            elementos.push_back(elem);
+        }
 
-        void ayuda(vector<string> args) {
-            if (args.empty()){
-                for (pair<const string,ComandoSistema<Sistema>> tupla: comandos) {
-                    cout << "\t" << tupla.first << endl;
-                }
-            } else if (args.size() == 1) {
-                if (comandos.count(args[0]) > 0) {
-                    cout << "\t" << comandos[args[0]].getDescripcion() << endl;
-                } else {
-                    throw runtime_error("No se encontro el comando '" + args[0] + "'");
-                }
-            } else {
-                throw runtime_error("El comando 'ayuda' recibe maximo un argumento");
+        void borrar_desplazamientos() {
+            for (Desplazamiento* desp: desplazamientos) {
+                delete desp;
             }
+            desplazamientos.clear();
+        }
+
+        void borrar_elementos() {
+            for (Elemento* elem: elementos) {
+                delete elem;
+            }
+            elementos.clear();
         }
 
         bool comando_existe(string nombre) {
@@ -65,11 +71,7 @@ class Sistema {
             if (!comando_existe(comando))
                 throw runtime_error("El comando '" + comando + "' no existe");
 
-            if (comando == "ayuda") {
-                ayuda(args);
-            } else {
-                comandos[comando](*this, args);
-            }
+            comandos[comando](*this, args);
         }
 };
 
