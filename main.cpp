@@ -6,14 +6,8 @@
 #include <string>
 #include <sstream>
 #include <vector>
-#include <regex>
 
 #include "tads/sistema.h"
-#include "tads/desplazamiento.h"
-#include "tads/movimiento.h"
-#include "tads/analisis.h"
-#include "tads/elemento.h"
-#include "tads/robotCuriosity.h"
 
 using namespace std;
 
@@ -413,14 +407,12 @@ int main(){
         stringstream stream(lineaComando);
         getline(stream, comando, delim);
 
-        while (getline(stream, palabra, delim)) {
+        while (getline(stream, palabra, delim))
             args.push_back(palabra);
-        }
 
         try {
-            if (lineaComando == "") {
+            if (lineaComando == "")
                 continue;
-            }
             sistema.ejecutar(comando, args);
         } catch (const runtime_error& e) {
             cerr << "Error: " << e.what() << '\n';

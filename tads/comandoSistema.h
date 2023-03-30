@@ -25,27 +25,17 @@ class ComandoSistema {
         funcion func;
 
     public:
-        ComandoSistema() {}
+        ComandoSistema();
 
-        ComandoSistema(const ComandoSistema& comandoSistema) {
-            nombre = comandoSistema.nombre;
-            descricion = comandoSistema.descricion;
-            func = comandoSistema.func;
-        }
+        ComandoSistema(const ComandoSistema& comandoSistema);
 
-        ComandoSistema(string nom, string desc, funcion f) {
-            nombre = nom;
-            descricion = desc;
-            func = f;
-        }
+        ComandoSistema(string nom, string desc, funcion f);
 
-        string& getDescripcion() {
-            return descricion;
-        }
+        string& getDescripcion();
 
-        void operator()(sis& sistema, vector<string> args) {
-            func(sistema, args);
-        }
+        void operator()(sis& sistema, vector<string> args);
 };
+
+#include "comandoSistema.cxx"
 
 #endif

@@ -9,6 +9,8 @@
 #include <map>
 
 #include "desplazamiento.h"
+#include "movimiento.h"
+#include "analisis.h"
 #include "elemento.h"
 #include "comandoSistema.h"
 #include "robotCuriosity.h"
@@ -83,70 +85,40 @@ class Sistema {
         RobotCuriosity robot;
         
     public:
-        Sistema() {}
+        Sistema();
 
-        map<string,ComandoSistema<Sistema>>& getComandos() { return comandos; }
+        Sistema(const Sistema& sistema);
 
-        list<Desplazamiento*>& getDesplazamientos() { return desplazamientos; }
+        map<string,ComandoSistema<Sistema>>& getComandos();
 
-        list<Elemento*>& getElementos() { return elementos; }
+        list<Desplazamiento*>& getDesplazamientos();
 
-        RobotCuriosity& getRobot() { return robot; }
+        list<Elemento*>& getElementos();
+
+        RobotCuriosity& getRobot();
 
         // funcion que retorna la extension de un nombre de archivo dado
-        static string obtenerExtension(string nombreArchivo) {
-            char delim = '.';
-            string palabra;
-            stringstream ss(nombreArchivo);
-            while (getline(ss, palabra, delim));
-            return palabra;
-        }
+        static string obtenerExtension(string nombreArchivo);
 
-        void agregar_comando(string nombre, string desc, funcion func) {
-            comandos.insert({nombre, ComandoSistema<Sistema>(nombre, desc, func)});
-        }
+        void agregar_comando(string nombre, string desc, funcion func);
         
-        void agregar_desplazamiento(Desplazamiento* desp) {
-            desplazamientos.push_back(desp);
-        }
+        void agregar_desplazamiento(Desplazamiento* desp);
         
-        void agregar_desplazamiento(string linea, char delim = ',') {
-            desplazamientos.push_back(crearDesplazamiento(linea, delim));
-        }
+        void agregar_desplazamiento(string linea, char delim = ',');
         
-        void agregar_elemento(Elemento* elem) {
-            elementos.push_back(elem);
-        }
+        void agregar_elemento(Elemento* elem);
 
-        void agregar_elemento(string linea, char delim = ',') {
-            elementos.push_back(crearElemento(linea, delim));
-        }
+        void agregar_elemento(string linea, char delim = ',');
 
-        void borrar_desplazamientos() {
-            for (Desplazamiento* desp: desplazamientos) {
-                delete desp;
-            }
-            desplazamientos.clear();
-        }
+        void borrar_desplazamientos();
 
-        void borrar_elementos() {
-            for (Elemento* elem: elementos) {
-                delete elem;
-            }
-            elementos.clear();
-        }
+        void borrar_elementos();
 
-        bool comando_existe(string nombre) {
-            return comandos.count(nombre) > 0 || nombre == "ayuda";
-        }
+        bool comando_existe(string nombre);
 
-        void ejecutar(string comando, vector<string> args) {
-            if (!comando_existe(comando))
-                throw runtime_error("El comando '" + comando + "' no existe");
-
-            comandos[comando](*this, args);
-        }
-
+        void ejecutar(string comando, vector<string> args);
 };
+
+#include "sistema.cxx"
 
 #endif
