@@ -24,9 +24,10 @@ float RobotCuriosity::getY() {
     return coordY;
 }
 
-void RobotCuriosity::setCoords(float x, float y) {
+void RobotCuriosity::setData(float x, float y, float a) {
     coordX = x;
     coordY = y;
+    angulo = a;
 }
 
 void RobotCuriosity::avanzar(float dist, string unit = "metros") {

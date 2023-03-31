@@ -27,7 +27,7 @@ class RobotCuriosity {
 
         float getY();
 
-        void setCoords(float x, float y);
+        void setData(float x, float y, float a);
 
         void avanzar(float dist, string unit);
 

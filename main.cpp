@@ -181,7 +181,7 @@ void simular_comandos(Sistema& sistema, vector<string> args) {
         throw runtime_error("Los argumentos coordX y coordY deben ser de tipo flotante");
     }
 
-    sistema.getRobot().setCoords(x, y);
+    sistema.getRobot().setData(x, y, 0);
 
     for (Desplazamiento* despla: sistema.getDesplazamientos()) {
         Movimiento* tmp = dynamic_cast<Movimiento*>(despla);
