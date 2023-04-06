@@ -196,6 +196,8 @@ void simular_comandos(Sistema& sistema, vector<string> args) {
 
 // Comando: salir
 void salir(Sistema& sistema, vector<string> args) {
+    if (args.size() != 0)
+        throw runtime_error("No se requieren argumentos");
     sistema.borrar_desplazamientos();
     sistema.borrar_elementos();
     cout << "Fin del programa\n";
@@ -205,10 +207,13 @@ void salir(Sistema& sistema, vector<string> args) {
 // ----- componente 2 -----
 
 // Comando: ubicar_elementos
-void ubicar_elementos(Sistema& sistema, vector<string> args) {}
+void ubicar_elementos(Sistema& sistema, vector<string> args) { //Josefino el q no conoce a diego
+    if (args.size() != 0)
+        throw runtime_error("No se requieren argumentos");
+}
 
 // Comando: en_cuadrante coordX1 coordX2 coordY1 coordY2
-void en_cuadrante(Sistema& sistema, vector<string> args) {}
+void en_cuadrante(Sistema& sistema, vector<string> args) {} // El alejo el q no conoce a josefino
 
 
 // ----- componente 3 -----

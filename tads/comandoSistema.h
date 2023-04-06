@@ -7,11 +7,6 @@
 #include <vector>
 #include <functional>
 
-#include "desplazamiento.h"
-#include "movimiento.h"
-#include "analisis.h"
-#include "elemento.h"
-
 using namespace std;
 
 
