@@ -3,6 +3,7 @@
 #include <queue>
 
 #include "nodoQuad.h"
+#include "elemento.h"
 
 using namespace std;
 
@@ -14,7 +15,7 @@ NodoQuad::NodoQuad() {
     this->hijoInfDer = nullptr;
 }
 
-NodoQuad::NodoQuad(punto val) {
+NodoQuad::NodoQuad(Elemento& val) {
     dato = val;
     this->hijoSupIzq = nullptr;
     this->hijoSupDer = nullptr;
@@ -33,11 +34,11 @@ NodoQuad::~NodoQuad() {
     this->hijoInfDer = nullptr;
 }
 
-punto& NodoQuad::obtenerDato() {
+Elemento& NodoQuad::obtenerDato() {
     return this->dato;
 }
 
-void NodoQuad::fijarDato(punto val) {
+void NodoQuad::fijarDato(Elemento& val) {
     this->dato = val;
 }
 
@@ -82,34 +83,36 @@ bool NodoQuad::esHoja() {
     );
 }
 
-bool NodoQuad::insertar(punto& val) {
-    if (this->hijoSupIzq == nullptr && val.x < this->dato.x && val.y > this->dato.y) {
+bool NodoQuad::insertar(Elemento& val) {
+    pair<float, float> punto1 = val.getPunto();
+    pair<float, float> punto2 = this->dato.getPunto();
+    if (this->hijoSupIzq == nullptr && punto1.first < punto2.first && punto1.second > punto2.second) {
         this->fijarHijoSupIzq(new NodoQuad(val));
         return true;
 
-    } else if (this->hijoSupDer == nullptr && val.x > this->dato.x && val.y > this->dato.y) {
+    } else if (this->hijoSupDer == nullptr && punto1.first > punto2.first && punto1.second > punto2.second) {
         this->fijarHijoSupDer(new NodoQuad(val));
         return true;
 
-    } else if (this->hijoInfDer == nullptr && val.x > this->dato.x && val.y <= this->dato.y) {
+    } else if (this->hijoInfDer == nullptr && punto1.first > punto2.first && punto1.second <= punto2.second) {
         this->fijarHijoInfDer(new NodoQuad(val));
         return true;
 
-    } else if (this->hijoInfIzq == nullptr && val.x < this->dato.x && val.y < this->dato.y) {
+    } else if (this->hijoInfIzq == nullptr && punto1.first < punto2.first && punto1.second < punto2.second) {
         this->fijarHijoInfIzq(new NodoQuad(val));
         return true;
 
     } else {
-        if (val.x < this->dato.x && val.y > this->dato.y) {
+        if (punto1.first < punto2.first && punto1.second > punto2.second) {
             return this->hijoSupIzq->insertar(val);
 
-        } else if (val.x > this->dato.x && val.y > this->dato.y) {
+        } else if (punto1.first > punto2.first && punto1.second > punto2.second) {
             return this->hijoSupDer->insertar(val);
             
-        } else if (val.x > this->dato.x && val.y < this->dato.y) {
+        } else if (punto1.first > punto2.first && punto1.second < punto2.second) {
             return this->hijoInfDer->insertar(val);
             
-        } else if (val.x < this->dato.x && val.y < this->dato.y) {
+        } else if (punto1.first < punto2.first && punto1.second < punto2.second) {
             return this->hijoInfIzq->insertar(val);
 
         }
@@ -118,7 +121,7 @@ bool NodoQuad::insertar(punto& val) {
 }
 
 void NodoQuad::preOrden() {
-    cout << this->dato << " ";
+    cout << this->dato.toString() << " ";
     if (this->hijoSupIzq != nullptr) {
         this->hijoSupIzq->preOrden();
     }
@@ -140,7 +143,7 @@ void NodoQuad::inOrden() {
     if (this->hijoSupDer != nullptr) {
         this->hijoSupDer->inOrden();
     }
-    cout << this->dato << " ";
+    cout << this->dato.toString() << " ";
     if (this->hijoInfIzq != nullptr) {
         this->hijoInfIzq->inOrden();
     }
@@ -162,7 +165,7 @@ void NodoQuad::posOrden() {
     if (this->hijoInfDer != nullptr) {
         this->hijoInfDer->posOrden();
     }
-    cout << this->dato << " ";
+    cout << this->dato.toString() << " ";
 }
 
 void NodoQuad::nivelOrden() {
@@ -171,7 +174,7 @@ void NodoQuad::nivelOrden() {
     while (!cola.empty()) {
         NodoQuad* nodo = cola.front();
         cola.pop();
-        cout << nodo->dato << " ";
+        cout << nodo->dato.toString() << " ";
         if (nodo->hijoSupIzq != nullptr) {
             cola.push(nodo->hijoSupIzq);
         }

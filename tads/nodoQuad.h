@@ -5,42 +5,25 @@
 
 #include<iostream>
 
+#include "elemento.h"
+
+
 using namespace std;
 
 
-struct punto {
-    int x;
-    int y;
-
-    punto& operator = (const punto &p) {
-        x = p.x;
-        y = p.y;
-        return *this;
-    }
-
-    bool operator == (const punto &p) const {
-        return (x == p.x && y == p.y);
-    }
-
-    friend std::ostream& operator << (std::ostream &o, const punto &p) {
-        o << "(" << p.x << "," << p.y << ")";
-        return o;
-    }
-};
-
 class NodoQuad {
     protected:
-        punto dato;
+        Elemento dato;
         NodoQuad* hijoSupIzq;
         NodoQuad* hijoSupDer;
         NodoQuad* hijoInfIzq;
         NodoQuad* hijoInfDer;
     public:
         NodoQuad();
-        NodoQuad(punto val);
+        NodoQuad(Elemento& val);
         ~NodoQuad();
-        punto& obtenerDato();
-        void fijarDato(punto val);
+        Elemento& obtenerDato();
+        void fijarDato(Elemento& val);
         NodoQuad* obtenerHijoSupIzq();
         NodoQuad* obtenerHijoSupDer();
         NodoQuad* obtenerHijoInfIzq();
@@ -50,7 +33,7 @@ class NodoQuad {
         void fijarHijoInfIzq(NodoQuad* iizq);
         void fijarHijoInfDer(NodoQuad* ider);
         bool esHoja();
-        bool insertar(punto& val);
+        bool insertar(Elemento& val);
         void preOrden();
         void inOrden();
         void posOrden();

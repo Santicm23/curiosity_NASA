@@ -15,14 +15,14 @@ class ArbolQuad {
         NodoQuad* raiz;
     public:
         ArbolQuad();
-        ArbolQuad(punto& val);
+        ArbolQuad(Elemento& val);
         ~ArbolQuad();
-        punto& datoRaiz();
+        Elemento& datoRaiz();
         NodoQuad* obtenerRaiz();
         void fijarRaiz(NodoQuad* n_raiz);
         bool esVacio();
         bool esHoja();
-        bool insertar(punto& val);
+        bool insertar(Elemento& val);
         void preOrden();
         void inOrden();
         void posOrden();

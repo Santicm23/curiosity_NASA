@@ -8,7 +8,7 @@ ArbolQuad::ArbolQuad() {
     raiz = nullptr;
 }
 
-ArbolQuad::ArbolQuad(punto& val) {
+ArbolQuad::ArbolQuad(Elemento& val) {
     raiz = new NodoQuad(val);
 }
 
@@ -17,7 +17,7 @@ ArbolQuad::~ArbolQuad() {
     raiz = nullptr;
 }
 
-punto& ArbolQuad::datoRaiz() {
+Elemento& ArbolQuad::datoRaiz() {
     return raiz->obtenerDato();
 }
 
@@ -37,7 +37,7 @@ bool ArbolQuad::esHoja() {
     return raiz->esHoja();
 }
 
-bool ArbolQuad::insertar(punto& val) {
+bool ArbolQuad::insertar(Elemento& val) {
     if (raiz == nullptr) {
         raiz = new NodoQuad(val);
         return true;

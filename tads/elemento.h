@@ -20,7 +20,11 @@ class Elemento {
     public:
         static void verificarDatos(vector<string> args);
 
+        Elemento();
+
         Elemento(string tipo, float tam, string um, float x, float y);
+
+        pair<float, float> getPunto();
 
         string toString(char delim);
 };

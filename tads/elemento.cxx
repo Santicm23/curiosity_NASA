@@ -30,12 +30,24 @@ void Elemento::verificarDatos(vector<string> args) {
     }
 }
 
+Elemento::Elemento() {
+    tipo_elemento = "";
+    tamano = 0;
+    unidad_medida = "";
+    coordenada_x = 0;
+    coordenada_y = 0;
+}
+
 Elemento::Elemento(string tipo, float tam, string um, float x, float y) {
     tipo_elemento = tipo;
     tamano = tam;
     unidad_medida = um;
     coordenada_x = x;
     coordenada_y = y;
+}
+
+pair<float, float> Elemento::getPunto() {
+    return make_pair(coordenada_x, coordenada_y);
 }
 
 string Elemento::toString(char delim = ' ') {
