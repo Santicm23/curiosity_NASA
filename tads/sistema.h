@@ -14,6 +14,8 @@
 #include "elemento.h"
 #include "comandoSistema.h"
 #include "robotCuriosity.h"
+#include "arbolQuad.h"
+
 
 using namespace std;
 
@@ -82,6 +84,7 @@ class Sistema {
         map<string,ComandoSistema<Sistema>> comandos;
         list<Desplazamiento*> desplazamientos;
         list<Elemento*> elementos;
+        ArbolQuad mapaElementos; //QuadTree para almacenar mapa con los elementos de interés
         RobotCuriosity robot;
         
     public:
@@ -94,6 +97,8 @@ class Sistema {
         list<Desplazamiento*>& getDesplazamientos();
 
         list<Elemento*>& getElementos();
+
+        ArbolQuad& getMapaElementos();
 
         RobotCuriosity& getRobot();
 

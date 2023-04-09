@@ -29,6 +29,10 @@ list<Elemento*>& Sistema::getElementos() {
     return elementos;
 }
 
+ArbolQuad& Sistema::getMapaElementos() {
+    return mapaElementos;
+}
+
 RobotCuriosity& Sistema::getRobot() {
     return robot;
 }
