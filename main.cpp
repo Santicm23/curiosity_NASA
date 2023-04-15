@@ -211,7 +211,18 @@ void ubicar_elementos(Sistema& sistema, vector<string> args) { //Josefino el q n
     if (args.size() != 0)
         throw runtime_error("No se requieren argumentos");
 
+    // Obtener la referencia al árbol Quadtree de los elementos
+    ArbolQuad& arbolElementos = sistema.getMapaElementos();
     
+    // Obtener la lista de elementos
+    list<Elemento*>& elementos = sistema.getElementos();
+    
+    // Recorrer los elementos y agregarlos al Quadtree
+    for (auto it = elementos.begin(); it != elementos.end(); ++it) {
+        Elemento* elementoActual = *it;
+        arbolElementos.insertar(*elementoActual); //no se si asi se inserte bien
+        
+    }
 }
 
 // Comando: en_cuadrante coordX1 coordX2 coordY1 coordY2
