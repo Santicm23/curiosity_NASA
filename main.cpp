@@ -211,7 +211,18 @@ void ubicar_elementos(Sistema& sistema, vector<string> args) { //Josefino el q n
     if (args.size() != 0)
         throw runtime_error("No se requieren argumentos");
 
+    // Obtener la referencia al árbol Quadtree de los elementos
+    ArbolQuad& arbolElementos = sistema.getMapaElementos();
     
+    // Obtener la lista de elementos
+    list<Elemento*>& elementos = sistema.getElementos();
+    
+    // Recorrer los elementos y agregarlos al Quadtree
+    for (auto it = elementos.begin(); it != elementos.end(); ++it) {
+        Elemento* elementoActual = *it;
+        arbolElementos.insertar(*elementoActual); //no se si asi se inserte bien
+        
+    }
 }
 
 // Comando: en_cuadrante coordX1 coordX2 coordY1 coordY2
@@ -255,7 +266,7 @@ list<Elemento> en_cuadranteR(NodoQuad* nodo, pair<float, float> min, pair<float,
         //El nodo raíz se encuentra dentro del cuadrante
         //Puede que todos los hijos se encuentren dentro del cuadrante
 
-    else if (min.first < nodo->obtenerDato().getPunto().first && min.second < nodo->obtenerDato().getPunto().second) {
+    else if (min.first <= nodo->obtenerDato().getPunto().first && min.second <= nodo->obtenerDato().getPunto().second) {
         lista.push_back(nodo->obtenerDato());
         list<Elemento> listaInsertar = en_cuadranteR(nodo->obtenerHijoSupDer(), min, max);
         lista.insert(lista.begin(), listaInsertar.begin(), listaInsertar.end());
@@ -270,7 +281,7 @@ list<Elemento> en_cuadranteR(NodoQuad* nodo, pair<float, float> min, pair<float,
     //if min cuadrante x < nodoRaizX() && min cuadrante y > nodoRaizY() {}
         //Puede que los hijos SupDer y SupIzq se encuentren dentro del cuadrante
 
-    else if (min.first < nodo->obtenerDato().getPunto().first && min.second > nodo->obtenerDato().getPunto().second) {
+    else if (min.first <= nodo->obtenerDato().getPunto().first && min.second >= nodo->obtenerDato().getPunto().second) {
         list<Elemento> listaInsertar = en_cuadranteR(nodo->obtenerHijoSupDer(), min, max);
         lista.insert(lista.begin(), listaInsertar.begin(), listaInsertar.end());
         listaInsertar = en_cuadranteR(nodo->obtenerHijoSupIzq(), min, max);
@@ -280,7 +291,7 @@ list<Elemento> en_cuadranteR(NodoQuad* nodo, pair<float, float> min, pair<float,
     //if min cuadrante x > nodoRaizX() && min cuadrante y < nodoRaizY(){}
         //Puede que los hijos SupDer e InfDer se encuentren dentro del cuadrante
 
-    else if (min.first > nodo->obtenerDato().getPunto().first && min.second < nodo->obtenerDato().getPunto().second) {
+    else if (min.first >= nodo->obtenerDato().getPunto().first && min.second <= nodo->obtenerDato().getPunto().second) {
         list<Elemento> listaInsertar = en_cuadranteR(nodo->obtenerHijoSupDer(), min, max);
         lista.insert(lista.begin(), listaInsertar.begin(), listaInsertar.end());
         listaInsertar = en_cuadranteR(nodo->obtenerHijoInfDer(), min, max);
