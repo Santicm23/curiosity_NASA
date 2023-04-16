@@ -38,6 +38,7 @@ class NodoQuad {
         void inOrden();
         void posOrden();
         void nivelOrden();
+        list<Elemento> en_cuadrante(pair<float, float> min, pair<float, float> max);
 };
 
 

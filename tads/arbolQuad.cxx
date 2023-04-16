@@ -69,3 +69,7 @@ void ArbolQuad::nivelOrden() {
         raiz->nivelOrden();
     }
 }
+
+list<Elemento> ArbolQuad::en_cuadrante(pair<float, float> min, pair<float, float> max) {
+    return this->raiz->en_cuadrante(min, max);
+}

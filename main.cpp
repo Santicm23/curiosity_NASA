@@ -12,12 +12,12 @@
 using namespace std;
 
 
-// ----- componente 1 -----
+//! ----- componente 1 -----
 
 // TODO: terminar componente para entrega 1
     // con documentacion de comandos => (diagramas, graficos, dibujos), plan de pruebas (simular_comandos)
 
-// Comando: cargar_comandos nombre_archivo
+//* Comando: cargar_comandos nombre_archivo
 void cargar_comandos(Sistema& sistema, vector<string> args) {
     if (args.size() != 1)
         throw runtime_error("Debe ingresar un nombre de archivo.");
@@ -51,7 +51,7 @@ void cargar_comandos(Sistema& sistema, vector<string> args) {
     fs.close();
 }
 
-// Comando: cargar_elementos nombre_archivo
+//* Comando: cargar_elementos nombre_archivo
 void cargar_elementos(Sistema& sistema, vector<string> args) {
     if (args.size() != 1)
         throw runtime_error("Debe ingresar un nombre de archivo.");
@@ -84,7 +84,7 @@ void cargar_elementos(Sistema& sistema, vector<string> args) {
     fs.close();
 }
 
-// Comando: agregar_movimiento tipo_mov magnitud unidad_med
+//* Comando: agregar_movimiento tipo_mov magnitud unidad_med
 void agregar_movimiento(Sistema& sistema, vector<string> args) {
     // Se verifica la cantidad de argumentos y que corresponda con lo solicitado
     Movimiento::verificarDatos(args);
@@ -93,7 +93,7 @@ void agregar_movimiento(Sistema& sistema, vector<string> args) {
     cout << "El movimiento fue agregado exitosamente" << endl;
 }
 
-// Comando: agregar_analisis tipo_analisis objeto comentario(opcional)
+//* Comando: agregar_analisis tipo_analisis objeto comentario(opcional)
 void agregar_analisis(Sistema& sistema, vector<string> args) {
     // Se verifica la cantidad de argumentos y que corresponda con lo solicitado
     Analisis::verificarDatos(args);
@@ -114,7 +114,7 @@ void agregar_analisis(Sistema& sistema, vector<string> args) {
     cout << "El analisis ha sido agregado exitosamente" << endl;
 }
 
-// Comando: agregar_elementos tipo_comp tamano unidad_med coordX coordY
+//* Comando: agregar_elementos tipo_comp tamano unidad_med coordX coordY
 void agregar_elementos(Sistema& sistema, vector<string> args) {
     // Se verifica la cantidad de argumentos y que corresponda con lo solicitado
     Elemento::verificarDatos(args);
@@ -123,7 +123,7 @@ void agregar_elementos(Sistema& sistema, vector<string> args) {
     cout<<"El elemento ha sido agregado exitosamente\n";
 }
 
-// Comando: guardar tipo_archivo nombre_archivo
+//* Comando: guardar tipo_archivo nombre_archivo
 void guardar(Sistema& sistema, vector<string> args) {
     if (args.size() != 2)
         throw runtime_error("Se requiere el tipo de archivo y el nombre de archivo");
@@ -160,11 +160,11 @@ void guardar(Sistema& sistema, vector<string> args) {
         throw runtime_error("El tipo de archivo solo puede ser 'comandos' o 'elementos'");
     }
 
-    cout << "La informacion de tipo '"<<args[0]<<"' ha sido guardada en '" << args[1] <<"'\n";
+    cout << "La informacion de tipo '" << args[0] << "' ha sido guardada en '" << args[1] << "'\n";
     
 }
 
-// Comando: simular_comandos coordX coordY
+//* Comando: simular_comandos coordX coordY
 void simular_comandos(Sistema& sistema, vector<string> args) {
     if (args.size() != 2)
         throw runtime_error("Se requieren los parametros coordX y coordY");
@@ -194,7 +194,7 @@ void simular_comandos(Sistema& sistema, vector<string> args) {
         "deja al robot en la nueva posicion (" << sistema.getRobot().getX() << ", " << sistema.getRobot().getY() << ").\n";
 }
 
-// Comando: salir
+//* Comando: salir
 void salir(Sistema& sistema, vector<string> args) {
     if (args.size() != 0)
         throw runtime_error("No se requieren argumentos");
@@ -204,129 +204,67 @@ void salir(Sistema& sistema, vector<string> args) {
 }
 
 
-// ----- componente 2 -----
+//! ----- componente 2 -----
 
-// Comando: ubicar_elementos
-void ubicar_elementos(Sistema& sistema, vector<string> args) { //Josefino el q no conoce a diego
+//* Comando: ubicar_elementos
+void ubicar_elementos(Sistema& sistema, vector<string> args) {
     if (args.size() != 0)
         throw runtime_error("No se requieren argumentos");
 
-    // Obtener la referencia al árbol Quadtree de los elementos
-    ArbolQuad& arbolElementos = sistema.getMapaElementos();
+    if (sistema.getElementos().empty())
+        throw runtime_error("La informacion requerida no esta almacenada en memoria.");
     
-    // Obtener la lista de elementos
-    list<Elemento*>& elementos = sistema.getElementos();
+    for (Elemento* elem: sistema.getElementos()) {
+        sistema.getArbolElementos().insertar(*elem);
+    }
+
+    cout << "Los elementos han sido procesados exitosamente.\n";
+}
+
+//* Comando: en_cuadrante coordX1 coordX2 coordY1 coordY2
+void en_cuadrante(Sistema& sistema, vector<string> args) {
+
+    float x1, x2, y1, y2;
+
+    try {
+        x1 = stof(args[0]);
+        x2 = stof(args[1]);
+        y1 = stof(args[2]);
+        y2 = stof(args[3]);
+    } catch(const invalid_argument& e) {
+        throw runtime_error("Las coordenadas deben corresponder a numeros flotantes");
+    }
+
+    if (args.size() != 4 || x2 < x1 || y2 < y1)
+        throw runtime_error("La informacion del cuadrante no corresponde a los datos esperados (x_min, x_max, y_min, y_max).");
     
-    // Recorrer los elementos y agregarlos al Quadtree
-    for (auto it = elementos.begin(); it != elementos.end(); ++it) {
-        Elemento* elementoActual = *it;
-        arbolElementos.insertar(*elementoActual); //no se si asi se inserte bien
-        
+    if (sistema.getArbolElementos().esVacio())
+        throw runtime_error("Los elementos no han sido ubicados todavia (con el comando ubicar_elementos).");
+
+    list<Elemento> l;
+    
+    l = sistema.getArbolElementos().en_cuadrante(make_pair(x1, y1), make_pair(x2, y2));
+
+    cout << "Los elementos ubicados en el cuadrante solicitado son:\n";
+
+    for (Elemento elem : l) {
+        cout << elem.toString() << endl;
     }
 }
 
-// Comando: en_cuadrante coordX1 coordX2 coordY1 coordY2
-list<Elemento> en_cuadrante(Sistema& sistema, vector<string> args) {
-    if (sistema.getMapaElementos().esVacio())
-        throw runtime_error(" Los elementos no han sido ubicados todavía (con el comando ubicar_elementos).");
 
-    else if (args.size() != 4)
-        throw runtime_error("Se requieren los parametros en formato 'coordX1', 'coordX2', 'coordY1' y 'coordY2'");
+//! ----- componente 3 -----
 
-    else if (args[0] > args[1] && args[2] > args[3])
-        throw runtime_error(" La información del cuadrante no corresponde a los datos esperados (x_min, x_max, y_min, y_max).");
-
-    else {
-        return en_cuadranteR(sistema.getMapaElementos().obtenerRaiz(), make_pair(stof(args[0]), stof(args[1])), make_pair(stof(args[2]), stof(args[3])));
-    }
-} 
-
-list<Elemento> en_cuadranteR(NodoQuad* nodo, pair<float, float> min, pair<float, float> max) {
-    list<Elemento> lista;
-    //Caso base: El nodo es hoja
-        //Llamar función está en cuadrante
-
-    if (nodo->esHoja()) {
-        if (estaEnCuadrante(nodo->obtenerDato(), max))
-            lista.push_back(nodo->obtenerDato());
-    }
-
-    //if min cuadrante == nodoRaiz() {}
-        //El nodo raíz se encuentra dentro del cuadrante
-        //Puede que el hijo SupDer si se encuentre dentro del cuadrante
-
-    else if (min == nodo->obtenerDato().getPunto()) {
-        lista.push_back(nodo->obtenerDato());
-        list<Elemento> listaInsertar = en_cuadranteR(nodo->obtenerHijoSupDer(), min, max);
-        lista.insert(lista.begin(), listaInsertar.begin(), listaInsertar.end());
-    }
-
-
-    //if min cuadrante x < nodoRaizX() && min cuadrante y < nodoRaizY() {}
-        //El nodo raíz se encuentra dentro del cuadrante
-        //Puede que todos los hijos se encuentren dentro del cuadrante
-
-    else if (min.first <= nodo->obtenerDato().getPunto().first && min.second <= nodo->obtenerDato().getPunto().second) {
-        lista.push_back(nodo->obtenerDato());
-        list<Elemento> listaInsertar = en_cuadranteR(nodo->obtenerHijoSupDer(), min, max);
-        lista.insert(lista.begin(), listaInsertar.begin(), listaInsertar.end());
-        listaInsertar = en_cuadranteR(nodo->obtenerHijoSupIzq(), min, max);
-        lista.insert(lista.begin(), listaInsertar.begin(), listaInsertar.end());
-        listaInsertar = en_cuadranteR(nodo->obtenerHijoInfDer(), min, max);
-        lista.insert(lista.begin(), listaInsertar.begin(), listaInsertar.end());
-        listaInsertar = en_cuadranteR(nodo->obtenerHijoInfIzq(), min, max);
-        lista.insert(lista.begin(), listaInsertar.begin(), listaInsertar.end());
-    }
-
-    //if min cuadrante x < nodoRaizX() && min cuadrante y > nodoRaizY() {}
-        //Puede que los hijos SupDer y SupIzq se encuentren dentro del cuadrante
-
-    else if (min.first <= nodo->obtenerDato().getPunto().first && min.second >= nodo->obtenerDato().getPunto().second) {
-        list<Elemento> listaInsertar = en_cuadranteR(nodo->obtenerHijoSupDer(), min, max);
-        lista.insert(lista.begin(), listaInsertar.begin(), listaInsertar.end());
-        listaInsertar = en_cuadranteR(nodo->obtenerHijoSupIzq(), min, max);
-        lista.insert(lista.begin(), listaInsertar.begin(), listaInsertar.end());
-    }
-
-    //if min cuadrante x > nodoRaizX() && min cuadrante y < nodoRaizY(){}
-        //Puede que los hijos SupDer e InfDer se encuentren dentro del cuadrante
-
-    else if (min.first >= nodo->obtenerDato().getPunto().first && min.second <= nodo->obtenerDato().getPunto().second) {
-        list<Elemento> listaInsertar = en_cuadranteR(nodo->obtenerHijoSupDer(), min, max);
-        lista.insert(lista.begin(), listaInsertar.begin(), listaInsertar.end());
-        listaInsertar = en_cuadranteR(nodo->obtenerHijoInfDer(), min, max);
-        lista.insert(lista.begin(), listaInsertar.begin(), listaInsertar.end());
-    }
-
-    //if min cuadrante x > nodoRaizX() && min cuadrante y > nodoRaizY(){}
-        //Puede que el hijoSupDer se encuentre dentro del cuadrante
-
-    else {
-        list<Elemento> listaInsertar = en_cuadranteR(nodo->obtenerHijoSupDer(), min, max);
-        lista.insert(lista.begin(), listaInsertar.begin(), listaInsertar.end());
-    }
-    
-    return lista;
-}
-
-bool estaEnCuadrante(Elemento& elemento, pair<float, float> max) {
-    pair<float, float> elem = elemento.getPunto();
-    if (elem.first <= max.first && elem.second <= max.second)
-        return true;
-    return false;
-}
-
-// ----- componente 3 -----
-
-// Comando: crear_mapa coeficiente_conectividad
+//* Comando: crear_mapa coeficiente_conectividad
 void crear_mapa(Sistema& sistema, vector<string> args) {}
 
-// Comando: ruta_mas_larga
+//* Comando: ruta_mas_larga
 void ruta_mas_larga(Sistema& sistema, vector<string> args) {}
 
 
-// ----- comandos y funciones adicionales -----
+//! ----- comandos y funciones adicionales -----
 
+//* Comando: ayuda nombre_comando(opcional)
 void ayuda(Sistema& sistema, vector<string> args) {
     if (args.empty()){
         for (pair<const string,ComandoSistema<Sistema>> tupla: sistema.getComandos()) {
@@ -343,7 +281,7 @@ void ayuda(Sistema& sistema, vector<string> args) {
     }
 }
 
-// Funcion que inicializa los maps donde se guarda la descripcion y la funcion correspondiente a cada comando
+//* Funcion que inicializa los maps donde se guarda la descripcion y la funcion correspondiente a cada comando
 void llenarComandosSistema(Sistema& sistema) {
     // comando name, comando description
     // comando name, comando callback function
@@ -490,9 +428,9 @@ void llenarComandosSistema(Sistema& sistema) {
 }
 
 
-// ----- main -----
+//! ----- main -----
 
-int main(){
+int main() {
     char delim = ' ';
     string lineaComando, comando, palabra;
 

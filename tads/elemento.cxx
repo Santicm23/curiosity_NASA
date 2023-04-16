@@ -54,3 +54,8 @@ string Elemento::toString(char delim = ' ') {
     return tipo_elemento + delim + to_string(tamano) + delim + unidad_medida
         + delim + to_string(coordenada_x) + delim + to_string(coordenada_y);
 }
+
+bool Elemento::estaEnCuadrante(pair<float, float> min, pair<float, float> max) {
+    return (min.first <= coordenada_x && coordenada_x <= max.first)
+        && (min.second <= coordenada_y && coordenada_y <= max.second);
+}
