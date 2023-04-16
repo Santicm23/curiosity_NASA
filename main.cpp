@@ -245,7 +245,12 @@ void en_cuadrante(Sistema& sistema, vector<string> args) {
     
     l = sistema.getArbolElementos().en_cuadrante(make_pair(x1, y1), make_pair(x2, y2));
 
-    cout << "Los elementos ubicados en el cuadrante solicitado son:\n";
+    if (l.empty()) {
+        cout << "No hay elementos ubicados en el cuadrante solicitado\n";
+    } else {
+        cout << "Los elementos ubicados en el cuadrante solicitado son:\n";
+    }
+
 
     for (Elemento elem : l) {
         cout << elem.toString() << endl;
