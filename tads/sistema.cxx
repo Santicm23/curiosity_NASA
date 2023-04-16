@@ -154,3 +154,9 @@ void Sistema::ejecutar(string comando, vector<string> args) {
 
     comandos[comando](*this, args);
 }
+
+void Sistema::salir() {
+    this->borrar_elementos();
+    this->borrar_desplazamientos();
+    arbolElementos.~ArbolQuad();
+}

@@ -198,8 +198,7 @@ void simular_comandos(Sistema& sistema, vector<string> args) {
 void salir(Sistema& sistema, vector<string> args) {
     if (args.size() != 0)
         throw runtime_error("No se requieren argumentos");
-    sistema.borrar_desplazamientos();
-    sistema.borrar_elementos();
+    sistema.salir();
     cout << "Fin del programa\n";
 }
 
@@ -224,6 +223,11 @@ void ubicar_elementos(Sistema& sistema, vector<string> args) {
 //* Comando: en_cuadrante coordX1 coordX2 coordY1 coordY2
 void en_cuadrante(Sistema& sistema, vector<string> args) {
 
+    if (args.size() != 4)
+        throw runtime_error (
+            "La informacion del cuadrante no corresponde a los datos esperados (x_min, x_max, y_min, y_max)."
+        );
+
     float x1, x2, y1, y2;
 
     try {
@@ -231,12 +235,14 @@ void en_cuadrante(Sistema& sistema, vector<string> args) {
         x2 = stof(args[1]);
         y1 = stof(args[2]);
         y2 = stof(args[3]);
-    } catch(const invalid_argument& e) {
+    } catch (const invalid_argument& e) {
         throw runtime_error("Las coordenadas deben corresponder a numeros flotantes");
     }
 
-    if (args.size() != 4 || x2 < x1 || y2 < y1)
-        throw runtime_error("La informacion del cuadrante no corresponde a los datos esperados (x_min, x_max, y_min, y_max).");
+    if (x2 < x1 || y2 < y1)
+        throw runtime_error (
+            "La informacion del cuadrante no corresponde a los datos esperados (x_min, x_max, y_min, y_max)."
+        );
     
     if (sistema.getArbolElementos().esVacio())
         throw runtime_error("Los elementos no han sido ubicados todavia (con el comando ubicar_elementos).");
@@ -249,12 +255,11 @@ void en_cuadrante(Sistema& sistema, vector<string> args) {
         cout << "No hay elementos ubicados en el cuadrante solicitado\n";
     } else {
         cout << "Los elementos ubicados en el cuadrante solicitado son:\n";
+        for (Elemento elem : l) {
+            cout << elem.toString() << endl;
+        }
     }
 
-
-    for (Elemento elem : l) {
-        cout << elem.toString() << endl;
-    }
 }
 
 

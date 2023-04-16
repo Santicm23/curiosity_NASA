@@ -66,6 +66,8 @@ class Sistema {
         bool comando_existe(string nombre);
 
         void ejecutar(string comando, vector<string> args);
+
+        void salir();
 };
 
 #include "sistema.cxx"
