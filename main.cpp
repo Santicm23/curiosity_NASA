@@ -222,7 +222,6 @@ void ubicar_elementos(Sistema& sistema, vector<string> args) {
 
 //* Comando: en_cuadrante coordX1 coordX2 coordY1 coordY2
 void en_cuadrante(Sistema& sistema, vector<string> args) {
-
     if (args.size() != 4)
         throw runtime_error (
             "La informacion del cuadrante no corresponde a los datos esperados (x_min, x_max, y_min, y_max)."
@@ -250,7 +249,7 @@ void en_cuadrante(Sistema& sistema, vector<string> args) {
     list<Elemento> l;
     
     l = sistema.getArbolElementos().en_cuadrante(make_pair(x1, y1), make_pair(x2, y2));
-
+    
     if (l.empty()) {
         cout << "No hay elementos ubicados en el cuadrante solicitado\n";
     } else {

@@ -11,7 +11,7 @@
 
 //! ----- Funciones adicionales -----
 
-//* funcion que crea y retorna un comando de desplazamiento a partir de una linea
+//* crear un comando de desplazamiento a partir de un string
 Desplazamiento* crearDesplazamiento(string linea, char delim = ' ') {
     string palabra;
 
@@ -52,7 +52,7 @@ Desplazamiento* crearDesplazamiento(string linea, char delim = ' ') {
     
 }
 
-//* funcion que crea y retorna un elemento de interes a partir de una linea
+//* crear un elemento de interes a partir de un string
 Elemento* crearElemento(string linea, char delim = ' ') {
     string palabra;
     vector<string> palabras;

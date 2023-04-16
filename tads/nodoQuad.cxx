@@ -205,21 +205,30 @@ list<Elemento> NodoQuad::en_cuadrante(pair<float, float> min, pair<float, float>
             l.splice(l.end(), this->hijoInfIzq->en_cuadrante(min, max));
             l.splice(l.end(), this->hijoInfDer->en_cuadrante(min, max));
         } else {
-            if (max.first <= punto.first && min.second > punto.second) {
+            if (max.first <= punto.first) {
+                if (min.second >= punto.second) {
+                    l.splice(l.end(), this->hijoSupIzq->en_cuadrante(min, max));
+                } else if (max.second <= punto.second) {
+                    l.splice(l.end(), this->hijoInfIzq->en_cuadrante(min, max));
+                } else {
+                    l.splice(l.end(), this->hijoSupIzq->en_cuadrante(min, max));
+                    l.splice(l.end(), this->hijoInfIzq->en_cuadrante(min, max));
+                }
+            } else if (max.first >= punto.first) {
+                if (min.second >= punto.second) {
+                    l.splice(l.end(), this->hijoSupDer->en_cuadrante(min, max));
+                } else if (max.second <= punto.second) {
+                    l.splice(l.end(), this->hijoInfDer->en_cuadrante(min, max));
+                } else {
+                    l.splice(l.end(), this->hijoSupDer->en_cuadrante(min, max));
+                    l.splice(l.end(), this->hijoInfDer->en_cuadrante(min, max));
+                }
+            } else if (min.second >= punto.second) {
                 l.splice(l.end(), this->hijoSupIzq->en_cuadrante(min, max));
-                
-            }
-            if (min.first > punto.first && min.second > punto.second) {
                 l.splice(l.end(), this->hijoSupDer->en_cuadrante(min, max));
-                
-            }
-            if (max.first <= punto.first && max.second <= punto.second) {
+            } else if (max.second <= punto.second) {
                 l.splice(l.end(), this->hijoInfIzq->en_cuadrante(min, max));
-
-            }
-            if (min.first > punto.first && max.second <= punto.second) {
                 l.splice(l.end(), this->hijoInfDer->en_cuadrante(min, max));
-
             }
         }
 
