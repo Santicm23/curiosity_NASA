@@ -15,13 +15,15 @@ class Analisis : public Desplazamiento {
     private:
         string tipo_analisis;
         string objeto;
-        string comentario;
+        string comentario; //* entre comillas
     
     public:
-        static void verificarDatos(vector<string> args);
-
         Analisis(string tipo, string obj, string coment);
+
+        //* verificar que los datos del vector correspondan a la clase
+        static void verificarDatos(vector<string> args);
         
+        //* conviertir la información del desplazamiento a un string
         string toString(char delim);
 };
 

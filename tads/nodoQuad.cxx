@@ -16,7 +16,7 @@ NodoQuad::NodoQuad() {
 }
 
 NodoQuad::NodoQuad(Elemento& val) {
-    dato = val;
+    this->dato = val;
     this->hijoSupIzq = nullptr;
     this->hijoSupDer = nullptr;
     this->hijoInfIzq = nullptr;

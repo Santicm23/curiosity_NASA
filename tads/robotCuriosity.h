@@ -14,9 +14,9 @@ using namespace std;
 
 class RobotCuriosity {
     private:
-        float coordX; // en metros
-        float coordY; // en metros
-        float angulo; // en radianes
+        float coordX; //* en metros
+        float coordY; //* en metros
+        float angulo; //* en radianes
     
     public:
         RobotCuriosity();
@@ -29,8 +29,10 @@ class RobotCuriosity {
 
         void setData(float x, float y, float a);
 
+        //* desplazar el robot en una distancia dada y en la direccion actual
         void avanzar(float dist, string unit);
 
+        //* girar el robot según un angulo ingresado
         void girar(float a, string unit);
 };
 
