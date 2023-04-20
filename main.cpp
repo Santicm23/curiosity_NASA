@@ -52,7 +52,7 @@ void cargar_comandos(Sistema& sistema, vector<string> args) {
 }
 
 // Comando: cargar_elementos nombre_archivo
-void cargar_elementos(Sistema& sistema, vector<string> args) {
+void cargar_elementos(Sistema& sistema, vector<string> args) {  
     if (args.size() != 1)
         throw runtime_error("Debe ingresar un nombre de archivo.");
     
@@ -98,16 +98,15 @@ void agregar_analisis(Sistema& sistema, vector<string> args) {
     // Se verifica la cantidad de argumentos y que corresponda con lo solicitado
     Analisis::verificarDatos(args);
 
-    string comment = args[2];
-    for (int i=3; i<args.size(); i++) {
-        comment += " " + args[i];
-    }
-
     Analisis* a;
 
     if (args.size() == 2){    
         a = new Analisis(args[0], args[1]);
     } else {
+        string comment = args[2];
+        for (int i=3; i<args.size(); i++) {
+            comment += " " + args[i];
+        }
         a = new Analisis(args[0], args[1], comment);
     }
     sistema.agregar_desplazamiento(a);
