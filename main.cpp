@@ -241,7 +241,7 @@ void en_cuadrante(Sistema& sistema, vector<string> args) {
     if (x2 < x1 || y2 < y1)
         throw runtime_error (
             "La informacion del cuadrante no corresponde a los datos esperados (x_min, x_max, y_min, y_max)."
-        );
+        );  
     
     if (sistema.getArbolElementos().esVacio())
         throw runtime_error("Los elementos no han sido ubicados todavia (con el comando ubicar_elementos).");

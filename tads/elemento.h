@@ -18,17 +18,22 @@ class Elemento {
         float coordenada_y;
     
     public:
-        static void verificarDatos(vector<string> args);
-
         Elemento();
 
         Elemento(string tipo, float tam, string um, float x, float y);
 
+        //* verificar que los datos del vector correspondan a la clase
+        static void verificarDatos(vector<string> args);
+
+        //* obtener el punto donde se encuentra el elemento
         pair<float, float> getPunto();
 
+        //* conviertir la información del desplazamiento a un string
         string toString(char delim);
 
+        //* verificar que el elemento esta en el cuadrante ingresado
         bool estaEnCuadrante(pair<float, float> min, pair<float, float> max);
+        
 };
 
 #include "elemento.cxx"

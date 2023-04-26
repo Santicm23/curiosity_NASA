@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <queue>
+#include <list>
 
 #include "nodoQuad.h"
 #include "elemento.h"
@@ -16,7 +17,7 @@ NodoQuad::NodoQuad() {
 }
 
 NodoQuad::NodoQuad(Elemento& val) {
-    dato = val;
+    this->dato = val;
     this->hijoSupIzq = nullptr;
     this->hijoSupDer = nullptr;
     this->hijoInfIzq = nullptr;

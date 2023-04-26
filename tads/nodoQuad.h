@@ -3,7 +3,8 @@
 #define NODOQUAD
 
 
-#include<iostream>
+#include <iostream>
+#include <list>
 
 #include "elemento.h"
 
