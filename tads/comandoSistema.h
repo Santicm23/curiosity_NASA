@@ -28,6 +28,7 @@ class ComandoSistema {
 
         string& getDescripcion();
 
+        //* ejecutar el comando con los argumentos dados
         void operator()(sis& sistema, vector<string> args);
 };
 

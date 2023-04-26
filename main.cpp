@@ -290,7 +290,7 @@ void ayuda(Sistema& sistema, vector<string> args) {
     }
 }
 
-//* Funcion que inicializa los maps donde se guarda la descripcion y la funcion correspondiente a cada comando
+// inicializar los maps donde se guarda la descripcion y la funcion correspondiente a cada comando
 void llenarComandosSistema(Sistema& sistema) {
     // comando name, comando description
     // comando name, comando callback function

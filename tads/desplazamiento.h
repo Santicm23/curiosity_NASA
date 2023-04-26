@@ -12,7 +12,8 @@ using namespace std;
 
 class Desplazamiento {
     public:
-        // static void verificarDatos();
+
+        //* conviertir la información del desplazamiento a un string
         virtual string toString(char delim) = 0;
 };
 
