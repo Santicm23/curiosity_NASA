@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <queue>
+#include <list>
 
 #include "nodoQuad.h"
 #include "elemento.h"
