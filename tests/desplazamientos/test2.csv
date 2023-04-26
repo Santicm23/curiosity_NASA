@@ -1,5 +1,7 @@
 avanzar,5,kilometros
 girar,180,grados
 avanzar,20,centimetros
+girar,-45,grados
+avanzar,3,kilometros
 fotografiar,obj2,'Fotografiando el objeto 2'
 composicion,obj2,'Componiendo el objeto 2'

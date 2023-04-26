@@ -46,7 +46,7 @@ void cargar_comandos(Sistema& sistema, vector<string> args) {
         sistema.agregar_desplazamiento(linea);
         
     }
-    cout << n << " comandos cargados cargados desde '" << args[0] << "'\n";
+    cout << n << " comandos cargados desde '" << args[0] << "'\n";
 
     fs.close();
 }
@@ -79,7 +79,7 @@ void cargar_elementos(Sistema& sistema, vector<string> args) {
         getline(fs, linea);
         sistema.agregar_elemento(linea);
     }
-    cout << n << " elementos cargados cargados desde '" << args[0] << "'\n";
+    cout << n << " elementos cargados desde '" << args[0] << "'\n";
 
     fs.close();
 }
