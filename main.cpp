@@ -14,9 +14,6 @@ using namespace std;
 
 //! ----- componente 1 -----
 
-// TODO: terminar componente para entrega 1
-    // con documentacion de comandos => (diagramas, graficos, dibujos), plan de pruebas (simular_comandos)
-
 //* Comando: cargar_comandos nombre_archivo
 void cargar_comandos(Sistema& sistema, vector<string> args) {
     if (args.size() != 1)

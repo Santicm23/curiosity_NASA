@@ -1,0 +1,500 @@
+avanzar,41,metros
+avanzar,18467,metros
+avanzar,6334,metros
+composicion,crater,'comentario 4'
+girar,64,grados
+avanzar,11478,metros
+avanzar,29358,metros
+composicion,roca,'comentario 8'
+avanzar,5705,metros
+girar,65,grados
+avanzar,23281,metros
+fotografiar,crater,'comentario 12'
+avanzar,491,metros
+avanzar,2995,metros
+girar,62,grados
+fotografiar,roca,'comentario 16'
+avanzar,32391,metros
+avanzar,14604,metros
+avanzar,3902,metros
+fotografiar,roca,'comentario 20'
+avanzar,12382,metros
+avanzar,17421,metros
+avanzar,18716,metros
+perforar,duna,'comentario 24'
+girar,47,grados
+avanzar,21726,metros
+avanzar,14771,metros
+fotografiar,crater,'comentario 28'
+avanzar,19912,metros
+girar,107,grados
+avanzar,26299,metros
+composicion,monticulo,'comentario 32'
+avanzar,28703,metros
+avanzar,23811,metros
+girar,2,grados
+fotografiar,crater,'comentario 36'
+avanzar,4664,metros
+avanzar,15141,metros
+avanzar,7711,metros
+perforar,roca,'comentario 40'
+avanzar,25547,metros
+avanzar,27644,metros
+avanzar,32662,metros
+fotografiar,crater,'comentario 44'
+girar,79,grados
+avanzar,8723,metros
+avanzar,9741,metros
+composicion,monticulo,'comentario 48'
+avanzar,12316,metros
+girar,155,grados
+avanzar,22190,metros
+fotografiar,roca,'comentario 52'
+avanzar,30106,metros
+avanzar,9040,metros
+girar,122,grados
+composicion,roca,'comentario 56'
+avanzar,27446,metros
+avanzar,23805,metros
+avanzar,15890,metros
+fotografiar,monticulo,'comentario 60'
+avanzar,15350,metros
+avanzar,15006,metros
+avanzar,31101,metros
+fotografiar,roca,'comentario 64'
+girar,9,grados
+avanzar,12623,metros
+avanzar,24084,metros
+composicion,roca,'comentario 68'
+avanzar,11840,metros
+girar,106,grados
+avanzar,7376,metros
+perforar,roca,'comentario 72'
+avanzar,16944,metros
+avanzar,32439,metros
+girar,146,grados
+composicion,crater,'comentario 76'
+avanzar,21538,metros
+avanzar,16118,metros
+avanzar,2082,metros
+fotografiar,crater,'comentario 80'
+avanzar,4833,metros
+avanzar,31115,metros
+avanzar,4639,metros
+fotografiar,roca,'comentario 84'
+girar,30,grados
+avanzar,13977,metros
+avanzar,2306,metros
+perforar,monticulo,'comentario 88'
+avanzar,5021,metros
+girar,125,grados
+avanzar,26924,metros
+composicion,monticulo,'comentario 92'
+avanzar,5829,metros
+avanzar,26777,metros
+girar,93,grados
+fotografiar,roca,'comentario 96'
+avanzar,23986,metros
+avanzar,13290,metros
+avanzar,9161,metros
+fotografiar,duna,'comentario 100'
+avanzar,24767,metros
+avanzar,23655,metros
+avanzar,15574,metros
+perforar,roca,'comentario 104'
+girar,170,grados
+avanzar,1150,metros
+avanzar,16941,metros
+composicion,monticulo,'comentario 108'
+avanzar,3430,metros
+girar,147,grados
+avanzar,30191,metros
+composicion,crater,'comentario 112'
+avanzar,15457,metros
+avanzar,12287,metros
+girar,33,grados
+fotografiar,crater,'comentario 116'
+avanzar,8909,metros
+avanzar,32209,metros
+avanzar,9758,metros
+perforar,roca,'comentario 120'
+avanzar,6422,metros
+avanzar,24946,metros
+avanzar,27506,metros
+composicion,crater,'comentario 124'
+girar,8,grados
+avanzar,900,metros
+avanzar,32591,metros
+fotografiar,duna,'comentario 128'
+avanzar,17410,metros
+girar,59,grados
+avanzar,27624,metros
+perforar,roca,'comentario 132'
+avanzar,6483,metros
+avanzar,27595,metros
+girar,81,grados
+perforar,monticulo,'comentario 136'
+avanzar,10291,metros
+avanzar,30836,metros
+avanzar,9374,metros
+composicion,roca,'comentario 140'
+avanzar,24021,metros
+avanzar,27348,metros
+avanzar,23199,metros
+fotografiar,roca,'comentario 144'
+girar,1,grados
+avanzar,4734,metros
+avanzar,53,metros
+composicion,monticulo,'comentario 148'
+avanzar,27938,metros
+girar,60,grados
+avanzar,3788,metros
+composicion,duna,'comentario 152'
+avanzar,3728,metros
+avanzar,14893,metros
+girar,168,grados
+composicion,duna,'comentario 156'
+avanzar,2421,metros
+avanzar,14310,metros
+avanzar,6617,metros
+composicion,monticulo,'comentario 160'
+avanzar,14309,metros
+avanzar,7616,metros
+avanzar,18935,metros
+fotografiar,roca,'comentario 164'
+girar,29,grados
+avanzar,16519,metros
+avanzar,31556,metros
+composicion,duna,'comentario 168'
+avanzar,6224,metros
+girar,28,grados
+avanzar,5844,metros
+perforar,crater,'comentario 172'
+avanzar,32702,metros
+avanzar,3195,metros
+girar,145,grados
+fotografiar,duna,'comentario 176'
+avanzar,30523,metros
+avanzar,1587,metros
+avanzar,29314,metros
+perforar,roca,'comentario 180'
+avanzar,25200,metros
+avanzar,13458,metros
+avanzar,6618,metros
+fotografiar,roca,'comentario 184'
+girar,38,grados
+avanzar,15281,metros
+avanzar,19589,metros
+perforar,crater,'comentario 188'
+avanzar,27157,metros
+girar,132,grados
+avanzar,23622,metros
+composicion,roca,'comentario 192'
+avanzar,6038,metros
+avanzar,24179,metros
+girar,10,grados
+perforar,monticulo,'comentario 196'
+avanzar,6191,metros
+avanzar,19815,metros
+avanzar,22888,metros
+composicion,duna,'comentario 200'
+avanzar,16202,metros
+avanzar,2634,metros
+avanzar,24272,metros
+fotografiar,roca,'comentario 204'
+girar,146,grados
+avanzar,26362,metros
+avanzar,4886,metros
+perforar,crater,'comentario 208'
+avanzar,29869,metros
+girar,162,grados
+avanzar,23844,metros
+fotografiar,crater,'comentario 212'
+avanzar,31998,metros
+avanzar,10322,metros
+girar,111,grados
+composicion,duna,'comentario 216'
+avanzar,3557,metros
+avanzar,28476,metros
+avanzar,27892,metros
+perforar,duna,'comentario 220'
+avanzar,10712,metros
+avanzar,2600,metros
+avanzar,2510,metros
+fotografiar,crater,'comentario 224'
+girar,41,grados
+avanzar,14688,metros
+avanzar,13401,metros
+fotografiar,duna,'comentario 228'
+avanzar,16423,metros
+girar,142,grados
+avanzar,10585,metros
+perforar,crater,'comentario 232'
+avanzar,27088,metros
+avanzar,31426,metros
+girar,177,grados
+fotografiar,roca,'comentario 236'
+avanzar,30932,metros
+avanzar,4169,metros
+avanzar,2154,metros
+perforar,crater,'comentario 240'
+avanzar,19976,metros
+avanzar,31329,metros
+avanzar,2368,metros
+fotografiar,crater,'comentario 244'
+girar,115,grados
+avanzar,3434,metros
+avanzar,16549,metros
+composicion,roca,'comentario 248'
+avanzar,30145,metros
+girar,60,grados
+avanzar,21718,metros
+fotografiar,duna,'comentario 252'
+avanzar,12423,metros
+avanzar,16279,metros
+girar,76,grados
+composicion,crater,'comentario 256'
+avanzar,22549,metros
+avanzar,17437,metros
+avanzar,19866,metros
+composicion,crater,'comentario 260'
+avanzar,23195,metros
+avanzar,3297,metros
+avanzar,20416,metros
+perforar,crater,'comentario 264'
+girar,8,grados
+avanzar,16282,metros
+avanzar,12455,metros
+fotografiar,monticulo,'comentario 268'
+avanzar,11701,metros
+girar,176,grados
+avanzar,20671,metros
+perforar,duna,'comentario 272'
+avanzar,4313,metros
+avanzar,24355,metros
+girar,45,grados
+composicion,roca,'comentario 276'
+avanzar,10808,metros
+avanzar,1832,metros
+avanzar,20945,metros
+perforar,roca,'comentario 280'
+avanzar,28321,metros
+avanzar,19558,metros
+avanzar,23646,metros
+composicion,crater,'comentario 284'
+girar,4,grados
+avanzar,23196,metros
+avanzar,20222,metros
+composicion,crater,'comentario 288'
+avanzar,5535,metros
+girar,110,grados
+avanzar,11173,metros
+perforar,roca,'comentario 292'
+avanzar,21659,metros
+avanzar,26292,metros
+girar,159,grados
+fotografiar,roca,'comentario 296'
+avanzar,26154,metros
+avanzar,29510,metros
+avanzar,4745,metros
+fotografiar,monticulo,'comentario 300'
+avanzar,8313,metros
+avanzar,4474,metros
+avanzar,28022,metros
+perforar,monticulo,'comentario 304'
+girar,67,grados
+avanzar,9905,metros
+avanzar,17958,metros
+perforar,monticulo,'comentario 308'
+avanzar,3625,metros
+girar,17,grados
+avanzar,4414,metros
+perforar,roca,'comentario 312'
+avanzar,29334,metros
+avanzar,25874,metros
+girar,72,grados
+perforar,crater,'comentario 316'
+avanzar,28070,metros
+avanzar,7487,metros
+avanzar,28297,metros
+fotografiar,crater,'comentario 320'
+avanzar,17773,metros
+avanzar,32270,metros
+avanzar,1763,metros
+composicion,roca,'comentario 324'
+girar,125,grados
+avanzar,3102,metros
+avanzar,8480,metros
+perforar,duna,'comentario 328'
+avanzar,4802,metros
+girar,139,grados
+avanzar,30527,metros
+fotografiar,duna,'comentario 332'
+avanzar,1924,metros
+avanzar,11023,metros
+girar,92,grados
+perforar,crater,'comentario 336'
+avanzar,31003,metros
+avanzar,27432,metros
+avanzar,17505,metros
+perforar,crater,'comentario 340'
+avanzar,13031,metros
+avanzar,8492,metros
+avanzar,142,metros
+perforar,monticulo,'comentario 344'
+girar,104,grados
+avanzar,7900,metros
+avanzar,19187,metros
+perforar,crater,'comentario 348'
+avanzar,30974,metros
+girar,50,grados
+avanzar,29170,metros
+composicion,crater,'comentario 352'
+avanzar,19711,metros
+avanzar,25760,metros
+girar,176,grados
+perforar,crater,'comentario 356'
+avanzar,12550,metros
+avanzar,140,metros
+avanzar,13694,metros
+composicion,roca,'comentario 360'
+avanzar,28019,metros
+avanzar,2125,metros
+avanzar,26576,metros
+composicion,monticulo,'comentario 364'
+girar,22,grados
+avanzar,17371,metros
+avanzar,22466,metros
+composicion,crater,'comentario 368'
+avanzar,23851,metros
+girar,104,grados
+avanzar,1018,metros
+fotografiar,duna,'comentario 372'
+avanzar,23152,metros
+avanzar,2800,metros
+girar,87,grados
+composicion,monticulo,'comentario 376'
+avanzar,9010,metros
+avanzar,4757,metros
+avanzar,32170,metros
+perforar,roca,'comentario 380'
+avanzar,30227,metros
+avanzar,12043,metros
+avanzar,22758,metros
+fotografiar,crater,'comentario 384'
+girar,142,grados
+avanzar,17086,metros
+avanzar,29565,metros
+composicion,crater,'comentario 388'
+avanzar,14474,metros
+girar,105,grados
+avanzar,25627,metros
+composicion,roca,'comentario 392'
+avanzar,25423,metros
+avanzar,28520,metros
+girar,62,grados
+composicion,duna,'comentario 396'
+avanzar,24596,metros
+avanzar,3737,metros
+avanzar,13261,metros
+composicion,crater,'comentario 400'
+avanzar,1264,metros
+avanzar,8260,metros
+avanzar,6202,metros
+composicion,monticulo,'comentario 404'
+girar,166,grados
+avanzar,29011,metros
+avanzar,30771,metros
+fotografiar,duna,'comentario 408'
+avanzar,21153,metros
+girar,100,grados
+avanzar,29790,metros
+perforar,roca,'comentario 412'
+avanzar,21763,metros
+avanzar,4940,metros
+girar,151,grados
+perforar,crater,'comentario 416'
+avanzar,30900,metros
+avanzar,17713,metros
+avanzar,18958,metros
+composicion,crater,'comentario 420'
+avanzar,13007,metros
+avanzar,11477,metros
+avanzar,1200,metros
+fotografiar,duna,'comentario 424'
+girar,143,grados
+avanzar,12760,metros
+avanzar,19357,metros
+perforar,crater,'comentario 428'
+avanzar,5108,metros
+girar,53,grados
+avanzar,14887,metros
+composicion,monticulo,'comentario 432'
+avanzar,14460,metros
+avanzar,22428,metros
+girar,33,grados
+fotografiar,crater,'comentario 436'
+avanzar,6540,metros
+avanzar,31111,metros
+avanzar,28704,metros
+composicion,roca,'comentario 440'
+avanzar,6072,metros
+avanzar,29350,metros
+avanzar,18823,metros
+composicion,roca,'comentario 444'
+girar,176,grados
+avanzar,1626,metros
+avanzar,9357,metros
+fotografiar,crater,'comentario 448'
+avanzar,29337,metros
+girar,51,grados
+avanzar,23869,metros
+fotografiar,roca,'comentario 452'
+avanzar,13022,metros
+avanzar,29617,metros
+girar,32,grados
+fotografiar,roca,'comentario 456'
+avanzar,11585,metros
+avanzar,24041,metros
+avanzar,24423,metros
+fotografiar,crater,'comentario 460'
+avanzar,4565,metros
+avanzar,6559,metros
+avanzar,8932,metros
+fotografiar,duna,'comentario 464'
+girar,173,grados
+avanzar,16962,metros
+avanzar,3584,metros
+composicion,monticulo,'comentario 468'
+avanzar,16972,metros
+girar,37,grados
+avanzar,14369,metros
+perforar,duna,'comentario 472'
+avanzar,2607,metros
+avanzar,2483,metros
+girar,11,grados
+composicion,duna,'comentario 476'
+avanzar,22848,metros
+avanzar,4675,metros
+avanzar,12938,metros
+fotografiar,monticulo,'comentario 480'
+avanzar,23754,metros
+avanzar,6511,metros
+avanzar,22741,metros
+fotografiar,duna,'comentario 484'
+girar,5,grados
+avanzar,3221,metros
+avanzar,17870,metros
+fotografiar,monticulo,'comentario 488'
+avanzar,15205,metros
+girar,103,grados
+avanzar,23850,metros
+composicion,duna,'comentario 492'
+avanzar,22701,metros
+avanzar,12193,metros
+girar,134,grados
+perforar,monticulo,'comentario 496'
+avanzar,5556,metros
+avanzar,1993,metros
+avanzar,10176,metros
+composicion,monticulo,'comentario 500'
