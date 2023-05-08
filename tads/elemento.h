@@ -27,6 +27,8 @@ class Elemento {
         pair<float, float> getPunto();
 
         string toString(char delim);
+
+        bool estaEnCuadrante(pair<float, float> min, pair<float, float> max);
 };
 
 #include "elemento.cxx"

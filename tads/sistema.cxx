@@ -6,15 +6,80 @@
 #include <map>
 
 #include "sistema.h"
+#include "arbolQuad.h"
 
 
-Sistema::Sistema() {}
+//! ----- Funciones adicionales -----
+
+//* crear un comando de desplazamiento a partir de un string
+Desplazamiento* crearDesplazamiento(string linea, char delim = ' ') {
+    string palabra;
+
+    stringstream ss(linea);
+    vector<string> palabras;
+
+    getline(ss, palabra, delim); 
+    palabras.push_back(palabra); 
+
+    if (palabras[0] == "avanzar" || palabras[0] == "girar") {
+        while (getline(ss, palabra, delim))
+            palabras.push_back(palabra);
+
+        Movimiento::verificarDatos(palabras); //* Se verifica que que todos los datos sean del tipo correcto
+
+        return new Movimiento(palabras[0], stof(palabras[1]), palabras[2]);
+        
+    } else if (palabras[0] == "fotografiar" || palabras[0] == "composicion" || palabras[0] == "perforar") {
+        while (getline(ss, palabra, delim))
+            palabras.push_back(palabra);
+            
+        Analisis::verificarDatos(palabras); //* Se verifica que que todos los datos sean del tipo correcto
+
+        if (palabras.size() == 2) {
+            return new Analisis(palabras[0], palabras[1]);
+        } else {
+            string comentario = palabras[2];
+            for (int i=3; i<palabras.size(); i++) {
+                comentario += delim + palabras[i];
+            }
+            return new Analisis(palabras[0], palabras[1], comentario);
+        }
+
+    } else {
+        throw runtime_error("El tipo de comando no es valido (Movimiento: avanzar o girar; "
+            "Analisis: fotografiar, composicion o perforar)");
+    }
+    
+}
+
+//* crear un elemento de interes a partir de un string
+Elemento* crearElemento(string linea, char delim = ' ') {
+    string palabra;
+    vector<string> palabras;
+
+    stringstream ss(linea);
+
+    while (getline(ss, palabra, delim))
+        palabras.push_back(palabra);
+    
+    Elemento::verificarDatos(palabras); //* Se verifica que que todos los datos sean del tipo correcto
+
+    return new Elemento(palabras[0], stof(palabras[1]), palabras[2], stof(palabras[3]), stof(palabras[4]));
+}
+
+
+//! ----- Implementacion del TAD -----
+
+Sistema::Sistema() {
+    this->arbolElementos = ArbolQuad();
+}
 
 Sistema::Sistema(const Sistema& sistema) {
     comandos = sistema.comandos;
     desplazamientos = sistema.desplazamientos;
     elementos = sistema.elementos;
     robot = sistema.robot;
+    this->arbolElementos = ArbolQuad();
 }
 
 map<string,ComandoSistema<Sistema>>& Sistema::getComandos() {
@@ -29,8 +94,8 @@ list<Elemento*>& Sistema::getElementos() {
     return elementos;
 }
 
-ArbolQuad& Sistema::getMapaElementos() {
-    return mapaElementos;
+ArbolQuad& Sistema::getArbolElementos() {
+    return arbolElementos;
 }
 
 RobotCuriosity& Sistema::getRobot() {
@@ -88,4 +153,10 @@ void Sistema::ejecutar(string comando, vector<string> args) {
         throw runtime_error("El comando '" + comando + "' no existe");
 
     comandos[comando](*this, args);
+}
+
+void Sistema::salir() {
+    this->borrar_elementos();
+    this->borrar_desplazamientos();
+    arbolElementos.~ArbolQuad();
 }
