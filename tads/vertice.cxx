@@ -53,3 +53,13 @@ bool Vertice::getmarcado()
 {
     return this->marcado;
 }
+void Vertice::eliminarVertice(Vertice& v)
+{
+    for (std::set<Arista>::iterator it = adyacentes.begin(); it != adyacentes.end(); ++it) {
+        Arista arista = *it;
+        if(arista.second.getId()==v.getId())
+        {       
+            adyacentes.erase(arista);
+        }
+    }
+}
