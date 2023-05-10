@@ -53,6 +53,7 @@ bool Vertice::getmarcado()
 {
     return this->marcado;
 }
+
 void Vertice::eliminarVertice(Vertice& v)
 {
     for (std::set<Arista>::iterator it = adyacentes.begin(); it != adyacentes.end(); ++it) {
@@ -62,4 +63,15 @@ void Vertice::eliminarVertice(Vertice& v)
             adyacentes.erase(arista);
         }
     }
+}
+
+std::list<int> Vertice::getAdyacentes()
+{
+    std::list<int> idVertices;
+    for (std::set<Arista>::iterator it = adyacentes.begin(); it != adyacentes.end(); ++it) {
+        Arista arista = *it;
+        idVertices.push_back(arista.second.getId());
+    }
+    return idVertices;
+    
 }

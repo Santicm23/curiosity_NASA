@@ -34,7 +34,7 @@ public:
     std::list<Vertice>  getvertices() ; // Retorna una lista con los vértices del grafo. Cada ver de la lista tiene la información (tipo T) de cada vértice
     //!
     void ElimVertice(int v);//Elimina el vértice v del Grafo
-    
+    //!
     std::list<int> sucesores(int v1) ;// retorna la lista enteros con los sucesores del vértice v1
 };
 #include "grafo.cxx"
