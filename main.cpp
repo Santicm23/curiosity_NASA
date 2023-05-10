@@ -262,10 +262,21 @@ void en_cuadrante(Sistema& sistema, vector<string> args) {
 //! ----- componente 3 -----
 
 //* Comando: crear_mapa coeficiente_conectividad
-void crear_mapa(Sistema& sistema, vector<string> args) {}
+void crear_mapa(Sistema& sistema, vector<string> args) {
+    if (args.size() != 1)
+        throw runtime_error("Se requiere el coeficiente conectividad");
+
+    if (sistema.getElementos().empty())
+        throw runtime_error("La informacion requerida no esta almacenada en memoria.");
+}
 
 //* Comando: ruta_mas_larga
-void ruta_mas_larga(Sistema& sistema, vector<string> args) {}
+void ruta_mas_larga(Sistema& sistema, vector<string> args) {
+    if (args.size() != 0)
+        throw runtime_error("No se requieren argumentos");
+
+    
+}
 
 
 //! ----- comandos y funciones adicionales -----

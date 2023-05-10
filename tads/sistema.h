@@ -15,6 +15,7 @@
 #include "comandoSistema.h"
 #include "robotCuriosity.h"
 #include "arbolQuad.h"
+#include "vertice.h"
 
 
 using namespace std;
@@ -77,7 +78,7 @@ class Sistema {
 
         //* ejecutar un comando
         void ejecutar(string comando, vector<string> args);
-
+        
         //* salir del sistema
         void salir();
 };
