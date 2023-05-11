@@ -7,6 +7,7 @@
 
 #include "sistema.h"
 #include "arbolQuad.h"
+#include "grafo.h"
 
 
 //! ----- Funciones adicionales -----
@@ -154,6 +155,23 @@ void Sistema::ejecutar(string comando, vector<string> args) {
 
     comandos[comando](*this, args);
 }
+
+// void Sistema::calcularDistanciaElementos()
+// {
+//     for (auto it1 = elementos.begin(); it1 != elementos.end(); ++it1) 
+//     {
+//         Vertice* vertice=new Vertice(**it1,{});
+//         for (auto it2 = std::next(it1); it2 != elementos.end(); ++it2) 
+//         {
+//             float distancia = calcularDistancia(**it1, **it2);
+//             vertice->insertarArista(distancia,**it2);
+//         }
+//         this->push_back(vertice);
+//     }
+// }
+
+
+
 
 void Sistema::salir() {
     this->borrar_elementos();

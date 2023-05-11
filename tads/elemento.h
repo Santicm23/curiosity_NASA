@@ -33,6 +33,9 @@ class Elemento {
 
         //* verificar que el elemento esta en el cuadrante ingresado
         bool estaEnCuadrante(pair<float, float> min, pair<float, float> max);
+
+        //* calcular distancia entre 2 elementos
+        float calcularDistancia(Elemento uno, Elemento dos);
         
 };
 
