@@ -1,6 +1,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <utility>
 #include <list>
 #include <map>
 #include <string>
@@ -268,6 +269,23 @@ void crear_mapa(Sistema& sistema, vector<string> args) {
 
     if (sistema.getElementos().empty())
         throw runtime_error("La informacion requerida no esta almacenada en memoria.");
+
+    float coef;
+
+    try {
+        coef = stof(args[0]);
+    } catch (const invalid_argument& e) {
+        throw runtime_error("El coeficiente de conectividad debe ser un numero flotante");
+    }
+
+    if (coef < 0 || coef > 1)
+        throw runtime_error("El coeficiente de conectividad debe tener un valor entre 0 y 1");
+
+    int vecinos = round(coef * sistema.getElementos().size());
+
+    
+
+    cout << "El mapa se ha generado exitosamente. Cada elemento tiene " << vecinos << " vecinos.\n";
 }
 
 //* Comando: ruta_mas_larga

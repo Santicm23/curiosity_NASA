@@ -206,6 +206,7 @@ list<Elemento> NodoQuad::en_cuadrante(pair<float, float> min, pair<float, float>
         l.splice(l.end(), this->hijoSupDer->en_cuadrante(min, max));
         l.splice(l.end(), this->hijoInfIzq->en_cuadrante(min, max));
         l.splice(l.end(), this->hijoInfDer->en_cuadrante(min, max));
+        // TODO: Corregir esta mondaa
         // else {
         //     if (max.first <= punto.first) {
         //         if (min.second >= punto.second) {

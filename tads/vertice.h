@@ -1,8 +1,14 @@
+
 #ifndef VERTICE
 #define VERTICE
-#include "elemento.h"
+
+
 #include <set>
+
+#include "elemento.h"
+
 using namespace std;
+
 
 class Vertice
 {

@@ -15,7 +15,7 @@
 #include "comandoSistema.h"
 #include "robotCuriosity.h"
 #include "arbolQuad.h"
-#include "vertice.h"
+#include "grafo.h"
 
 
 using namespace std;
@@ -32,6 +32,7 @@ class Sistema {
         list<Desplazamiento*> desplazamientos; //* lista que contiene los comandos de desplazamiento
         list<Elemento*> elementos; //* lista que contiene los elementos de interés
         ArbolQuad arbolElementos; //* QuadTree que almacena los elementos de interés en un plano cartesiano
+        Grafo mapa; //* Mapa de conexión entre elementos de interés con un coeficiente de conectividad dado
         RobotCuriosity robot; //* robot de la nasa
         
     public:
@@ -48,6 +49,8 @@ class Sistema {
         ArbolQuad& getArbolElementos();
 
         RobotCuriosity& getRobot();
+
+        Grafo& getMapa();
 
         //* obtener la extension de un nombre de archivo dado
         static string obtenerExtension(string nombreArchivo);
@@ -66,6 +69,9 @@ class Sistema {
 
         //* cargar un elemento en el sistema a partir de una string
         void agregar_elemento(string linea, char delim = ',');
+
+        //* obtener los n elementos mas cercanos al elemento dado
+        list<pair<Elemento*, float>> elementos_cercanos(Elemento* elem, int n);
 
         //* borrar los desplazamientos cargados en el sistema
         void borrar_desplazamientos();
