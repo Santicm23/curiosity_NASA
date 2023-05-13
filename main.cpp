@@ -211,6 +211,8 @@ void ubicar_elementos(Sistema& sistema, vector<string> args) {
     if (sistema.getElementos().empty())
         throw runtime_error("La informacion requerida no esta almacenada en memoria.");
     
+    sistema.borrar_arbol();
+    
     for (Elemento* elem: sistema.getElementos()) {
         sistema.getArbolElementos().insertar(*elem);
     }
@@ -280,15 +282,18 @@ void crear_mapa(Sistema& sistema, vector<string> args) {
 
     if (coef < 0 || coef > 1)
         throw runtime_error("El coeficiente de conectividad debe tener un valor entre 0 y 1");
+    
+    sistema.borrar_mapa();
 
     int vecinos = round(coef * sistema.getElementos().size());
 
     for (Elemento* el: sistema.getElementos()) {
-
         if (!sistema.getMapa().existeVertice(el)) {
             sistema.getMapa().InsVertice(el);
         }
-        
+    }
+    
+    for (Elemento* el: sistema.getElementos()) {
         int v1 = sistema.getMapa().idVertice(el);
 
         for (pair<Elemento*, int> p: sistema.elementos_cercanos(el, vecinos)) {
@@ -305,7 +310,15 @@ void crear_mapa(Sistema& sistema, vector<string> args) {
 
     cout << "El mapa se ha generado exitosamente. Cada elemento tiene " << vecinos << " vecinos.\n";
 
-    
+    for (Elemento* e: sistema.getMapa().getVertices()) {
+        int id = sistema.getMapa().idVertice(e);
+        cout << id;
+        cout << " -> { ";
+        for (int id_tmp: sistema.getMapa().sucesores(id)) {
+            cout << "(" << id_tmp << ", " << sistema.getMapa().CostoArco(id, id_tmp) << "); ";
+        }
+        cout << "}\n";
+    }
 }
 
 //* Comando: ruta_mas_larga

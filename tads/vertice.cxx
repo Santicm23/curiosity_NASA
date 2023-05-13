@@ -25,7 +25,6 @@ Vertice::~Vertice() {
 
 void Vertice::insertarArista(float distancia, Vertice* verticeDestino) {
     Arista nuevaArista = make_pair(distancia, verticeDestino);
-    adyacentes.push_back(nuevaArista);
     this->adyacentes.push_back(nuevaArista);
 }
 
@@ -42,7 +41,7 @@ int Vertice::getId() {
     return id;
 }
 void Vertice::setId(int k) {
-    this->id=k;
+    this->id = k;
 }
 
 

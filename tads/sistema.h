@@ -79,6 +79,10 @@ class Sistema {
         //* borrar los elementos cargados en el sistema
         void borrar_elementos();
 
+        void borrar_arbol();
+
+        void borrar_mapa();
+
         //* verificar que un comando existe
         bool comando_existe(string nombre);
 

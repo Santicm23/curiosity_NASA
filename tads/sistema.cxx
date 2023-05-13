@@ -74,6 +74,7 @@ Elemento* crearElemento(string linea, char delim = ' ') {
 
 Sistema::Sistema() {
     this->arbolElementos = ArbolQuad();
+    this->mapa = Grafo();
 }
 
 Sistema::Sistema(const Sistema& sistema) {
@@ -180,6 +181,16 @@ void Sistema::borrar_elementos() {
     this->elementos.clear();
 }
 
+void Sistema::borrar_arbol() {
+    this->arbolElementos.~ArbolQuad();
+    this->arbolElementos = ArbolQuad();
+}
+
+void Sistema::borrar_mapa() {
+    this->mapa.~Grafo();
+    this->mapa = Grafo();
+}
+
 bool Sistema::comando_existe(string nombre) {
     return this->comandos.find(nombre) != this->comandos.end();
 }
@@ -195,4 +206,5 @@ void Sistema::salir() {
     this->borrar_elementos();
     this->borrar_desplazamientos();
     this->arbolElementos.~ArbolQuad();
+    this->mapa.~Grafo();
 }

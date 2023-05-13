@@ -41,7 +41,7 @@ class Grafo {
         //!
         int OrdenGrafo() const; // Retorna el número de vértices que tiene el grafo
         //!
-        int CostoArco(int v1, int v2);//Retorna el costo del arco existente entre v1 y v2. Sino existe un arco entre los dos vértices retorna -1
+        float CostoArco(int v1, int v2);//Retorna el costo del arco existente entre v1 y v2. Sino existe un arco entre los dos vértices retorna -1
         //!
         list<Elemento*> getVertices(); // Retorna una lista con los vértices del grafo. Cada ver de la lista tiene la información (tipo T) de cada vértice
         //!

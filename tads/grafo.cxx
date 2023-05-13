@@ -95,7 +95,7 @@ int Grafo::OrdenGrafo() const {
     return vertices.size();
 }
 
-int Grafo::CostoArco(int v1, int v2) {
+float Grafo::CostoArco(int v1, int v2) {
     Vertice* tempo1 = nullptr;
     Vertice* tempo2 = nullptr;
     for (Vertice* vertice : vertices) {
@@ -164,7 +164,7 @@ list<Elemento*> Grafo::getVertices() {
 }
 
 list<int> Grafo::sucesores(int v) {
-    for (Vertice* vertice: vertices) {
+    for (Vertice* vertice: this->vertices) {
         if (vertice->getId() == v) {
             return vertice->getAdyacentes();
         }
