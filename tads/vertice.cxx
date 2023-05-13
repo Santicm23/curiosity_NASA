@@ -1,18 +1,39 @@
+#include <list>
+
 #include "vertice.h"
 #include "elemento.h"
 
+
 using namespace std;
 
-void Vertice::insertarArista(float distancia, Vertice& verticeDestino) {
-    Arista nuevaArista(distancia, verticeDestino);
-    adyacentes.insert(nuevaArista);
+Vertice::Vertice() {}
+
+Vertice::Vertice(int id, Elemento* elem) {
+    this->id = id;
+    this->elemento = elem;
 }
 
-void Vertice::eliminarArista(Vertice& verticeDestino) {
+Vertice::Vertice(int id, Elemento* elem, list<Arista> adyacentes){
+    this->id = id;
+    this->elemento = elem;
+    this->adyacentes = adyacentes;
+}
+
+Vertice::~Vertice() {
+    delete this->elemento;
+}
+
+void Vertice::insertarArista(float distancia, Vertice* verticeDestino) {
+    Arista nuevaArista = make_pair(distancia, verticeDestino);
+    adyacentes.push_back(nuevaArista);
+    this->adyacentes.push_back(nuevaArista);
+}
+
+void Vertice::eliminarArista(Vertice* verticeDestino) {
      for (Arista arista: this->adyacentes) {
-        if (arista.second.getId() == verticeDestino.getId()) {
-            adyacentes.erase(arista);
-            break;
+        if (arista.second->getId() == verticeDestino->getId()) {
+            adyacentes.remove(arista);
+            return;
         }
     }
 }
@@ -25,7 +46,7 @@ void Vertice::setId(int k) {
 }
 
 
-Elemento Vertice::getElemento() {
+Elemento* Vertice::getElemento() {
     return elemento;
 }
 
@@ -41,9 +62,9 @@ bool Vertice::estaMarcado() {
     return marcado;
 }
 
-float Vertice::retornarCosto(Vertice& verticeDestino) {
+float Vertice::retornarCosto(Vertice* verticeDestino) {
     for (Arista arista: this->adyacentes) {
-        if (arista.second.getId() == verticeDestino.getId()) {
+        if (arista.second->getId() == verticeDestino->getId()) {
             return arista.first;
         }
     }
@@ -54,23 +75,22 @@ bool Vertice::getmarcado()
     return this->marcado;
 }
 
-void Vertice::eliminarVertice(Vertice& v)
-{
-    for (std::set<Arista>::iterator it = adyacentes.begin(); it != adyacentes.end(); ++it) {
-        Arista arista = *it;
-        if(arista.second.getId()==v.getId())
-        {       
-            adyacentes.erase(arista);
-        }
-    }
-}
+// void Vertice::eliminarVertice(Vertice& v)
+// {
+//     for (std::set<Arista>::iterator it = adyacentes.begin(); it != adyacentes.end(); ++it) {
+//         Arista arista = *it;
+//         if(arista.second.getId()==v.getId())
+//         {       
+//             adyacentes.erase(arista);
+//         }
+//     }
+// }
 
-std::list<int> Vertice::getAdyacentes()
-{
-    std::list<int> idVertices;
-    for (std::set<Arista>::iterator it = adyacentes.begin(); it != adyacentes.end(); ++it) {
+list<int> Vertice::getAdyacentes() {
+    list<int> idVertices;
+    for (list<Arista>::iterator it = adyacentes.begin(); it != adyacentes.end(); ++it) {
         Arista arista = *it;
-        idVertices.push_back(arista.second.getId());
+        idVertices.push_back(arista.second->getId());
     }
     return idVertices;
     

@@ -12,10 +12,12 @@ using namespace std;
 class Grafo {
     
     private:
-        std::list<Vertice> vertices; //* la posición en la lista corresponde al número de vértice.
+        std::list<Vertice*> vertices; //* la posición en la lista corresponde al número de vértice.
 
     public:
         Grafo();  //Constructor por omisión
+
+        ~Grafo();
         //!
         Elemento* InfoVertice(int v); //Retorna la información de Tipo T almacenada en el vértice
         
@@ -43,9 +45,9 @@ class Grafo {
         //!
         std::list<Elemento> getVertices(); // Retorna una lista con los vértices del grafo. Cada ver de la lista tiene la información (tipo T) de cada vértice
         //!
-        void ElimVertice(int v);//Elimina el vértice v del Grafo
-        //!
-        std::list<int> sucesores(int v1) ;// retorna la lista enteros con los sucesores del vértice v1
+        // void ElimVertice(int v);//Elimina el vértice v del Grafo
+        // //!
+        // list<int> sucesores(int v1) ;// retorna la lista enteros con los sucesores del vértice v1
 };
 
 #include "grafo.cxx"

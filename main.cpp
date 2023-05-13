@@ -304,6 +304,8 @@ void crear_mapa(Sistema& sistema, vector<string> args) {
 
 
     cout << "El mapa se ha generado exitosamente. Cada elemento tiene " << vecinos << " vecinos.\n";
+
+    
 }
 
 //* Comando: ruta_mas_larga
