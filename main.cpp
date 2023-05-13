@@ -283,7 +283,25 @@ void crear_mapa(Sistema& sistema, vector<string> args) {
 
     int vecinos = round(coef * sistema.getElementos().size());
 
-    
+    for (Elemento* el: sistema.getElementos()) {
+
+        if (!sistema.getMapa().existeVertice(el)) {
+            sistema.getMapa().InsVertice(el);
+        }
+        
+        int v1 = sistema.getMapa().idVertice(el);
+
+        for (pair<Elemento*, int> p: sistema.elementos_cercanos(el, vecinos)) {
+            if (!sistema.getMapa().existeVertice(p.first)) {
+                sistema.getMapa().InsVertice(p.first);
+            }
+
+            int v2 = sistema.getMapa().idVertice(p.first);
+
+            sistema.getMapa().InsArco(v1, v2, p.second);
+        }
+    }
+
 
     cout << "El mapa se ha generado exitosamente. Cada elemento tiene " << vecinos << " vecinos.\n";
 }

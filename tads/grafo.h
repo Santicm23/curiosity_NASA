@@ -17,13 +17,17 @@ class Grafo {
     public:
         Grafo();  //Constructor por omisión
         //!
-        Vertice InfoVertice(int v);// Retorna la información de Tipo T almacenada en el vértice
+        Elemento* InfoVertice(int v); //Retorna la información de Tipo T almacenada en el vértice
+        
+        int idVertice(Elemento* v);
         //!
-        void InsVertice(Vertice v); //Agregar vértice v al final de la lista de vértices con Infovertice de tipo T.
-        //! 
+        void InsVertice(Elemento* v); //Agregar vértice v al final de la lista de vértices con Infovertice de tipo T.
+        
+        bool existeVertice(Elemento* v);
+        //!
         void InsArco(int v1, int v2, float c); // inserta un arco con costo c entre los vértices v1 y v2
         //!
-        void ElimArco(int v1,int v2); //Elimina el arco entre los vértices v1 y v2
+        void ElimArco(int v1, int v2); //Elimina el arco entre los vértices v1 y v2
         //!
         void MarcarVertice(int v);//Marca el vértice v
         //!
@@ -37,7 +41,7 @@ class Grafo {
         //!
         int CostoArco(int v1, int v2);//Retorna el costo del arco existente entre v1 y v2. Sino existe un arco entre los dos vértices retorna -1
         //!
-        std::list<Vertice> getvertices(); // Retorna una lista con los vértices del grafo. Cada ver de la lista tiene la información (tipo T) de cada vértice
+        std::list<Elemento> getVertices(); // Retorna una lista con los vértices del grafo. Cada ver de la lista tiene la información (tipo T) de cada vértice
         //!
         void ElimVertice(int v);//Elimina el vértice v del Grafo
         //!
