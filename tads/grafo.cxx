@@ -21,12 +21,12 @@ int Grafo::idVertice(Elemento* el) {
 }
 
 Elemento* Grafo::InfoVertice(int v) {
-    for (Vertice* vertice : vertices) {
+    for (Vertice* vertice: vertices) {
         if (vertice->getId() == v) {
             return vertice->getElemento();
         }
     }
-    throw runtime_error("El vértice no existe en el grafo.");
+    throw runtime_error("El vertice no existe en el grafo.");
 }
 
 void Grafo::InsVertice(Elemento* v) {
@@ -65,7 +65,7 @@ void Grafo::InsArco(int v1, int v2, float c) {
     if (tempo1 != nullptr && tempo2 != nullptr) {
         tempo1->insertarArista(c, tempo2);
     } else {
-        throw runtime_error("No se encontraron los vértices indicados.");
+        throw runtime_error("No se encontraron los vertices indicados.");
     }
 }
 
@@ -87,7 +87,7 @@ void Grafo::ElimArco(int v1, int v2) {
         tempo1->eliminarArista(tempo2);
         tempo2->eliminarArista(tempo1);
     } else {
-        throw std::runtime_error("No se encontraron los vértices indicados.");
+        throw std::runtime_error("No se encontraron los vertices indicados.");
     }
 }
 
@@ -112,7 +112,7 @@ int Grafo::CostoArco(int v1, int v2) {
     if (tempo1 != nullptr && tempo2 != nullptr) {
         return tempo1->retornarCosto(tempo2);
     } else {
-        throw runtime_error("No se encontraron los vértices indicados.");
+        throw runtime_error("No se encontraron los vertices indicados.");
     }
 }
 
@@ -155,6 +155,19 @@ void Grafo::MarcarVertice(int v) {
     throw runtime_error("Vertice no encontrado");
 }
 
-// list<Elemento> Grafo::getvertices() { //ToDo: Josee no toca retornar los verticesss, los elementossss
-//     return vertices;
-// }
+list<Elemento*> Grafo::getVertices() {
+    list<Elemento*> elemVertices;
+    for (Vertice* v: this->vertices) {
+        elemVertices.push_back(v->getElemento());
+    }
+    return elemVertices;
+}
+
+list<int> Grafo::sucesores(int v) {
+    for (Vertice* vertice: vertices) {
+        if (vertice->getId() == v) {
+            return vertice->getAdyacentes();
+        }
+    }
+    throw runtime_error("El vertice no existe en el grafo.");
+}

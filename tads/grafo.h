@@ -43,11 +43,11 @@ class Grafo {
         //!
         int CostoArco(int v1, int v2);//Retorna el costo del arco existente entre v1 y v2. Sino existe un arco entre los dos vértices retorna -1
         //!
-        std::list<Elemento> getVertices(); // Retorna una lista con los vértices del grafo. Cada ver de la lista tiene la información (tipo T) de cada vértice
+        list<Elemento*> getVertices(); // Retorna una lista con los vértices del grafo. Cada ver de la lista tiene la información (tipo T) de cada vértice
         //!
         // void ElimVertice(int v);//Elimina el vértice v del Grafo
-        // //!
-        // list<int> sucesores(int v1) ;// retorna la lista enteros con los sucesores del vértice v1
+        //!
+        list<int> sucesores(int v) ;// retorna la lista enteros con los sucesores del vértice v1
 };
 
 #include "grafo.cxx"
