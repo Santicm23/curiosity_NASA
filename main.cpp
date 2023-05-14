@@ -288,7 +288,7 @@ void crear_mapa(Sistema& sistema, vector<string> args) {
     int vecinos = round(coef * sistema.getElementos().size());
 
     if (vecinos == sistema.getElementos().size())
-        vecinos--; // no puede tenerse a si mismo como arista
+        vecinos--; //? no puede tenerse a si mismo como arista (1 arista menos del total como maximo)
 
     for (Elemento* el: sistema.getElementos()) {
         if (!sistema.getMapa().existeVertice(el)) {
@@ -309,15 +309,15 @@ void crear_mapa(Sistema& sistema, vector<string> args) {
 
     cout << "El mapa se ha generado exitosamente. Cada elemento tiene " << vecinos << " vecinos.\n";
 
-    for (Elemento* e: sistema.getMapa().getVertices()) {
-        int id = sistema.getMapa().idVertice(e);
-        cout << id;
-        cout << " -> { ";
-        for (int id_tmp: sistema.getMapa().sucesores(id)) {
-            cout << "(" << id_tmp << ", " << sistema.getMapa().CostoArco(id, id_tmp) << "); ";
-        }
-        cout << "}\n";
-    }
+    // for (Elemento* e: sistema.getMapa().getVertices()) {
+    //     int id = sistema.getMapa().idVertice(e);
+    //     cout << id;
+    //     cout << " -> { ";
+    //     for (int id_tmp: sistema.getMapa().sucesores(id)) {
+    //         cout << "(" << sistema.getMapa().CostoArco(id, id_tmp) << "," << id_tmp << "); ";
+    //     }
+    //     cout << "}\n";
+    // }
 }
 
 //* Comando: ruta_mas_larga
