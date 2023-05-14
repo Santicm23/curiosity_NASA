@@ -53,7 +53,7 @@ void Grafo::InsArco(int v1, int v2, float c) {
 
 void Grafo::ElimArco(int v1, int v2) {
     if (v1 >= this->vertices.size() || v2 >= this->vertices.size())
-        throw runtime_error("No se encontraron los vertices indicados.");
+        return;
     
     list<set<Arista>>::iterator it1 = this->aristas.begin();
     advance(it1, v1);
@@ -72,9 +72,6 @@ int Grafo::OrdenGrafo() const {
 }
 
 float Grafo::CostoArco(int v1, int v2) {
-    if (v1 >= this->vertices.size() || v2 >= this->vertices.size())
-        throw runtime_error("No se encontraron los vertices indicados.");
-
     list<set<Arista>>::iterator it1 = this->aristas.begin();
     advance(it1, v1);
 
@@ -130,6 +127,23 @@ list<Elemento*> Grafo::getVertices() {
     }
     return elemVertices;
 }
+
+// void Grafo::ElimVertice(int v) {
+//     if (v >= this->aristas.size())
+//         throw runtime_error("El vertice no existe en el grafo.");
+
+//     list<Vertice>::iterator it1 = this->vertices.begin();
+//     advance(it1, v);
+//     this->vertices.erase(it1);
+
+//     list<set<Arista>>::iterator it2 = this->aristas.begin();
+//     advance(it2, v);
+//     this->aristas.erase(it2);
+
+//     for (set<Arista> s: this->aristas) {
+        
+//     }
+// }
 
 list<int> Grafo::sucesores(int v) {
     if (v >= this->aristas.size())

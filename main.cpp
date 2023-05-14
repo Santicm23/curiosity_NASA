@@ -287,6 +287,9 @@ void crear_mapa(Sistema& sistema, vector<string> args) {
 
     int vecinos = round(coef * sistema.getElementos().size());
 
+    if (vecinos == sistema.getElementos().size())
+        vecinos--; // no puede tenerse a si mismo como arista
+
     for (Elemento* el: sistema.getElementos()) {
         if (!sistema.getMapa().existeVertice(el)) {
             sistema.getMapa().InsVertice(el);
