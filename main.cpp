@@ -296,17 +296,13 @@ void crear_mapa(Sistema& sistema, vector<string> args) {
     for (Elemento* el: sistema.getElementos()) {
         int v1 = sistema.getMapa().idVertice(el);
 
-        for (pair<Elemento*, int> p: sistema.elementos_cercanos(el, vecinos)) {
-            if (!sistema.getMapa().existeVertice(p.first)) {
-                sistema.getMapa().InsVertice(p.first);
-            }
+        for (pair<Elemento*, float> p: sistema.elementos_cercanos(el, vecinos)) {
 
             int v2 = sistema.getMapa().idVertice(p.first);
 
             sistema.getMapa().InsArco(v1, v2, p.second);
         }
     }
-
 
     cout << "El mapa se ha generado exitosamente. Cada elemento tiene " << vecinos << " vecinos.\n";
 

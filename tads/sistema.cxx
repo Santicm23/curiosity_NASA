@@ -187,8 +187,7 @@ void Sistema::borrar_arbol() {
 }
 
 void Sistema::borrar_mapa() {
-    this->mapa.~Grafo();
-    this->mapa = Grafo();
+    this->mapa.borrar();
 }
 
 bool Sistema::comando_existe(string nombre) {

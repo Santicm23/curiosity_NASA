@@ -2,7 +2,9 @@
 #ifndef GRAFO
 #define GRAFO
 
+#include <utility>
 #include <list>
+#include <set>
 
 #include "vertice.h"
 
@@ -10,14 +12,14 @@ using namespace std;
 
 
 class Grafo {
+
+    using Arista = pair<float, int>;
     
     private:
-        std::list<Vertice*> vertices; //* la posición en la lista corresponde al número de vértice.
-
+        list<Vertice> vertices; //* la posición en la lista corresponde al número de vértice.
+        list<set<Arista>> aristas;
     public:
         Grafo();  //Constructor por omisión
-
-        ~Grafo();
         //!
         Elemento* InfoVertice(int v); //Retorna la información de Tipo T almacenada en el vértice
         
@@ -48,6 +50,8 @@ class Grafo {
         // void ElimVertice(int v);//Elimina el vértice v del Grafo
         //!
         list<int> sucesores(int v) ;// retorna la lista enteros con los sucesores del vértice v1
+
+        void borrar();
 };
 
 #include "grafo.cxx"
