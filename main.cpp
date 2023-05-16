@@ -1,6 +1,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <utility>
 #include <list>
 #include <map>
 #include <string>
@@ -212,32 +213,10 @@ void ubicar_elementos(Sistema& sistema, vector<string> args) { //Josefino el q n
         throw runtime_error("No se requieren argumentos");
 
     
-}
-
-// Comando: en_cuadrante coordX1 coordX2 coordY1 coordY2
-list<Elemento> en_cuadrante(Sistema& sistema, vector<string> args) {
-    if (sistema.getMapaElementos().esVacio())
-        throw runtime_error(" Los elementos no han sido ubicados todavía (con el comando ubicar_elementos).");
-
-    else if (args.size() != 4)
-        throw runtime_error("Se requieren los parametros en formato 'coordX1', 'coordX2', 'coordY1' y 'coordY2'");
-
-    else if (args[0] > args[1] && args [2] > args[3])
-        throw runtime_error(" La información del cuadrante no corresponde a los datos esperados (x_min, x_max, y_min, y_max).");
-
-    else {
-          return en_cuadranteR(sistema.getMapaElementos().obtenerRaiz(), make_pair(stof(args[0]), stof(args[1])), make_pair(stof(args[2]), stof(args[3])));
-    }
-} 
-
-list<Elemento> en_cuadranteR(NodoQuad* nodo, pair<float, float> min, pair<float, float> max){
-    list<Elemento> lista;
-    //Caso base: El nodo es hoja
-        //Llamar función está en cuadrante
-
-    if (nodo->esHoja()){
-        if (estaEnCuadrante(nodo->obtenerDato(), max))
-            lista.push_back(nodo->obtenerDato());
+    sistema.borrar_arbol();
+    
+    for (Elemento* elem: sistema.getElementos()) {
+        sistema.getArbolElementos().insertar(*elem);
     }
 
     //if min cuadrante == nodoRaiz() {}
@@ -300,11 +279,69 @@ bool estaEnCuadrante(Elemento& elemento, pair<float, float> max){
 
 // ----- componente 3 -----
 
-// Comando: crear_mapa coeficiente_conectividad
-void crear_mapa(Sistema& sistema, vector<string> args) {}
+//* Comando: crear_mapa coeficiente_conectividad
+void crear_mapa(Sistema& sistema, vector<string> args) {
+    if (args.size() != 1)
+        throw runtime_error("Se requiere el coeficiente conectividad");
 
-// Comando: ruta_mas_larga
-void ruta_mas_larga(Sistema& sistema, vector<string> args) {}
+    if (sistema.getElementos().empty())
+        throw runtime_error("La informacion requerida no esta almacenada en memoria.");
+
+    float coef;
+
+    try {
+        coef = stof(args[0]);
+    } catch (const invalid_argument& e) {
+        throw runtime_error("El coeficiente de conectividad debe ser un numero flotante");
+    }
+
+    if (coef < 0 || coef > 1)
+        throw runtime_error("El coeficiente de conectividad debe tener un valor entre 0 y 1");
+    
+    sistema.borrar_mapa();
+
+    int vecinos = round(coef * sistema.getElementos().size());
+
+    if (vecinos == sistema.getElementos().size())
+        vecinos--; //? no puede tenerse a si mismo como arista (1 arista menos del total como maximo)
+
+    for (Elemento* el: sistema.getElementos()) {
+        if (!sistema.getMapa().existeVertice(el)) {
+            sistema.getMapa().InsVertice(el);
+        }
+    }
+    
+    for (Elemento* el: sistema.getElementos()) {
+        int v1 = sistema.getMapa().idVertice(el);
+
+        for (pair<Elemento*, float> p: sistema.elementos_cercanos(el, vecinos)) {
+
+            int v2 = sistema.getMapa().idVertice(p.first);
+
+            sistema.getMapa().InsArco(v1, v2, p.second);
+        }
+    }
+
+    cout << "El mapa se ha generado exitosamente. Cada elemento tiene " << vecinos << " vecinos.\n";
+
+    // for (Elemento* e: sistema.getMapa().getVertices()) {
+    //     int id = sistema.getMapa().idVertice(e);
+    //     cout << id;
+    //     cout << " -> { ";
+    //     for (int id_tmp: sistema.getMapa().sucesores(id)) {
+    //         cout << "(" << sistema.getMapa().CostoArco(id, id_tmp) << "," << id_tmp << "); ";
+    //     }
+    //     cout << "}\n";
+    // }
+}
+
+//* Comando: ruta_mas_larga
+void ruta_mas_larga(Sistema& sistema, vector<string> args) {
+    if (args.size() != 0)
+        throw runtime_error("No se requieren argumentos");
+
+    
+}
 
 
 // ----- comandos y funciones adicionales -----

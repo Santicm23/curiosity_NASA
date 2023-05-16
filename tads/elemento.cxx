@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <regex>
+#include <math.h>
 
 #include "elemento.h"
 
@@ -58,4 +59,7 @@ string Elemento::toString(char delim = ' ') {
 bool Elemento::estaEnCuadrante(pair<float, float> min, pair<float, float> max) {
     return (min.first <= coordenada_x && coordenada_x <= max.first)
         && (min.second <= coordenada_y && coordenada_y <= max.second);
+}
+float Elemento::calcularDistancia(Elemento elem) {
+    return sqrt(pow((this->getPunto().first - elem.getPunto().first), 2) + pow((this->getPunto().second - elem.getPunto().second), 2));
 }
