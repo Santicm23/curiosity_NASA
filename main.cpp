@@ -18,6 +18,7 @@ using namespace std;
     // con documentacion de comandos => (diagramas, graficos, dibujos), plan de pruebas (simular_comandos)
 
 // Comando: cargar_comandos nombre_archivo
+//* Comando: cargar_comandos nombre_archivo
 void cargar_comandos(Sistema& sistema, vector<string> args) {
     if (args.size() != 1)
         throw runtime_error("Debe ingresar un nombre de archivo.");
@@ -46,7 +47,7 @@ void cargar_comandos(Sistema& sistema, vector<string> args) {
         sistema.agregar_desplazamiento(linea);
         
     }
-    cout << n << " comandos cargados cargados desde '" << args[0] << "'\n";
+    cout << n << " comandos cargados desde '" << args[0] << "'\n";
 
     fs.close();
 }
@@ -79,7 +80,7 @@ void cargar_elementos(Sistema& sistema, vector<string> args) {
         getline(fs, linea);
         sistema.agregar_elemento(linea);
     }
-    cout << n << " elementos cargados cargados desde '" << args[0] << "'\n";
+    cout << n << " elementos cargados desde '" << args[0] << "'\n";
 
     fs.close();
 }
@@ -266,32 +267,25 @@ list<Elemento> en_cuadranteR(NodoQuad* nodo, pair<float, float> min, pair<float,
         lista.insert(lista.begin(), listaInsertar.begin(), listaInsertar.end());
     }
 
-    //if min cuadrante x < nodoRaizX() && min cuadrante y > nodoRaizY(){}
-        //Puede que los hijos SupDer y SupIzq se encuentren dentro del cuadrante
+    if (x2 < x1 || y2 < y1)
+        throw runtime_error (
+            "La informacion del cuadrante no corresponde a los datos esperados (x_min, x_max, y_min, y_max)."
+        );  
+    
+    if (sistema.getArbolElementos().esVacio())
+        throw runtime_error("Los elementos no han sido ubicados todavia (con el comando ubicar_elementos).");
 
-    else if (min.first <= nodo->obtenerDato().getPunto().first && min.second >= nodo->obtenerDato().getPunto().second){
-        list<Elemento> listaInsertar = en_cuadranteR(nodo->obtenerHijoSupDer(), min, max);
-        lista.insert(lista.begin(), listaInsertar.begin(), listaInsertar.end());
-        listaInsertar = en_cuadranteR(nodo->obtenerHijoSupIzq(), min, max);
-        lista.insert(lista.begin(), listaInsertar.begin(), listaInsertar.end());
-    }
-
-    //if min cuadrante x > nodoRaizX() && min cuadrante y < nodoRaizY(){}
-        //Puede que los hijos SupDer e InfDer se encuentren dentro del cuadrante
-
-    else if (min.first >= nodo->obtenerDato().getPunto().first && min.second <= nodo->obtenerDato().getPunto().second){
-        list<Elemento> listaInsertar = en_cuadranteR(nodo->obtenerHijoSupDer(), min, max);
-        lista.insert(lista.begin(), listaInsertar.begin(), listaInsertar.end());
-        listaInsertar = en_cuadranteR(nodo->obtenerHijoInfDer(), min, max);
-        lista.insert(lista.begin(), listaInsertar.begin(), listaInsertar.end());
-    }
-
-    //if min cuadrante x > nodoRaizX() && min cuadrante y > nodoRaizY(){}
-        //Puede que el hijoSupDer se encuentre dentro del cuadrante
-
-    else {
-        list<Elemento> listaInsertar = en_cuadranteR(nodo->obtenerHijoSupDer(), min, max);
-        lista.insert(lista.begin(), listaInsertar.begin(), listaInsertar.end());
+    list<Elemento> l;
+    
+    l = sistema.getArbolElementos().en_cuadrante(make_pair(x1, y1), make_pair(x2, y2));
+    
+    if (l.empty()) {
+        cout << "No hay elementos ubicados en el cuadrante solicitado\n";
+    } else {
+        cout << "Los elementos ubicados en el cuadrante solicitado son:\n";
+        for (Elemento elem : l) {
+            cout << elem.toString() << endl;
+        }
     }
     
     return lista;
@@ -331,7 +325,7 @@ void ayuda(Sistema& sistema, vector<string> args) {
     }
 }
 
-// Funcion que inicializa los maps donde se guarda la descripcion y la funcion correspondiente a cada comando
+// inicializar los maps donde se guarda la descripcion y la funcion correspondiente a cada comando
 void llenarComandosSistema(Sistema& sistema) {
     // comando name, comando description
     // comando name, comando callback function
