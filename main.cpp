@@ -340,6 +340,9 @@ void ruta_mas_larga(Sistema& sistema, vector<string> args) {
     if (args.size() != 0)
         throw runtime_error("No se requieren argumentos");
 
+    else if (sistema.getMapa().getVertices().empty())
+        throw runtime_error("El mapa no ha sido generado todavía (con el comando crear_mapa))");    
+
     
 }
 
