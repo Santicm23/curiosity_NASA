@@ -63,3 +63,15 @@ bool Elemento::estaEnCuadrante(pair<float, float> min, pair<float, float> max) {
 float Elemento::calcularDistancia(Elemento elem) {
     return sqrt(pow((this->getPunto().first - elem.getPunto().first), 2) + pow((this->getPunto().second - elem.getPunto().second), 2));
 }
+
+string Elemento::getTipoElemento() {
+    return tipo_elemento;
+}
+
+float Elemento::getCoordenadaX() {
+    return coordenada_x;
+}
+
+float Elemento::getCoordenadaY() {
+    return coordenada_y;
+}

@@ -29,6 +29,15 @@ class Elemento {
         //* obtener el punto donde se encuentra el elemento
         pair<float, float> getPunto();
 
+        //getter de tipo_elemento
+        string getTipoElemento();
+
+        //getter de coordenada_x
+        float getCoordenadaX();
+
+        //getter de coordenada_y
+        float getCoordenadaY();
+
         //* conviertir la información del desplazamiento a un string
         string toString(char delim);
 

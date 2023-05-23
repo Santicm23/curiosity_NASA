@@ -72,6 +72,10 @@ int Grafo::OrdenGrafo() const {
 }
 
 float Grafo::CostoArco(int v1, int v2) {
+    if (v1 == v2){
+        return 0;
+    }
+    
     list<set<Arista>>::iterator it1 = this->aristas.begin();
     advance(it1, v1);
 
