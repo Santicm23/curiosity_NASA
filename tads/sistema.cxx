@@ -171,11 +171,11 @@ list<pair<Elemento*, float>> Sistema::elementos_cercanos(Elemento* elem, int n) 
     return l_res;
 }
 
-float Sistema::dist(Grafo &G, int k, int i, int j){
+float Sistema::dist(int k, int i, int j){
     if (k == 0) {
-        return G.CostoArco(i, j);
+        return this->mapa.CostoArco(i, j);
     } else {
-        return max(dist(G, k-1, i, j), dist(G, k-1, i, k) + dist(G, k-1, k, j));
+        return max(dist(k-1, i, j), dist(k-1, i, k) + dist(k-1, k, j));
     }
 }
 

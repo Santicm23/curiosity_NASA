@@ -299,10 +299,7 @@ void crear_mapa(Sistema& sistema, vector<string> args) {
     for (Elemento* el: sistema.getElementos()) {
         int v1 = sistema.getMapa().idVertice(el);
 
-        list<pair<Elemento*,float>> l_tmp = sistema.elementos_cercanos(el, vecinos);
-
-        for (pair<Elemento*, float> p: l_tmp) {
-
+        for (pair<Elemento*, float> p: sistema.elementos_cercanos(el, vecinos)) {
             int v2 = sistema.getMapa().idVertice(p.first);
 
             sistema.getMapa().InsArco(v1, v2, p.second);
@@ -311,15 +308,15 @@ void crear_mapa(Sistema& sistema, vector<string> args) {
 
     cout << "El mapa se ha generado exitosamente. Cada elemento tiene " << vecinos << " vecinos.\n";
 
-    for (Elemento* e: sistema.getMapa().getVertices()) {
-        int id = sistema.getMapa().idVertice(e);
-        cout << id;
-        cout << " -> { ";
-        for (int id_tmp: sistema.getMapa().sucesores(id)) {
-            cout << "(" << sistema.getMapa().CostoArco(id, id_tmp) << "," << id_tmp << "); ";
-        }
-        cout << "}\n";
-    }
+    // for (Elemento* e: sistema.getMapa().getVertices()) {
+    //     int id = sistema.getMapa().idVertice(e);
+    //     cout << id;
+    //     cout << " -> { ";
+    //     for (int id_tmp: sistema.getMapa().sucesores(id)) {
+    //         cout << "(" << sistema.getMapa().CostoArco(id, id_tmp) << "," << id_tmp << "); ";
+    //     }
+    //     cout << "}\n";
+    // }
 }
 
 
@@ -340,29 +337,27 @@ void ruta_mas_larga(Sistema& sistema, vector<string> args) {
 
     int n = sistema.getMapa().getVertices().size(); //Cantidad de nodos del grafo
 
-    float ***D = new float**[n+1];
-    for (int i = 0; i < n+1; i++) {
+    float ***D = new float**[n + 1];
+    for (int i = 0; i <= n; i++) {
         D[i] = new float*[n];
         for (int j = 0; j < n; j++) {
             D[i][j] = new float[n];
         }
     }
-    
-
 
     for (int i = 0; i < n; i++) { //Llenar D(0) con la definición matemática (matriz de adyacencia)
         for (int j = 0; j < n; j++) {
             if (i == j)
                 D[0][i][j] = 0;
-            else 
+            else
                 D[0][i][j] = sistema.getMapa().CostoArco(i, j); 
                 /*Se puede dentro de un solo condicional, puesto que si no existe el arco, automáticamente se asignará un -1,
                 que dado el contexto del problema, es un valor que no se puede dar como costo de un arco*/
         }
     }
 
-    int ***P = new int**[n+1]; //Arreglo de n matrices n x n (en Floyd-Warsahll es la matriz de nodos anteriores)
-    for (int i = 0; i < n+1; i++) {
+    int ***P = new int**[n + 1]; //Arreglo de n matrices n x n (en Floyd-Warsahll es la matriz de nodos anteriores)
+    for (int i = 0; i <= n; i++) {
         P[i] = new int*[n];
         for (int j = 0; j < n; j++) {
             P[i][j] = new int[n];
@@ -378,10 +373,10 @@ void ruta_mas_larga(Sistema& sistema, vector<string> args) {
         }
     }
 
-    for (int k = 1; k <= n; k++) {
+    for (int k = 1; k < n; k++) {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {         
-                D[k][i][j] = sistema.dist(sistema.getMapa(), k, i, j);
+                D[k][i][j] = sistema.dist(k, i, j);
                 if ((D[k-1][i][k] + D[k-1][k][j]) >= D[k-1][i][j])
                     P[k][i][j] = P[k-1][k][j]; //Si el camino con k es mayor, asignarlo a la lista de predecesores
                 else 
@@ -396,8 +391,8 @@ void ruta_mas_larga(Sistema& sistema, vector<string> args) {
     int vInicial = 0, vFinal = 0;
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
-            if (D[n + 1][i][j] > max)
-                max = D[n + 1][i][j];
+            if (D[n][i][j] > max)
+                max = D[n][i][j];
                 vInicial = i;
                 vFinal = j;
         }
@@ -408,10 +403,10 @@ void ruta_mas_larga(Sistema& sistema, vector<string> args) {
     queue<int> ruta;
     float longitud = 0;
     ruta.push(vFinal);
-    while (P[n + 1][vInicial][vFinal] != vInicial) {
-        ruta.push(P[n + 1][vInicial][vFinal]);
-        longitud += sistema.getMapa().CostoArco(P[n + 1][vInicial][vFinal], vFinal);
-        vFinal = P[n + 1][vInicial][vFinal];
+    while (P[n][vInicial][vFinal] != vInicial) {
+        ruta.push(P[n][vInicial][vFinal]);
+        longitud += sistema.getMapa().CostoArco(P[n][vInicial][vFinal], vFinal);
+        vFinal = P[n][vInicial][vFinal];
     }
     ruta.push(vInicial);
     longitud += sistema.getMapa().CostoArco(vInicial, vFinal);

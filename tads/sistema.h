@@ -74,7 +74,7 @@ class Sistema {
         list<pair<Elemento*, float>> elementos_cercanos(Elemento* elem, int n);
 
         //* función distancia mayor para Floyd-Warshall (función ruta_más_larga)
-        float dist(Grafo &G, int k, int i, int j);
+        float dist(int k, int i, int j);
 
         //* borrar los desplazamientos cargados en el sistema
         void borrar_desplazamientos();
