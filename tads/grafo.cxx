@@ -135,3 +135,29 @@ list<Vertice> Grafo::getvertices()
 {
     return vertices;
 }
+
+ void Grafo::ElimVertice(int v)
+{
+    for (auto it = vertices.begin(); it != vertices.end(); ++it) {
+        if (it->getId() == v) {
+            Vertice vertice = *it; 
+            it = vertices.erase(it); 
+            for (Vertice& v : vertices) { 
+                v.eliminarVertice(vertice); 
+            }
+            return;
+        }
+    }
+    throw std::runtime_error("Vertice no encontrado");
+}
+
+std::list<int> Grafo::sucesores(int v1) 
+{
+    for (Vertice& vertice : vertices) {
+        if (vertice.getId() == v1) {
+            return vertice.getAdyacentes();
+        }
+    }
+    return std::list<int>();
+    throw std::runtime_error("Vertice no encontrado");
+}

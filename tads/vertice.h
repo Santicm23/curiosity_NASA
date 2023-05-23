@@ -2,6 +2,7 @@
 #define VERTICE
 #include "elemento.h"
 #include <set>
+#include <list>
 using namespace std;
 
 class Vertice
@@ -24,6 +25,8 @@ class Vertice
         void setId(int k);
         Elemento getElemento();
         bool getmarcado();
+        void Vertice::eliminarVertice(Vertice& v);
+        std::list<int> getAdyacentes();
         void marcar();
         void desmarcar();
         bool estaMarcado();
