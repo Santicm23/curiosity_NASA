@@ -7,14 +7,19 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <queue>
 
 #include "tads/sistema.h"
 
 using namespace std;
 
 
-//! ----- componente 1 -----
+// ----- componente 1 -----
 
+// TODO: terminar componente para entrega 1
+    // con documentacion de comandos => (diagramas, graficos, dibujos), plan de pruebas (simular_comandos)
+
+// Comando: cargar_comandos nombre_archivo
 //* Comando: cargar_comandos nombre_archivo
 void cargar_comandos(Sistema& sistema, vector<string> args) {
     if (args.size() != 1)
@@ -49,8 +54,8 @@ void cargar_comandos(Sistema& sistema, vector<string> args) {
     fs.close();
 }
 
-//* Comando: cargar_elementos nombre_archivo
-void cargar_elementos(Sistema& sistema, vector<string> args) {
+// Comando: cargar_elementos nombre_archivo
+void cargar_elementos(Sistema& sistema, vector<string> args) {  
     if (args.size() != 1)
         throw runtime_error("Debe ingresar un nombre de archivo.");
     
@@ -82,7 +87,7 @@ void cargar_elementos(Sistema& sistema, vector<string> args) {
     fs.close();
 }
 
-//* Comando: agregar_movimiento tipo_mov magnitud unidad_med
+// Comando: agregar_movimiento tipo_mov magnitud unidad_med
 void agregar_movimiento(Sistema& sistema, vector<string> args) {
     // Se verifica la cantidad de argumentos y que corresponda con lo solicitado
     Movimiento::verificarDatos(args);
@@ -91,28 +96,27 @@ void agregar_movimiento(Sistema& sistema, vector<string> args) {
     cout << "El movimiento fue agregado exitosamente" << endl;
 }
 
-//* Comando: agregar_analisis tipo_analisis objeto comentario(opcional)
+// Comando: agregar_analisis tipo_analisis objeto comentario(opcional)
 void agregar_analisis(Sistema& sistema, vector<string> args) {
     // Se verifica la cantidad de argumentos y que corresponda con lo solicitado
     Analisis::verificarDatos(args);
-
-    string comment = args[2];
-    for (int i=3; i<args.size(); i++) {
-        comment += " " + args[i];
-    }
 
     Analisis* a;
 
     if (args.size() == 2){    
         a = new Analisis(args[0], args[1]);
     } else {
+        string comment = args[2];
+        for (int i=3; i<args.size(); i++) {
+            comment += " " + args[i];
+        }
         a = new Analisis(args[0], args[1], comment);
     }
     sistema.agregar_desplazamiento(a);
     cout << "El analisis ha sido agregado exitosamente" << endl;
 }
 
-//* Comando: agregar_elementos tipo_comp tamano unidad_med coordX coordY
+// Comando: agregar_elementos tipo_comp tamano unidad_med coordX coordY
 void agregar_elementos(Sistema& sistema, vector<string> args) {
     // Se verifica la cantidad de argumentos y que corresponda con lo solicitado
     Elemento::verificarDatos(args);
@@ -121,7 +125,7 @@ void agregar_elementos(Sistema& sistema, vector<string> args) {
     cout<<"El elemento ha sido agregado exitosamente\n";
 }
 
-//* Comando: guardar tipo_archivo nombre_archivo
+// Comando: guardar tipo_archivo nombre_archivo
 void guardar(Sistema& sistema, vector<string> args) {
     if (args.size() != 2)
         throw runtime_error("Se requiere el tipo de archivo y el nombre de archivo");
@@ -158,11 +162,11 @@ void guardar(Sistema& sistema, vector<string> args) {
         throw runtime_error("El tipo de archivo solo puede ser 'comandos' o 'elementos'");
     }
 
-    cout << "La informacion de tipo '" << args[0] << "' ha sido guardada en '" << args[1] << "'\n";
+    cout << "La informacion de tipo '"<<args[0]<<"' ha sido guardada en '" << args[1] <<"'\n";
     
 }
 
-//* Comando: simular_comandos coordX coordY
+// Comando: simular_comandos coordX coordY
 void simular_comandos(Sistema& sistema, vector<string> args) {
     if (args.size() != 2)
         throw runtime_error("Se requieren los parametros coordX y coordY");
@@ -192,24 +196,23 @@ void simular_comandos(Sistema& sistema, vector<string> args) {
         "deja al robot en la nueva posicion (" << sistema.getRobot().getX() << ", " << sistema.getRobot().getY() << ").\n";
 }
 
-//* Comando: salir
+// Comando: salir
 void salir(Sistema& sistema, vector<string> args) {
     if (args.size() != 0)
         throw runtime_error("No se requieren argumentos");
-    sistema.salir();
+    sistema.borrar_desplazamientos();
+    sistema.borrar_elementos();
     cout << "Fin del programa\n";
 }
 
 
-//! ----- componente 2 -----
+// ----- componente 2 -----
 
-//* Comando: ubicar_elementos
-void ubicar_elementos(Sistema& sistema, vector<string> args) {
+// Comando: ubicar_elementos
+void ubicar_elementos(Sistema& sistema, vector<string> args) { //Josefino el q no conoce a diego
     if (args.size() != 0)
         throw runtime_error("No se requieren argumentos");
 
-    if (sistema.getElementos().empty())
-        throw runtime_error("La informacion requerida no esta almacenada en memoria.");
     
     sistema.borrar_arbol();
     
@@ -217,25 +220,31 @@ void ubicar_elementos(Sistema& sistema, vector<string> args) {
         sistema.getArbolElementos().insertar(*elem);
     }
 
-    cout << "Los elementos han sido procesados exitosamente.\n";
-}
+    //if min cuadrante == nodoRaiz() {}
+        //El nodo raíz se encuentra dentro del cuadrante
+        //Puede que el hijo SupDer si se encuentre dentro del cuadrante
 
-//* Comando: en_cuadrante coordX1 coordX2 coordY1 coordY2
-void en_cuadrante(Sistema& sistema, vector<string> args) {
-    if (args.size() != 4)
-        throw runtime_error (
-            "La informacion del cuadrante no corresponde a los datos esperados (x_min, x_max, y_min, y_max)."
-        );
+    else if (min == nodo->obtenerDato().getPunto()){
+        lista.push_back(nodo->obtenerDato());
+        list<Elemento> listaInsertar = en_cuadranteR(nodo->obtenerHijoSupDer(), min, max);
+        lista.insert(lista.begin(), listaInsertar.begin(), listaInsertar.end());
+    }
 
-    float x1, x2, y1, y2;
 
-    try {
-        x1 = stof(args[0]);
-        x2 = stof(args[1]);
-        y1 = stof(args[2]);
-        y2 = stof(args[3]);
-    } catch (const invalid_argument& e) {
-        throw runtime_error("Las coordenadas deben corresponder a numeros flotantes");
+    //if min cuadrante x < nodoRaizX() && min cuadrante y < nodoRaizY(){}
+        //El nodo raíz se encuentra dentro del cuadrante
+        //Puede que todos los hijos se encuentren dentro del cuadrante
+
+    else if (min.first <= nodo->obtenerDato().getPunto().first && min.second <= nodo->obtenerDato().getPunto().second){
+        lista.push_back(nodo->obtenerDato());
+        list<Elemento> listaInsertar = en_cuadranteR(nodo->obtenerHijoSupDer(), min, max);
+        lista.insert(lista.begin(), listaInsertar.begin(), listaInsertar.end());
+        listaInsertar = en_cuadranteR(nodo->obtenerHijoSupIzq(), min, max);
+        lista.insert(lista.begin(), listaInsertar.begin(), listaInsertar.end());
+        listaInsertar = en_cuadranteR(nodo->obtenerHijoInfDer(), min, max);
+        lista.insert(lista.begin(), listaInsertar.begin(), listaInsertar.end());
+        listaInsertar = en_cuadranteR(nodo->obtenerHijoInfIzq(), min, max);
+        lista.insert(lista.begin(), listaInsertar.begin(), listaInsertar.end());
     }
 
     if (x2 < x1 || y2 < y1)
@@ -258,11 +267,18 @@ void en_cuadrante(Sistema& sistema, vector<string> args) {
             cout << elem.toString() << endl;
         }
     }
-
+    
+    return lista;
 }
 
+bool estaEnCuadrante(Elemento& elemento, pair<float, float> max){
+    pair<float, float> elem = elemento.getPunto();
+    if (elem.first <= max.first && elem.second <= max.second)
+        return true;
+    return false;
+}
 
-//! ----- componente 3 -----
+// ----- componente 3 -----
 
 //* Comando: crear_mapa coeficiente_conectividad
 void crear_mapa(Sistema& sistema, vector<string> args) {
@@ -326,14 +342,106 @@ void ruta_mas_larga(Sistema& sistema, vector<string> args) {
         throw runtime_error("No se requieren argumentos");
 
     else if (sistema.getMapa().getVertices().empty())
-        throw runtime_error("El mapa no ha sido generado todavia (con el comando crear_mapa))");   
+        throw runtime_error("El mapa no ha sido generado todavía (con el comando crear_mapa))");    
     
+    //1) Realizar algoritmo de Floyd-Warshall, cambiando las condiciones de menor por mayor
+    //2) Buscar dentro de la matriz final el mayor valor y determinar los dos vertices que lo generan
+    //3) Reconstruír la ruta a través de las matrices de predecesores, mientras se suma la longitud de los arcos
+    //4) Imprimir todos los valores hallados, a su vez que la lista
+    
+    //Realizar algoritmo de Floyd-Warshall, cambiando las condiciones de menor por mayor
+
+    int n = sistema.getMapa().getVertices().size(); //Cantidad de nodos del grafo
+    
+    float D[n + 1][n][n]; //Arreglo de n matrices n x n (en Floyd-Warsahll es la matriz de distancias)
+
+    for (int i = 0; i < n; i++){ //Llenar D(0) con la definición matemática (matriz de adyacencia)
+        for (int j = 0; j < n; j++){
+            if (i == j)
+                D[0][i][j] = 0;
+            else 
+                D[0][i][j] = sistema.getMapa().CostoArco(i, j); 
+                /*Se puede dentro de un solo condicional, puesto que si no existe el arco, automáticamente se asignará un -1,
+                que dado el contexto del problema, es un valor que no se puede dar como costo de un arco*/
+        }
+    }
+      
+    int P[n + 1][n][n]; //Arreglo de n matrices n x n (en Floyd-Warsahll es la matriz de nodos anteriores)    
+    for (int i = 0; i < n; i++){ //Llenar P(0) con la definición matemática
+        for (int j = 0; j < n; j++){
+            if (i == j || sistema.getMapa().CostoArco(i, j) == -1)
+                P[0][i][j] = -1; //En vez de null, se utiliza -1 ya que por definición no puede haber un vertice previo -1
+            else if (i != j && sistema.getMapa().CostoArco(i, j) >= 0)
+                P[0][i][j] = i;             
+
+        }
+    }
+
+    for (int k = 1; k <= n; k++){
+        for (int i = 0; i < n; i++){
+            for (int j = 0; j < n; j++){                
+                D[k][i][j] = dist(sistema.getMapa(), k, i, j);
+                if ((D[k-1][i][k] + D[k-1][k][j]) >= D[k-1][i][j])
+                    P[k][i][j] = P[k-1][k][j]; //Si el camino con k es mayor, asignarlo a la lista de predecesores
+                else 
+                    P[k][i][j] = P[k-1][i][j];
+            }
+        }
+    }
+
+    //Buscar dentro de la matriz final el mayor valor y determinar los dos vertices que lo generan
+
+    float max = 0;
+    int vInicial = 0, vFinal = 0;
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < n; j++){
+            if (D[n + 1][i][j] > max)
+                max = D[n + 1][i][j];
+                vInicial = i;
+                vFinal = j;
+        }
+    }
+
+    //Reconstruír la ruta a través de las matrices de predecesores, mientras se suma la longitud de los arcos
+
+    queue<int> ruta;
+    float longitud = 0;
+    ruta.push(vFinal);
+    while (P[n + 1][vInicial][vFinal] != vInicial){
+        ruta.push(P[n + 1][vInicial][vFinal]);
+        longitud += sistema.getMapa().CostoArco(P[n + 1][vInicial][vFinal], vFinal);
+        vFinal = P[n + 1][vInicial][vFinal];
+    }
+    ruta.push(vInicial);
+    longitud += sistema.getMapa().CostoArco(vInicial, vFinal);
+
+    //Imprimir todos los valores hallados, a su vez que la lista
+
+    cout << "Los puntos de interés más alejados entre sí son: " << vInicial << " y " << vFinal << endl;
+    cout << "La ruta que los conecta tiene una longitud total de " << longitud << " y pasa por los siguientes elementos: ";
+    int i = 1;
+    while (!ruta.empty()){
+        Elemento* elem = sistema.getMapa().InfoVertice(ruta.front());
+        cout << "Elemento " << i << ")\tTipo: " << elem->getTipoElemento() << "\tPosicion: (" << elem->getCoordenadaX() << ", " << elem->getCoordenadaY() << ")" << endl;
+        ruta.pop();
+        i++;
+    }
+}
+
+//Función distancia mayor para Floyd-Warshall (función ruta_más_larga)
+
+float dist(Grafo &G, int k, int i, int j){
+    if (k == 0){
+        return G.CostoArco(i, j);
+    }
+    else {
+        return max(dist(G, k-1, i, j), dist(G, k-1, i, k) + dist(G, k-1, k, j));
+    }
 }
 
 
-//! ----- comandos y funciones adicionales -----
+// ----- comandos y funciones adicionales -----
 
-//* Comando: ayuda nombre_comando(opcional)
 void ayuda(Sistema& sistema, vector<string> args) {
     if (args.empty()){
         for (pair<const string,ComandoSistema<Sistema>> tupla: sistema.getComandos()) {
@@ -497,9 +605,9 @@ void llenarComandosSistema(Sistema& sistema) {
 }
 
 
-//! ----- main -----
+// ----- main -----
 
-int main() {
+int main(){
     char delim = ' ';
     string lineaComando, comando, palabra;
 
