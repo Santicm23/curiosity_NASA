@@ -299,7 +299,9 @@ void crear_mapa(Sistema& sistema, vector<string> args) {
     for (Elemento* el: sistema.getElementos()) {
         int v1 = sistema.getMapa().idVertice(el);
 
-        for (pair<Elemento*, float> p: sistema.elementos_cercanos(el, vecinos)) {
+        list<pair<Elemento*,float>> l_tmp = sistema.elementos_cercanos(el, vecinos);
+
+        for (pair<Elemento*, float> p: l_tmp) {
 
             int v2 = sistema.getMapa().idVertice(p.first);
 
@@ -309,18 +311,18 @@ void crear_mapa(Sistema& sistema, vector<string> args) {
 
     cout << "El mapa se ha generado exitosamente. Cada elemento tiene " << vecinos << " vecinos.\n";
 
-    // for (Elemento* e: sistema.getMapa().getVertices()) {
-    //     int id = sistema.getMapa().idVertice(e);
-    //     cout << id;
-    //     cout << " -> { ";
-    //     for (int id_tmp: sistema.getMapa().sucesores(id)) {
-    //         cout << "(" << sistema.getMapa().CostoArco(id, id_tmp) << "," << id_tmp << "); ";
-    //     }
-    //     cout << "}\n";
-    // }
+    for (Elemento* e: sistema.getMapa().getVertices()) {
+        int id = sistema.getMapa().idVertice(e);
+        cout << id;
+        cout << " -> { ";
+        for (int id_tmp: sistema.getMapa().sucesores(id)) {
+            cout << "(" << sistema.getMapa().CostoArco(id, id_tmp) << "," << id_tmp << "); ";
+        }
+        cout << "}\n";
+    }
 }
 
-//* Comando: ruta_mas_larga
+
 //* Comando: ruta_mas_larga
 void ruta_mas_larga(Sistema& sistema, vector<string> args) {
     if (args.size() != 0)
@@ -337,11 +339,19 @@ void ruta_mas_larga(Sistema& sistema, vector<string> args) {
     //Realizar algoritmo de Floyd-Warshall, cambiando las condiciones de menor por mayor
 
     int n = sistema.getMapa().getVertices().size(); //Cantidad de nodos del grafo
-    
-    float D[n + 1][n][n]; //Arreglo de n matrices n x n (en Floyd-Warsahll es la matriz de distancias)
 
-    for (int i = 0; i < n; i++){ //Llenar D(0) con la definición matemática (matriz de adyacencia)
-        for (int j = 0; j < n; j++){
+    float ***D = new float**[n+1];
+    for (int i = 0; i < n+1; i++) {
+        D[i] = new float*[n];
+        for (int j = 0; j < n; j++) {
+            D[i][j] = new float[n];
+        }
+    }
+    
+
+
+    for (int i = 0; i < n; i++) { //Llenar D(0) con la definición matemática (matriz de adyacencia)
+        for (int j = 0; j < n; j++) {
             if (i == j)
                 D[0][i][j] = 0;
             else 
@@ -350,22 +360,28 @@ void ruta_mas_larga(Sistema& sistema, vector<string> args) {
                 que dado el contexto del problema, es un valor que no se puede dar como costo de un arco*/
         }
     }
-      
-    int P[n + 1][n][n]; //Arreglo de n matrices n x n (en Floyd-Warsahll es la matriz de nodos anteriores)    
-    for (int i = 0; i < n; i++){ //Llenar P(0) con la definición matemática
-        for (int j = 0; j < n; j++){
-            if (i == j || sistema.getMapa().CostoArco(i, j) == -1)
-                P[0][i][j] = -1; //En vez de null, se utiliza -1 ya que por definición no puede haber un vertice previo -1
-            else if (i != j && sistema.getMapa().CostoArco(i, j) >= 0)
-                P[0][i][j] = i;             
 
+    int ***P = new int**[n+1]; //Arreglo de n matrices n x n (en Floyd-Warsahll es la matriz de nodos anteriores)
+    for (int i = 0; i < n+1; i++) {
+        P[i] = new int*[n];
+        for (int j = 0; j < n; j++) {
+            P[i][j] = new int[n];
         }
     }
 
-    for (int k = 1; k <= n; k++){
-        for (int i = 0; i < n; i++){
-            for (int j = 0; j < n; j++){                
-                D[k][i][j] = dist(sistema.getMapa(), k, i, j);
+    for (int i = 0; i < n; i++) { //Llenar P(0) con la definición matemática
+        for (int j = 0; j < n; j++) {
+            if (i == j || sistema.getMapa().CostoArco(i, j) == -1)
+                P[0][i][j] = -1; //En vez de null, se utiliza -1 ya que por definición no puede haber un vertice previo -1
+            else if (i != j && sistema.getMapa().CostoArco(i, j) >= 0)
+                P[0][i][j] = i;
+        }
+    }
+
+    for (int k = 1; k <= n; k++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {         
+                D[k][i][j] = sistema.dist(sistema.getMapa(), k, i, j);
                 if ((D[k-1][i][k] + D[k-1][k][j]) >= D[k-1][i][j])
                     P[k][i][j] = P[k-1][k][j]; //Si el camino con k es mayor, asignarlo a la lista de predecesores
                 else 
@@ -378,8 +394,8 @@ void ruta_mas_larga(Sistema& sistema, vector<string> args) {
 
     float max = 0;
     int vInicial = 0, vFinal = 0;
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++){
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
             if (D[n + 1][i][j] > max)
                 max = D[n + 1][i][j];
                 vInicial = i;
@@ -392,7 +408,7 @@ void ruta_mas_larga(Sistema& sistema, vector<string> args) {
     queue<int> ruta;
     float longitud = 0;
     ruta.push(vFinal);
-    while (P[n + 1][vInicial][vFinal] != vInicial){
+    while (P[n + 1][vInicial][vFinal] != vInicial) {
         ruta.push(P[n + 1][vInicial][vFinal]);
         longitud += sistema.getMapa().CostoArco(P[n + 1][vInicial][vFinal], vFinal);
         vFinal = P[n + 1][vInicial][vFinal];
@@ -405,25 +421,24 @@ void ruta_mas_larga(Sistema& sistema, vector<string> args) {
     cout << "Los puntos de interés más alejados entre sí son: " << vInicial << " y " << vFinal << endl;
     cout << "La ruta que los conecta tiene una longitud total de " << longitud << " y pasa por los siguientes elementos: ";
     int i = 1;
-    while (!ruta.empty()){
+    while (!ruta.empty()) {
         Elemento* elem = sistema.getMapa().InfoVertice(ruta.front());
         cout << "Elemento " << i << ")\tTipo: " << elem->getTipoElemento() << "\tPosicion: (" << elem->getCoordenadaX() << ", " << elem->getCoordenadaY() << ")" << endl;
         ruta.pop();
         i++;
     }
-}
 
-//Función distancia mayor para Floyd-Warshall (función ruta_más_larga)
-
-float dist(Grafo &G, int k, int i, int j){
-    if (k == 0){
-        return G.CostoArco(i, j);
+    for (int i = 0; i < n+1; i++) {
+        for (int j = 0; j < n; j++) {
+            delete[] D[i][j];
+            delete[] P[i][j];
+        }
+        delete[] D[i];
+        delete[] P[i];
     }
-    else {
-        return max(dist(G, k-1, i, j), dist(G, k-1, i, k) + dist(G, k-1, k, j));
-    }
+    delete[] D;
+    delete[] P;
 }
-
 
 //! ----- comandos y funciones adicionales -----
 

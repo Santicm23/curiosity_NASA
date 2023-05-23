@@ -152,19 +152,31 @@ list<pair<Elemento*, float>> Sistema::elementos_cercanos(Elemento* elem, int n) 
             l_res.push_back(make_pair(el, dist_tmp));
 
         } else {
+            bool added = false;
+
             for (list<pair<Elemento*, float>>::iterator it = l_res.begin(); it != l_res.end(); it++) {
-                if (dist_tmp < it->second) {
+                if (dist_tmp < it->second && l_res.size() < n) {
                     l_res.insert(it, make_pair(el, dist_tmp));
+                    added = true;
                     break;
                 }
             }
-        }
 
-        if (l_res.size() > n)
-            l_res.pop_back();
+            if (!added && l_res.size() < n) {
+                l_res.push_back(make_pair(el, dist_tmp));
+            }
+        }
     }
 
     return l_res;
+}
+
+float Sistema::dist(Grafo &G, int k, int i, int j){
+    if (k == 0) {
+        return G.CostoArco(i, j);
+    } else {
+        return max(dist(G, k-1, i, j), dist(G, k-1, i, k) + dist(G, k-1, k, j));
+    }
 }
 
 void Sistema::borrar_desplazamientos() {
