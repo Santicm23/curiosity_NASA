@@ -18,6 +18,7 @@ class Grafo {
     private:
         list<Vertice> vertices; //* la posición en la lista corresponde al número de vértice.
         list<set<Arista>> aristas;
+        
     public:
         Grafo();
 
@@ -56,6 +57,7 @@ class Grafo {
 
         //* Retorna el costo del arco existente entre v1 y v2. Sino existe un arco entre los dos vértices retorna -1
         float CostoArco(int v1, int v2);
+        
         //* Retorna una lista con los vértices del grafo. Cada ver de la lista tiene la información (tipo T) de cada vértice
         list<Elemento*> getVertices();
         
