@@ -204,16 +204,12 @@ list<Elemento> NodoQuad::en_cuadrante(pair<float, float> min, pair<float, float>
     else {
         pair<float, float> punto = this->obtenerDato().getPunto();
 
-        //La raíz está en el cuadrante
-        
-        if (this->obtenerDato().estaEnCuadrante(min, max)) 
-            l.push_back(this->obtenerDato());
-
         //if min cuadrante x < nodoRaizX() && min cuadrante y < nodoRaizY(){}
             //El nodo raíz se encuentra dentro del cuadrante
             //Puede que todos los hijos se encuentren dentro del cuadrante
 
-        else if (min.first <= punto.first && min.second <= punto.second){
+        if (min.first <= punto.first && min.second <= punto.second){
+            l.push_back(this->obtenerDato());
             l.splice(l.end(), this->hijoSupIzq->en_cuadrante(min, max));
             l.splice(l.end(), this->hijoSupDer->en_cuadrante(min, max));
             l.splice(l.end(), this->hijoInfIzq->en_cuadrante(min, max));
@@ -223,7 +219,7 @@ list<Elemento> NodoQuad::en_cuadrante(pair<float, float> min, pair<float, float>
         //if min cuadrante x < nodoRaizX() && min cuadrante y > nodoRaizY(){}
             //Puede que los hijos SupDer y SupIzq se encuentren dentro del cuadrante
 
-        else if (min.first <= punto.first && min.second > punto.second){
+        if (min.first <= punto.first && min.second > punto.second){
             l.splice(l.end(), this->hijoSupIzq->en_cuadrante(min, max));
             l.splice(l.end(), this->hijoSupDer->en_cuadrante(min, max));
         }
@@ -231,7 +227,7 @@ list<Elemento> NodoQuad::en_cuadrante(pair<float, float> min, pair<float, float>
         //if min cuadrante x > nodoRaizX() && min cuadrante y < nodoRaizY(){}
             //Puede que los hijos SupDer e InfDer se encuentren dentro del cuadrante
 
-        else if (min.first > punto.first && min.second <= punto.second){
+        if (min.first > punto.first && min.second <= punto.second){
             l.splice(l.end(), this->hijoSupDer->en_cuadrante(min, max));
             l.splice(l.end(), this->hijoInfDer->en_cuadrante(min, max));
         }
@@ -239,7 +235,7 @@ list<Elemento> NodoQuad::en_cuadrante(pair<float, float> min, pair<float, float>
         //if min cuadrante x > nodoRaizX() && min cuadrante y > nodoRaizY(){}
             //Puede que el hijoSupDer se encuentre dentro del cuadrante
 
-        else 
+        if (min.first > punto.first && min.second > punto.second)
             l.splice(l.end(), this->hijoSupDer->en_cuadrante(min, max));
 
         return l;
