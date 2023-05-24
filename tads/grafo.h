@@ -75,9 +75,8 @@ class Grafo {
             int V = vertices.size();
             vector<vector<int>> matriz(V, vector<int>(V, -1));
 
-            list<Vertice>::iterator it_v = this->vertices.begin();
             list<set<Arista>>::iterator it_a = this->aristas.begin();
-            for (int i = 0; i < V; ++i, ++it_v, ++it_a) {
+            for (int i = 0; i < V; ++i, ++it_a) {
                 matriz[i][i] = 0.0;
                 for (const Arista& arista: *it_a) {
                     matriz[i][arista.second] = arista.second;
@@ -91,9 +90,8 @@ class Grafo {
             int V = vertices.size();
             vector<vector<float>> matriz(V, vector<float>(V, -1));
 
-            list<Vertice>::iterator it_v = this->vertices.begin();
             list<set<Arista>>::iterator it_a = this->aristas.begin();
-            for (int i = 0; i < V; ++i, ++it_v, ++it_a) {
+            for (int i = 0; i < V; ++i, ++it_a) {
                 matriz[i][i] = 0.0;
                 for (const Arista& arista: *it_a) {
                     matriz[i][arista.second] = arista.first;

@@ -84,7 +84,7 @@ class Sistema {
                 for (int i = 0; i < V; ++i) {
                     for (int j = 0; j < V; ++j) {
                         // Si el vértice k aumenta la distancia entre i y j, lo actualizamos
-                        if (matrizPesos[i][k] + matrizPesos[k][j] < matrizPesos[i][j] && i!=j && i!=k && j!=k) {
+                        if (matrizPesos[i][k] != -1 && matrizPesos[k][j] != -1 && matrizPesos[i][k] + matrizPesos[k][j] > matrizPesos[i][j] && matrizPesos[i][j] != 0) {
                             matrizPesos[i][j] = matrizPesos[i][k] + matrizPesos[k][j];
                             matrizPredecesores[i][j] = k+1;
                         }
