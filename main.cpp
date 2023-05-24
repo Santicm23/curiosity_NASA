@@ -313,7 +313,7 @@ void crear_mapa(Sistema& sistema, vector<string> args) {
         cout << id;
         cout << " -> { ";
         for (int id_tmp: sistema.getMapa().sucesores(id)) {
-            cout << "(" << sistema.getMapa().CostoArco(id, id_tmp) << ", " << id_tmp << ": " << sistema.getMapa().InfoVertice(id_tmp)->toString() << "); ";
+            cout << "(" << sistema.getMapa().CostoArco(id, id_tmp) << ", " << id_tmp << "); ";
         }
         cout << "}\n";
     }
@@ -434,42 +434,51 @@ void ruta_mas_larga(Sistema& sistema, vector<string> args) {
     // delete[] D;
     // delete[] P;
 
-    vector<vector<int>> a = sistema.getMapa().getMatrizAdyacentes();
-    vector<vector<float>> d = sistema.getMapa().getMatrizCoste();
+    // vector<vector<int>> a = sistema.getMapa().getMatrizAdyacentes();
+    // vector<vector<float>> d = sistema.getMapa().getMatrizCoste();
 
-    int V = a.size();
-    cout << "Matriz de adyacencia:\n";
-    for (int i = 0; i < V; i++) {
-        for (int j = 0; j < V; j++) {
-            if (a[i][j] == -1)
-                cout << "INF ";
-            else
-                cout << a[i][j] << " ";
-        }
-        cout << "\n";
-    }
+    // int V = a.size();
+    // cout << "Matriz de adyacencia:\n";
+    // for (int i = 0; i < V; i++) {
+    //     for (int j = 0; j < V; j++) {
+    //         if (a[i][j] == -1)
+    //             cout << "INF ";
+    //         else
+    //             cout << a[i][j] << " ";
+    //     }
+    //     cout << "\n";
+    // }
     
-    cout << "Matriz de coste:\n";
-    for (int i = 0; i < V; i++) {
-        for (int j = 0; j < V; j++) {
-            if (d[i][j] == -1)
-                cout << "INF ";
-            else
-                cout << d[i][j] << " ";
+    // cout << "Matriz de coste:\n";
+    // for (int i = 0; i < V; i++) {
+    //     for (int j = 0; j < V; j++) {
+    //         if (d[i][j] == -1)
+    //             cout << "INF ";
+    //         else
+    //             cout << d[i][j] << " ";
+    //     }
+    //     cout << "\n";
+    // }
+
+    // sistema.floydWarshall(a, d);
+
+    // pair<list<int>, float> res = sistema.obtenerRutaMasLarga(a, d);
+
+    pair<list<Elemento*>, float> res = make_pair(list<Elemento*>(), 0);
+
+    for (Elemento* el: sistema.getElementos()) {
+        pair<list<Elemento*>, float> tmp = sistema.ruta_mas_larga_elem(el);
+        
+        if (tmp.second >= res.second) {
+            res = tmp;
         }
-        cout << "\n";
     }
 
-    sistema.floydWarshall(a, d);
-
-    pair<list<int>, float> res = sistema.obtenerRutaMasLarga(a, d);
-
-
-    cout << "Los puntos de interes mas alejados entre si son: " << sistema.getMapa().InfoVertice(*(res.first.begin()))->toString() << " y " << sistema.getMapa().InfoVertice(*(res.first.rbegin()))->toString() << endl;
+    cout << "Los puntos de interes mas alejados entre si son: " << (*res.first.begin())->toString() << " y " << (*res.first.rbegin())->toString() << endl;
     cout << "La ruta que los conecta tiene una longitud total de " << res.second << " y pasa por los siguientes elementos:\n";
 
-    for (int id: res.first) {
-        cout << sistema.getMapa().InfoVertice(id)->toString() << endl;
+    for (Elemento* el: res.first) {
+        cout << el->toString() << endl;
     }
 }
 

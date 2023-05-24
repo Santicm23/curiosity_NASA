@@ -181,6 +181,57 @@ float Sistema::dist(int k, int i, int j) {
     }
 }
 
+pair<list<Elemento*>, float> Sistema::ruta_mas_larga_elem(Elemento* elem) {
+    int id1 = this->mapa.idVertice(elem);
+
+    if (id1 == -1) {
+        throw runtime_error("El elemento no se encuentran en el mapa");
+    }
+
+    pair<list<int>, float> res_ids = make_pair(list<int>({id1}), 0);
+    for (Elemento* el: this->elementos) {
+        int id2 = this->mapa.idVertice(el);
+        pair<list<int>, float> tmp = ruta_mas_larga_elems_recur(id1, id2, list<int>());
+        if (tmp.second > res_ids.second) {
+            res_ids = tmp;
+        }
+    }
+    
+
+    list<Elemento*> elems;
+    for (int id : res_ids.first) {
+        elems.push_back(this->mapa.InfoVertice(id));
+    }
+
+    return make_pair(elems, res_ids.second);
+}
+
+pair<list<int>, float> Sistema::ruta_mas_larga_elems_recur(int id1, int id2, list<int> visitados) {
+    if (id1 == id2) {
+        return make_pair(list<int>(), 0);
+
+    } else {
+        visitados.push_back(id1);
+
+        pair<list<int>, float> res = make_pair(list<int>({id1}), 0);
+
+        for (int i: this->mapa.sucesores(id1)) {
+            if (find(visitados.begin(), visitados.end(), i) == visitados.end()) {
+                float costo_tmp = this->mapa.CostoArco(id1, i);
+
+                pair<list<int>, float> tmp = ruta_mas_larga_elems_recur(i, id2, visitados);
+                tmp.first.push_front(id1);
+                tmp.second += costo_tmp;
+
+                if (costo_tmp > res.second) {
+                    res = tmp;
+                }
+            }
+        }
+        return res;
+    }
+}
+
 void Sistema::borrar_desplazamientos() {
     for (Desplazamiento* desp: this->desplazamientos) {
         delete desp;
