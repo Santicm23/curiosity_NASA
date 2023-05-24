@@ -80,9 +80,9 @@ class Sistema {
             int V = matrizPredecesores.size();
 
             // Iteramos sobre todos los vértices y calculamos las distancias más altas
-            for (int k = 0; k < V; ++k) {
-                for (int i = 0; i < V; ++i) {
-                    for (int j = 0; j < V; ++j) {
+            for (int k = 0; k < V; k++) {
+                for (int i = 0; i < V; i++) {
+                    for (int j = 0; j < V; j++) {
                         // Si el vértice k aumenta la distancia entre i y j, lo actualizamos
                         if (matrizPesos[i][k] != -1 && matrizPesos[k][j] != -1 && matrizPesos[i][k] + matrizPesos[k][j] > matrizPesos[i][j] && matrizPesos[i][j] != 0) {
                             matrizPesos[i][j] = matrizPesos[i][k] + matrizPesos[k][j];

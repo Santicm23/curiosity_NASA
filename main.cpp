@@ -437,21 +437,33 @@ void ruta_mas_larga(Sistema& sistema, vector<string> args) {
     vector<vector<int>> a = sistema.getMapa().getMatrizAdyacentes();
     vector<vector<float>> d = sistema.getMapa().getMatrizCoste();
 
+    int V = a.size();
+    cout << "Matriz de adyacencia:\n";
+    for (int i = 0; i < V; i++) {
+        for (int j = 0; j < V; j++) {
+            if (a[i][j] == -1)
+                cout << "INF ";
+            else
+                cout << a[i][j] << " ";
+        }
+        cout << "\n";
+    }
+    
+    cout << "Matriz de coste:\n";
+    for (int i = 0; i < V; i++) {
+        for (int j = 0; j < V; j++) {
+            if (d[i][j] == -1)
+                cout << "INF ";
+            else
+                cout << d[i][j] << " ";
+        }
+        cout << "\n";
+    }
+
     sistema.floydWarshall(a, d);
 
     pair<list<int>, float> res = sistema.obtenerRutaMasLarga(a, d);
 
-    // int V = dist.size();
-    // cout << "Matriz de distancias mas altas:\n";
-    // for (int i = 0; i < V; ++i) {
-    //     for (int j = 0; j < V; ++j) {
-    //         if (dist[i][j] == -1)
-    //             std::cout << "INF ";
-    //         else
-    //             std::cout << dist[i][j] << " ";
-    //     }
-    //     cout << "\n";
-    // }
 
     cout << "Los puntos de interes mas alejados entre si son: " << sistema.getMapa().InfoVertice(*(res.first.begin()))->toString() << " y " << sistema.getMapa().InfoVertice(*(res.first.rbegin()))->toString() << endl;
     cout << "La ruta que los conecta tiene una longitud total de " << res.second << " y pasa por los siguientes elementos:\n";
