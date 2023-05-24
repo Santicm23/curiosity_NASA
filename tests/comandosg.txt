@@ -1,0 +1,250 @@
+avanzar 18467 metros
+composicion crater 'comentario 4'
+avanzar 11478 metros
+composicion roca 'comentario 8'
+girar 65 grados
+fotografiar crater 'comentario 12'
+avanzar 2995 metros
+fotografiar roca 'comentario 16'
+avanzar 14604 metros
+fotografiar roca 'comentario 20'
+avanzar 17421 metros
+perforar duna 'comentario 24'
+avanzar 21726 metros
+fotografiar crater 'comentario 28'
+girar 107 grados
+composicion monticulo 'comentario 32'
+avanzar 23811 metros
+fotografiar crater 'comentario 36'
+avanzar 15141 metros
+perforar roca 'comentario 40'
+avanzar 27644 metros
+fotografiar crater 'comentario 44'
+avanzar 8723 metros
+composicion monticulo 'comentario 48'
+girar 155 grados
+fotografiar roca 'comentario 52'
+avanzar 9040 metros
+composicion roca 'comentario 56'
+avanzar 23805 metros
+fotografiar monticulo 'comentario 60'
+avanzar 15006 metros
+fotografiar roca 'comentario 64'
+avanzar 12623 metros
+composicion roca 'comentario 68'
+girar 106 grados
+perforar roca 'comentario 72'
+avanzar 32439 metros
+composicion crater 'comentario 76'
+avanzar 16118 metros
+fotografiar crater 'comentario 80'
+avanzar 31115 metros
+fotografiar roca 'comentario 84'
+avanzar 13977 metros
+perforar monticulo 'comentario 88'
+girar 125 grados
+composicion monticulo 'comentario 92'
+avanzar 26777 metros
+fotografiar roca 'comentario 96'
+avanzar 13290 metros
+fotografiar duna 'comentario 100'
+avanzar 23655 metros
+perforar roca 'comentario 104'
+avanzar 1150 metros
+composicion monticulo 'comentario 108'
+girar 147 grados
+composicion crater 'comentario 112'
+avanzar 12287 metros
+fotografiar crater 'comentario 116'
+avanzar 32209 metros
+perforar roca 'comentario 120'
+avanzar 24946 metros
+composicion crater 'comentario 124'
+avanzar 900 metros
+fotografiar duna 'comentario 128'
+girar 59 grados
+perforar roca 'comentario 132'
+avanzar 27595 metros
+perforar monticulo 'comentario 136'
+avanzar 30836 metros
+composicion roca 'comentario 140'
+avanzar 27348 metros
+fotografiar roca 'comentario 144'
+avanzar 4734 metros
+composicion monticulo 'comentario 148'
+girar 60 grados
+composicion duna 'comentario 152'
+avanzar 14893 metros
+composicion duna 'comentario 156'
+avanzar 14310 metros
+composicion monticulo 'comentario 160'
+avanzar 7616 metros
+fotografiar roca 'comentario 164'
+avanzar 16519 metros
+composicion duna 'comentario 168'
+girar 28 grados
+perforar crater 'comentario 172'
+avanzar 3195 metros
+fotografiar duna 'comentario 176'
+avanzar 1587 metros
+perforar roca 'comentario 180'
+avanzar 13458 metros
+fotografiar roca 'comentario 184'
+avanzar 15281 metros
+perforar crater 'comentario 188'
+girar 132 grados
+composicion roca 'comentario 192'
+avanzar 24179 metros
+perforar monticulo 'comentario 196'
+avanzar 19815 metros
+composicion duna 'comentario 200'
+avanzar 2634 metros
+fotografiar roca 'comentario 204'
+avanzar 26362 metros
+perforar crater 'comentario 208'
+girar 162 grados
+fotografiar crater 'comentario 212'
+avanzar 10322 metros
+composicion duna 'comentario 216'
+avanzar 28476 metros
+perforar duna 'comentario 220'
+avanzar 2600 metros
+fotografiar crater 'comentario 224'
+avanzar 14688 metros
+fotografiar duna 'comentario 228'
+girar 142 grados
+perforar crater 'comentario 232'
+avanzar 31426 metros
+fotografiar roca 'comentario 236'
+avanzar 4169 metros
+perforar crater 'comentario 240'
+avanzar 31329 metros
+fotografiar crater 'comentario 244'
+avanzar 3434 metros
+composicion roca 'comentario 248'
+girar 60 grados
+fotografiar duna 'comentario 252'
+avanzar 16279 metros
+composicion crater 'comentario 256'
+avanzar 17437 metros
+composicion crater 'comentario 260'
+avanzar 3297 metros
+perforar crater 'comentario 264'
+avanzar 16282 metros
+fotografiar monticulo 'comentario 268'
+girar 176 grados
+perforar duna 'comentario 272'
+avanzar 24355 metros
+composicion roca 'comentario 276'
+avanzar 1832 metros
+perforar roca 'comentario 280'
+avanzar 19558 metros
+composicion crater 'comentario 284'
+avanzar 23196 metros
+composicion crater 'comentario 288'
+girar 110 grados
+perforar roca 'comentario 292'
+avanzar 26292 metros
+fotografiar roca 'comentario 296'
+avanzar 29510 metros
+fotografiar monticulo 'comentario 300'
+avanzar 4474 metros
+perforar monticulo 'comentario 304'
+avanzar 9905 metros
+perforar monticulo 'comentario 308'
+girar 17 grados
+perforar roca 'comentario 312'
+avanzar 25874 metros
+perforar crater 'comentario 316'
+avanzar 7487 metros
+fotografiar crater 'comentario 320'
+avanzar 32270 metros
+composicion roca 'comentario 324'
+avanzar 3102 metros
+perforar duna 'comentario 328'
+girar 139 grados
+fotografiar duna 'comentario 332'
+avanzar 11023 metros
+perforar crater 'comentario 336'
+avanzar 27432 metros
+perforar crater 'comentario 340'
+avanzar 8492 metros
+perforar monticulo 'comentario 344'
+avanzar 7900 metros
+perforar crater 'comentario 348'
+girar 50 grados
+composicion crater 'comentario 352'
+avanzar 25760 metros
+perforar crater 'comentario 356'
+avanzar 140 metros
+composicion roca 'comentario 360'
+avanzar 2125 metros
+composicion monticulo 'comentario 364'
+avanzar 17371 metros
+composicion crater 'comentario 368'
+girar 104 grados
+fotografiar duna 'comentario 372'
+avanzar 2800 metros
+composicion monticulo 'comentario 376'
+avanzar 4757 metros
+perforar roca 'comentario 380'
+avanzar 12043 metros
+fotografiar crater 'comentario 384'
+avanzar 17086 metros
+composicion crater 'comentario 388'
+girar 105 grados
+composicion roca 'comentario 392'
+avanzar 28520 metros
+composicion duna 'comentario 396'
+avanzar 3737 metros
+composicion crater 'comentario 400'
+avanzar 8260 metros
+composicion monticulo 'comentario 404'
+avanzar 29011 metros
+fotografiar duna 'comentario 408'
+girar 100 grados
+perforar roca 'comentario 412'
+avanzar 4940 metros
+perforar crater 'comentario 416'
+avanzar 17713 metros
+composicion crater 'comentario 420'
+avanzar 11477 metros
+fotografiar duna 'comentario 424'
+avanzar 12760 metros
+perforar crater 'comentario 428'
+girar 53 grados
+composicion monticulo 'comentario 432'
+avanzar 22428 metros
+fotografiar crater 'comentario 436'
+avanzar 31111 metros
+composicion roca 'comentario 440'
+avanzar 29350 metros
+composicion roca 'comentario 444'
+avanzar 1626 metros
+fotografiar crater 'comentario 448'
+girar 51 grados
+fotografiar roca 'comentario 452'
+avanzar 29617 metros
+fotografiar roca 'comentario 456'
+avanzar 24041 metros
+fotografiar crater 'comentario 460'
+avanzar 6559 metros
+fotografiar duna 'comentario 464'
+avanzar 16962 metros
+composicion monticulo 'comentario 468'
+girar 37 grados
+perforar duna 'comentario 472'
+avanzar 2483 metros
+composicion duna 'comentario 476'
+avanzar 4675 metros
+fotografiar monticulo 'comentario 480'
+avanzar 6511 metros
+fotografiar duna 'comentario 484'
+avanzar 3221 metros
+fotografiar monticulo 'comentario 488'
+girar 103 grados
+composicion duna 'comentario 492'
+avanzar 12193 metros
+perforar monticulo 'comentario 496'
+avanzar 1993 metros
+composicion monticulo 'comentario 500'
