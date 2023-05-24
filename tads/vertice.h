@@ -1,4 +1,3 @@
-
 #ifndef VERTICE
 #define VERTICE
 
