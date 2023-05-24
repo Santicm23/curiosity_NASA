@@ -1,6 +1,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <utility>
 #include <list>
 #include <map>
 #include <string>
@@ -210,6 +211,8 @@ void ubicar_elementos(Sistema& sistema, vector<string> args) {
     if (sistema.getElementos().empty())
         throw runtime_error("La informacion requerida no esta almacenada en memoria.");
     
+    sistema.borrar_arbol();
+    
     for (Elemento* elem: sistema.getElementos()) {
         sistema.getArbolElementos().insertar(*elem);
     }
@@ -268,16 +271,169 @@ void crear_mapa(Sistema& sistema, vector<string> args) {
 
     if (sistema.getElementos().empty())
         throw runtime_error("La informacion requerida no esta almacenada en memoria.");
+
+    float coef;
+
+    try {
+        coef = stof(args[0]);
+    } catch (const invalid_argument& e) {
+        throw runtime_error("El coeficiente de conectividad debe ser un numero flotante");
+    }
+
+    if (coef < 0 || coef > 1)
+        throw runtime_error("El coeficiente de conectividad debe tener un valor entre 0 y 1");
+    
+    sistema.borrar_mapa();
+
+    int vecinos = round(coef * sistema.getElementos().size());
+
+    if (vecinos == sistema.getElementos().size())
+        vecinos--; //? no puede tenerse a si mismo como arista (1 arista menos del total como maximo)
+
+    for (Elemento* el: sistema.getElementos()) {
+        if (!sistema.getMapa().existeVertice(el)) {
+            sistema.getMapa().InsVertice(el);
+        }
+    }
+    
+    for (Elemento* el: sistema.getElementos()) {
+        int v1 = sistema.getMapa().idVertice(el);
+
+        for (pair<Elemento*, float> p: sistema.elementos_cercanos(el, vecinos)) {
+            int v2 = sistema.getMapa().idVertice(p.first);
+
+            sistema.getMapa().InsArco(v1, v2, p.second);
+        }
+    }
+
+    cout << "El mapa se ha generado exitosamente. Cada elemento tiene " << vecinos << " vecinos.\n";
+
+    // for (Elemento* e: sistema.getMapa().getVertices()) {
+    //     int id = sistema.getMapa().idVertice(e);
+    //     cout << id;
+    //     cout << " -> { ";
+    //     for (int id_tmp: sistema.getMapa().sucesores(id)) {
+    //         cout << "(" << sistema.getMapa().CostoArco(id, id_tmp) << "," << id_tmp << "); ";
+    //     }
+    //     cout << "}\n";
+    // }
 }
+
 
 //* Comando: ruta_mas_larga
 void ruta_mas_larga(Sistema& sistema, vector<string> args) {
     if (args.size() != 0)
         throw runtime_error("No se requieren argumentos");
 
+    else if (sistema.getMapa().getVertices().empty())
+        throw runtime_error("El mapa no ha sido generado todavía (con el comando crear_mapa))");    
     
-}
+    //1) Realizar algoritmo de Floyd-Warshall, cambiando las condiciones de menor por mayor
+    //2) Buscar dentro de la matriz final el mayor valor y determinar los dos vertices que lo generan
+    //3) Reconstruír la ruta a través de las matrices de predecesores, mientras se suma la longitud de los arcos
+    //4) Imprimir todos los valores hallados, a su vez que la lista
+    
+    //Realizar algoritmo de Floyd-Warshall, cambiando las condiciones de menor por mayor
 
+    int n = sistema.getMapa().getVertices().size(); //Cantidad de nodos del grafo
+
+    float ***D = new float**[n + 1];
+    for (int i = 0; i <= n; i++) {
+        D[i] = new float*[n];
+        for (int j = 0; j < n; j++) {
+            D[i][j] = new float[n];
+        }
+    }
+
+    for (int i = 0; i < n; i++) { //Llenar D(0) con la definición matemática (matriz de adyacencia)
+        for (int j = 0; j < n; j++) {
+            if (i == j)
+                D[0][i][j] = 0;
+            else
+                D[0][i][j] = sistema.getMapa().CostoArco(i, j); 
+                /*Se puede dentro de un solo condicional, puesto que si no existe el arco, automáticamente se asignará un -1,
+                que dado el contexto del problema, es un valor que no se puede dar como costo de un arco*/
+        }
+    }
+
+    int ***P = new int**[n + 1]; //Arreglo de n matrices n x n (en Floyd-Warsahll es la matriz de nodos anteriores)
+    for (int i = 0; i <= n; i++) {
+        P[i] = new int*[n];
+        for (int j = 0; j < n; j++) {
+            P[i][j] = new int[n];
+        }
+    }
+
+    for (int i = 0; i < n; i++) { //Llenar P(0) con la definición matemática
+        for (int j = 0; j < n; j++) {
+            if (i == j || sistema.getMapa().CostoArco(i, j) == -1)
+                P[0][i][j] = -1; //En vez de null, se utiliza -1 ya que por definición no puede haber un vertice previo -1
+            else if (i != j && sistema.getMapa().CostoArco(i, j) >= 0)
+                P[0][i][j] = i;
+        }
+    }
+
+    for (int k = 1; k < n; k++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {         
+                D[k][i][j] = sistema.dist(k, i, j);
+                if ((D[k-1][i][k] + D[k-1][k][j]) >= D[k-1][i][j])
+                    P[k][i][j] = P[k-1][k][j]; //Si el camino con k es mayor, asignarlo a la lista de predecesores
+                else 
+                    P[k][i][j] = P[k-1][i][j];
+            }
+        }
+    }
+
+    //Buscar dentro de la matriz final el mayor valor y determinar los dos vertices que lo generan
+
+    float max = 0;
+    int vInicial = 0, vFinal = 0;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (D[n][i][j] > max)
+                max = D[n][i][j];
+                vInicial = i;
+                vFinal = j;
+        }
+    }
+
+    //Reconstruír la ruta a través de las matrices de predecesores, mientras se suma la longitud de los arcos
+
+    queue<int> ruta;
+    float longitud = 0;
+    ruta.push(vFinal);
+    while (P[n][vInicial][vFinal] != vInicial) {
+        ruta.push(P[n][vInicial][vFinal]);
+        longitud += sistema.getMapa().CostoArco(P[n][vInicial][vFinal], vFinal);
+        vFinal = P[n][vInicial][vFinal];
+    }
+    ruta.push(vInicial);
+    longitud += sistema.getMapa().CostoArco(vInicial, vFinal);
+
+    //Imprimir todos los valores hallados, a su vez que la lista
+
+    cout << "Los puntos de interés más alejados entre sí son: " << vInicial << " y " << vFinal << endl;
+    cout << "La ruta que los conecta tiene una longitud total de " << longitud << " y pasa por los siguientes elementos: ";
+    int i = 1;
+    while (!ruta.empty()) {
+        Elemento* elem = sistema.getMapa().InfoVertice(ruta.front());
+        cout << "Elemento " << i << ")\tTipo: " << elem->getTipoElemento() << "\tPosicion: (" << elem->getCoordenadaX() << ", " << elem->getCoordenadaY() << ")" << endl;
+        ruta.pop();
+        i++;
+    }
+
+    for (int i = 0; i < n+1; i++) {
+        for (int j = 0; j < n; j++) {
+            delete[] D[i][j];
+            delete[] P[i][j];
+        }
+        delete[] D[i];
+        delete[] P[i];
+    }
+    delete[] D;
+    delete[] P;
+}
 
 //! ----- comandos y funciones adicionales -----
 

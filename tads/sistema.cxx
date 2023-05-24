@@ -3,6 +3,7 @@
 #include <sstream>
 #include <list>
 #include <vector>
+#include <utility>
 #include <map>
 
 #include "sistema.h"
@@ -73,34 +74,39 @@ Elemento* crearElemento(string linea, char delim = ' ') {
 
 Sistema::Sistema() {
     this->arbolElementos = ArbolQuad();
+    this->mapa = Grafo();
 }
 
 Sistema::Sistema(const Sistema& sistema) {
-    comandos = sistema.comandos;
-    desplazamientos = sistema.desplazamientos;
-    elementos = sistema.elementos;
-    robot = sistema.robot;
+    this->comandos = sistema.comandos;
+    this->desplazamientos = sistema.desplazamientos;
+    this->elementos = sistema.elementos;
+    this->robot = sistema.robot;
     this->arbolElementos = ArbolQuad();
 }
 
 map<string,ComandoSistema<Sistema>>& Sistema::getComandos() {
-    return comandos;
+    return this->comandos;
 }
 
 list<Desplazamiento*>& Sistema::getDesplazamientos() {
-    return desplazamientos;
+    return this->desplazamientos;
 }
 
 list<Elemento*>& Sistema::getElementos() {
-    return elementos;
+    return this->elementos;
 }
 
 ArbolQuad& Sistema::getArbolElementos() {
-    return arbolElementos;
+    return this->arbolElementos;
 }
 
 RobotCuriosity& Sistema::getRobot() {
-    return robot;
+    return this->robot;
+}
+
+Grafo& Sistema::getMapa() {
+    return this->mapa;
 }
 
 string Sistema::obtenerExtension(string nombreArchivo) {
@@ -112,69 +118,104 @@ string Sistema::obtenerExtension(string nombreArchivo) {
 }
 
 void Sistema::agregar_comando(string nombre, string desc, funcion func) {
-    comandos.insert({nombre, ComandoSistema<Sistema>(nombre, desc, func)});
+    this->comandos.insert({nombre, ComandoSistema<Sistema>(nombre, desc, func)});
 }
 
 void Sistema::agregar_desplazamiento(Desplazamiento* desp) {
-    desplazamientos.push_back(desp);
+    this->desplazamientos.push_back(desp);
 }
 
 void Sistema::agregar_desplazamiento(string linea, char delim) {
-    desplazamientos.push_back(crearDesplazamiento(linea, delim));
+    this->desplazamientos.push_back(crearDesplazamiento(linea, delim));
 }
 
 void Sistema::agregar_elemento(Elemento* elem) {
-    elementos.push_back(elem);
+    this->elementos.push_back(elem);
 }
 
 void Sistema::agregar_elemento(string linea, char delim) {
-    elementos.push_back(crearElemento(linea, delim));
+    this->elementos.push_back(crearElemento(linea, delim));
+}
+
+list<pair<Elemento*, float>> Sistema::elementos_cercanos(Elemento* elem, int n) {
+    list<pair<Elemento*, float>> l_res;
+
+    list<Elemento*> list_copy = this->elementos;
+
+    list_copy.remove(elem);
+
+    for (Elemento* el: list_copy) {
+        
+        float dist_tmp = elem->calcularDistancia(*el);
+
+        if (l_res.empty()) {
+            l_res.push_back(make_pair(el, dist_tmp));
+
+        } else {
+            bool added = false;
+
+            for (list<pair<Elemento*, float>>::iterator it = l_res.begin(); it != l_res.end(); it++) {
+                if (dist_tmp < it->second && l_res.size() < n) {
+                    l_res.insert(it, make_pair(el, dist_tmp));
+                    added = true;
+                    break;
+                }
+            }
+
+            if (!added && l_res.size() < n) {
+                l_res.push_back(make_pair(el, dist_tmp));
+            }
+        }
+    }
+
+    return l_res;
+}
+
+float Sistema::dist(int k, int i, int j){
+    if (k == 0) {
+        return this->mapa.CostoArco(i, j);
+    } else {
+        return max(dist(k-1, i, j), dist(k-1, i, k) + dist(k-1, k, j));
+    }
 }
 
 void Sistema::borrar_desplazamientos() {
-    for (Desplazamiento* desp: desplazamientos) {
+    for (Desplazamiento* desp: this->desplazamientos) {
         delete desp;
     }
-    desplazamientos.clear();
+    this->desplazamientos.clear();
 }
 
 void Sistema::borrar_elementos() {
-    for (Elemento* elem: elementos) {
+    for (Elemento* elem: this->elementos) {
         delete elem;
     }
-    elementos.clear();
+    this->elementos.clear();
+}
+
+void Sistema::borrar_arbol() {
+    this->arbolElementos.~ArbolQuad();
+    this->arbolElementos = ArbolQuad();
+}
+
+void Sistema::borrar_mapa() {
+    this->mapa.borrar();
 }
 
 bool Sistema::comando_existe(string nombre) {
-    return comandos.find(nombre) != comandos.end();
+    return this->comandos.find(nombre) != this->comandos.end();
 }
 
 void Sistema::ejecutar(string comando, vector<string> args) {
     if (!comando_existe(comando))
         throw runtime_error("El comando '" + comando + "' no existe");
 
-    comandos[comando](*this, args);
+    this->comandos[comando](*this, args);
 }
-
-// void Sistema::calcularDistanciaElementos()
-// {
-//     for (auto it1 = elementos.begin(); it1 != elementos.end(); ++it1) 
-//     {
-//         Vertice* vertice=new Vertice(**it1,{});
-//         for (auto it2 = std::next(it1); it2 != elementos.end(); ++it2) 
-//         {
-//             float distancia = calcularDistancia(**it1, **it2);
-//             vertice->insertarArista(distancia,**it2);
-//         }
-//         this->push_back(vertice);
-//     }
-// }
-
-
-
 
 void Sistema::salir() {
     this->borrar_elementos();
     this->borrar_desplazamientos();
-    arbolElementos.~ArbolQuad();
+    this->arbolElementos.~ArbolQuad();
+    this->mapa.~Grafo();
 }

@@ -3,6 +3,7 @@
 #define ELEMENTO
 
 
+#include <utility>
 #include <string>
 #include <vector>
 
@@ -28,14 +29,23 @@ class Elemento {
         //* obtener el punto donde se encuentra el elemento
         pair<float, float> getPunto();
 
+        //getter de tipo_elemento
+        string getTipoElemento();
+
+        //getter de coordenada_x
+        float getCoordenadaX();
+
+        //getter de coordenada_y
+        float getCoordenadaY();
+
         //* conviertir la información del desplazamiento a un string
         string toString(char delim);
 
         //* verificar que el elemento esta en el cuadrante ingresado
         bool estaEnCuadrante(pair<float, float> min, pair<float, float> max);
 
-        //* calcular distancia entre 2 elementos
-        float calcularDistancia(Elemento uno, Elemento dos);
+        //* calcular distancia entre el elemento y otro dado
+        float calcularDistancia(Elemento elem);
         
 };
 
