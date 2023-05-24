@@ -308,15 +308,15 @@ void crear_mapa(Sistema& sistema, vector<string> args) {
 
     cout << "El mapa se ha generado exitosamente. Cada elemento tiene " << vecinos << " vecinos.\n";
 
-    for (Elemento* e: sistema.getMapa().getVertices()) {
-        int id = sistema.getMapa().idVertice(e);
-        cout << id;
-        cout << " -> { ";
-        for (int id_tmp: sistema.getMapa().sucesores(id)) {
-            cout << "(" << sistema.getMapa().CostoArco(id, id_tmp) << ", " << id_tmp << "); ";
-        }
-        cout << "}\n";
-    }
+    // for (Elemento* e: sistema.getMapa().getVertices()) {
+    //     int id = sistema.getMapa().idVertice(e);
+    //     cout << id;
+    //     cout << " -> { ";
+    //     for (int id_tmp: sistema.getMapa().sucesores(id)) {
+    //         cout << "(" << sistema.getMapa().CostoArco(id, id_tmp) << ", " << id_tmp << "); ";
+    //     }
+    //     cout << "}\n";
+    // }
 }
 
 
