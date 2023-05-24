@@ -189,51 +189,54 @@ void NodoQuad::nivelOrden() {
 }
 
 list<Elemento> NodoQuad::en_cuadrante(pair<float, float> min, pair<float, float> max) {
-    if (this == nullptr) {
+    list<Elemento> l;
+    if (this == nullptr) 
         return list<Elemento>();
-    } if (this->esHoja()) {
-        return this->obtenerDato().estaEnCuadrante(min, max)
-            ? list<Elemento>({this->obtenerDato()})
-            : list<Elemento>();
-    } else {
-        list<Elemento> l;
+    
+    else if (this->esHoja()) {
+        if (this->obtenerDato().estaEnCuadrante(min, max))
+            return list<Elemento>({this->obtenerDato()});        
+        else 
+            return list<Elemento>();    
+
+    } 
+    
+    else {
         pair<float, float> punto = this->obtenerDato().getPunto();
 
-        if (this->obtenerDato().estaEnCuadrante(min, max)) {
+        //if min cuadrante x < nodoRaizX() && min cuadrante y < nodoRaizY(){}
+            //El nodo raíz se encuentra dentro del cuadrante
+            //Puede que todos los hijos se encuentren dentro del cuadrante
+
+        if (min.first <= punto.first && min.second <= punto.second){
             l.push_back(this->obtenerDato());
+            l.splice(l.end(), this->hijoSupIzq->en_cuadrante(min, max));
+            l.splice(l.end(), this->hijoSupDer->en_cuadrante(min, max));
+            l.splice(l.end(), this->hijoInfIzq->en_cuadrante(min, max));
+            l.splice(l.end(), this->hijoInfDer->en_cuadrante(min, max));
         }
-        l.splice(l.end(), this->hijoSupIzq->en_cuadrante(min, max));
-        l.splice(l.end(), this->hijoSupDer->en_cuadrante(min, max));
-        l.splice(l.end(), this->hijoInfIzq->en_cuadrante(min, max));
-        l.splice(l.end(), this->hijoInfDer->en_cuadrante(min, max));
-        // TODO: Corregir esta mondaa
-        // else {
-        //     if (max.first <= punto.first) {
-        //         if (min.second >= punto.second) {
-        //             l.splice(l.end(), this->hijoSupIzq->en_cuadrante(min, max));
-        //         } else if (max.second <= punto.second) {
-        //             l.splice(l.end(), this->hijoInfIzq->en_cuadrante(min, max));
-        //         } else {
-        //             l.splice(l.end(), this->hijoSupIzq->en_cuadrante(min, max));
-        //             l.splice(l.end(), this->hijoInfIzq->en_cuadrante(min, max));
-        //         }
-        //     } else if (max.first >= punto.first) {
-        //         if (min.second >= punto.second) {
-        //             l.splice(l.end(), this->hijoSupDer->en_cuadrante(min, max));
-        //         } else if (max.second <= punto.second) {
-        //             l.splice(l.end(), this->hijoInfDer->en_cuadrante(min, max));
-        //         } else {
-        //             l.splice(l.end(), this->hijoSupDer->en_cuadrante(min, max));
-        //             l.splice(l.end(), this->hijoInfDer->en_cuadrante(min, max));
-        //         }
-        //     } else if (min.second >= punto.second) {
-        //         l.splice(l.end(), this->hijoSupIzq->en_cuadrante(min, max));
-        //         l.splice(l.end(), this->hijoSupDer->en_cuadrante(min, max));
-        //     } else if (max.second <= punto.second) {
-        //         l.splice(l.end(), this->hijoInfIzq->en_cuadrante(min, max));
-        //         l.splice(l.end(), this->hijoInfDer->en_cuadrante(min, max));
-        //     }
-        // }
+
+        //if min cuadrante x < nodoRaizX() && min cuadrante y > nodoRaizY(){}
+            //Puede que los hijos SupDer y SupIzq se encuentren dentro del cuadrante
+
+        if (min.first <= punto.first && min.second > punto.second){
+            l.splice(l.end(), this->hijoSupIzq->en_cuadrante(min, max));
+            l.splice(l.end(), this->hijoSupDer->en_cuadrante(min, max));
+        }
+
+        //if min cuadrante x > nodoRaizX() && min cuadrante y < nodoRaizY(){}
+            //Puede que los hijos SupDer e InfDer se encuentren dentro del cuadrante
+
+        if (min.first > punto.first && min.second <= punto.second){
+            l.splice(l.end(), this->hijoSupDer->en_cuadrante(min, max));
+            l.splice(l.end(), this->hijoInfDer->en_cuadrante(min, max));
+        }
+
+        //if min cuadrante x > nodoRaizX() && min cuadrante y > nodoRaizY(){}
+            //Puede que el hijoSupDer se encuentre dentro del cuadrante
+
+        if (min.first > punto.first && min.second > punto.second)
+            l.splice(l.end(), this->hijoSupDer->en_cuadrante(min, max));
 
         return l;
     }
