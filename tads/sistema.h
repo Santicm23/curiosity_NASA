@@ -6,6 +6,7 @@
 #include <string>
 #include <list>
 #include <vector>
+#include <stack>
 #include <map>
 
 #include "desplazamiento.h"
@@ -16,7 +17,6 @@
 #include "robotCuriosity.h"
 #include "arbolQuad.h"
 #include "grafo.h"
-
 
 using namespace std;
 
@@ -75,6 +75,57 @@ class Sistema {
 
         //* función distancia mayor para Floyd-Warshall (función ruta_más_larga)
         float dist(int k, int i, int j);
+        
+        void floydWarshall(vector<vector<int>>& matrizPredecesores, vector<vector<float>>& matrizPesos) {
+            int V = matrizPredecesores.size();
+
+            // Iteramos sobre todos los vértices y calculamos las distancias más altas
+            for (int k = 0; k < V; ++k) {
+                for (int i = 0; i < V; ++i) {
+                    for (int j = 0; j < V; ++j) {
+                        // Si el vértice k aumenta la distancia entre i y j, lo actualizamos
+                        if (matrizPesos[i][k] + matrizPesos[k][j] < matrizPesos[i][j] && i!=j && i!=k && j!=k) {
+                            matrizPesos[i][j] = matrizPesos[i][k] + matrizPesos[k][j];
+                            matrizPredecesores[i][j] = k+1;
+                        }
+                    }
+                }
+            }
+        }
+
+        pair<list<int>, float> obtenerRutaMasLarga(vector<vector<int>>& matrizPredecesores, vector<vector<float>>& matrizPesos) {
+            int V = matrizPesos.size();
+
+            // Obtener índices de la ruta más larga
+            list<int> rutaMasLarga;
+            int indiceOrigen = -1;
+            int indiceDestino = -1;
+            float distanciaMaxima = 0.0;
+
+            // Encontrar el par de vértices con la distancia más larga
+            for (int i = 0; i < V; ++i) {
+                for (int j = 0; j < V; ++j) {
+                    if (matrizPesos[i][j] != -1 && matrizPesos[i][j] > distanciaMaxima) {
+                        distanciaMaxima = matrizPesos[i][j];
+                        indiceOrigen = i;
+                        indiceDestino = j;
+                    }
+                }
+            }
+
+            if (indiceOrigen != -1 && indiceDestino != -1) {
+                list<int> ruta;
+    
+                ruta.push_front(indiceDestino);
+
+                // while (indiceOrigen != indiceDestino) {
+                //     //OJO CON LOS -1
+                //     indiceDestino = matrizPredecesores[indiceOrigen - 1][indiceOrigen - 1];
+                //     ruta.push_front(indiceDestino);
+                // }
+            }
+            return make_pair(rutaMasLarga, distanciaMaxima);
+        }
 
         //* borrar los desplazamientos cargados en el sistema
         void borrar_desplazamientos();

@@ -5,6 +5,7 @@
 #include <utility>
 #include <list>
 #include <set>
+#include <limits>
 
 #include "vertice.h"
 
@@ -69,6 +70,38 @@ class Grafo {
 
         //* Borra la información almacenada en el grafo
         void borrar();
+        
+        vector<vector<int>> getMatrizAdyacentes() {
+            int V = vertices.size();
+            vector<vector<int>> matriz(V, vector<int>(V, -1));
+
+            list<Vertice>::iterator it_v = this->vertices.begin();
+            list<set<Arista>>::iterator it_a = this->aristas.begin();
+            for (int i = 0; i < V; ++i, ++it_v, ++it_a) {
+                matriz[i][i] = 0.0;
+                for (const Arista& arista: *it_a) {
+                    matriz[i][arista.second] = arista.second;
+                }
+            }
+
+            return matriz;
+        }
+
+        vector<vector<float>> getMatrizCoste() {
+            int V = vertices.size();
+            vector<vector<float>> matriz(V, vector<float>(V, -1));
+
+            list<Vertice>::iterator it_v = this->vertices.begin();
+            list<set<Arista>>::iterator it_a = this->aristas.begin();
+            for (int i = 0; i < V; ++i, ++it_v, ++it_a) {
+                matriz[i][i] = 0.0;
+                for (const Arista& arista: *it_a) {
+                    matriz[i][arista.second] = arista.first;
+                }
+            }
+
+            return matriz;
+        }
 };
 
 #include "grafo.cxx"

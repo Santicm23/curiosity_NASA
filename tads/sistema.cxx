@@ -155,14 +155,16 @@ list<pair<Elemento*, float>> Sistema::elementos_cercanos(Elemento* elem, int n) 
             bool added = false;
 
             for (list<pair<Elemento*, float>>::iterator it = l_res.begin(); it != l_res.end(); it++) {
-                if (dist_tmp < it->second && l_res.size() < n) {
+                if (dist_tmp < it->second) {
                     l_res.insert(it, make_pair(el, dist_tmp));
                     added = true;
                     break;
                 }
             }
 
-            if (!added && l_res.size() < n) {
+            if (added && l_res.size() > n) {
+                l_res.pop_back();
+            } else if (!added && l_res.size() < n) {
                 l_res.push_back(make_pair(el, dist_tmp));
             }
         }
@@ -171,7 +173,7 @@ list<pair<Elemento*, float>> Sistema::elementos_cercanos(Elemento* elem, int n) 
     return l_res;
 }
 
-float Sistema::dist(int k, int i, int j){
+float Sistema::dist(int k, int i, int j) {
     if (k == 0) {
         return this->mapa.CostoArco(i, j);
     } else {
