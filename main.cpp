@@ -326,113 +326,9 @@ void ruta_mas_larga(Sistema& sistema, vector<string> args) {
         throw runtime_error("No se requieren argumentos");
 
     else if (sistema.getMapa().getVertices().empty())
-        throw runtime_error("El mapa no ha sido generado todavia (con el comando crear_mapa))");    
-    
-    // //1) Realizar algoritmo de Floyd-Warshall, cambiando las condiciones de menor por mayor
-    // //2) Buscar dentro de la matriz final el mayor valor y determinar los dos vertices que lo generan
-    // //3) Reconstruir la ruta a traves de las matrices de predecesores, mientras se suma la longitud de los arcos
-    // //4) Imprimir todos los valores hallados, a su vez que la lista
-    
-    // //Realizar algoritmo de Floyd-Warshall, cambiando las condiciones de menor por mayor
+        throw runtime_error("El mapa no ha sido generado todavia (con el comando crear_mapa))");
 
-    // int n = sistema.getMapa().getVertices().size(); //Cantidad de nodos del grafo
-
-    // float ***D = new float**[n + 1];
-    // for (int i = 0; i <= n; i++) {
-    //     D[i] = new float*[n];
-    //     for (int j = 0; j < n; j++) {
-    //         D[i][j] = new float[n];
-    //     }
-    // }
-
-    // for (int i = 0; i < n; i++) { //Llenar D(0) con la definición matematica (matriz de adyacencia)
-    //     for (int j = 0; j < n; j++) {
-    //         if (i == j)
-    //             D[0][i][j] = 0;
-    //         else
-    //             D[0][i][j] = sistema.getMapa().CostoArco(i, j); 
-    //             /*Se puede dentro de un solo condicional, puesto que si no existe el arco, automaticamente se asignara un -1,
-    //             que dado el contexto del problema, es un valor que no se puede dar como costo de un arco*/
-    //     }
-    // }
-
-    // int ***P = new int**[n + 1]; //Arreglo de n matrices n x n (en Floyd-Warsahll es la matriz de nodos anteriores)
-    // for (int i = 0; i <= n; i++) {
-    //     P[i] = new int*[n];
-    //     for (int j = 0; j < n; j++) {
-    //         P[i][j] = new int[n];
-    //     }
-    // }
-
-    // for (int i = 0; i < n; i++) { //Llenar P(0) con la definición matematica
-    //     for (int j = 0; j < n; j++) {
-    //         if (i == j || sistema.getMapa().CostoArco(i, j) == -1)
-    //             P[0][i][j] = -1; //En vez de null, se utiliza -1 ya que por definición no puede haber un vertice previo -1
-    //         else if (i != j && sistema.getMapa().CostoArco(i, j) >= 0)
-    //             P[0][i][j] = i;
-    //     }
-    // }
-
-    // for (int k = 1; k < n; k++) {
-    //     for (int i = 0; i < n; i++) {
-    //         for (int j = 0; j < n; j++) {         
-    //             D[k][i][j] = sistema.dist(k, i, j);
-    //             if ((D[k-1][i][k] + D[k-1][k][j]) >= D[k-1][i][j])
-    //                 P[k][i][j] = P[k-1][k][j]; //Si el camino con k es mayor, asignarlo a la lista de predecesores
-    //             else 
-    //                 P[k][i][j] = P[k-1][i][j];
-    //         }
-    //     }
-    // }
-
-    // //Buscar dentro de la matriz final el mayor valor y determinar los dos vertices que lo generan
-
-    // float max = 0;
-    // int vInicial = 0, vFinal = 0;
-    // for (int i = 0; i < n; i++) {
-    //     for (int j = 0; j < n; j++) {
-    //         if (D[n][i][j] > max)
-    //             max = D[n][i][j];
-    //             vInicial = i;
-    //             vFinal = j;
-    //     }
-    // }
-
-    // //Reconstruir la ruta a traves de las matrices de predecesores, mientras se suma la longitud de los arcos
-
-    // queue<int> ruta;
-    // float longitud = 0;
-    // ruta.push(vFinal);
-    // while (P[n][vInicial][vFinal] != vInicial) {
-    //     ruta.push(P[n][vInicial][vFinal]);
-    //     longitud += sistema.getMapa().CostoArco(P[n][vInicial][vFinal], vFinal);
-    //     vFinal = P[n][vInicial][vFinal];
-    // }
-    // ruta.push(vInicial);
-    // longitud += sistema.getMapa().CostoArco(vInicial, vFinal);
-
-    // //Imprimir todos los valores hallados, a su vez que la lista
-
-    // cout << "Los puntos de interes mas alejados entre si son: " << vInicial << " y " << vFinal << endl;
-    // cout << "La ruta que los conecta tiene una longitud total de " << longitud << " y pasa por los siguientes elementos: ";
-    // int i = 1;
-    // while (!ruta.empty()) {
-    //     Elemento* elem = sistema.getMapa().InfoVertice(ruta.front());
-    //     cout << "Elemento " << i << ")\tTipo: " << elem->getTipoElemento() << "\tPosicion: (" << elem->getCoordenadaX() << ", " << elem->getCoordenadaY() << ")" << endl;
-    //     ruta.pop();
-    //     i++;
-    // }
-
-    // for (int i = 0; i < n+1; i++) {
-    //     for (int j = 0; j < n; j++) {
-    //         delete[] D[i][j];
-    //         delete[] P[i][j];
-    //     }
-    //     delete[] D[i];
-    //     delete[] P[i];
-    // }
-    // delete[] D;
-    // delete[] P;
+    //? Con floyd warchall
 
     // vector<vector<int>> a = sistema.getMapa().getMatrizAdyacentes();
     // vector<vector<float>> d = sistema.getMapa().getMatrizCoste();
@@ -464,6 +360,16 @@ void ruta_mas_larga(Sistema& sistema, vector<string> args) {
 
     // pair<list<int>, float> res = sistema.obtenerRutaMasLarga(a, d);
 
+    // cout << "Los puntos de interes mas alejados entre si son: " << sistema.getMapa().InfoVertice(*(res.first.begin()))->toString() << " y " << sistema.getMapa().InfoVertice(*(res.first.rbegin()))->toString() << endl;
+    // cout << "La ruta que los conecta tiene una longitud total de " << res.second << " y pasa por los siguientes elementos:\n";
+
+    // for (int id: res.first) {
+    //     cout << sistema.getMapa().InfoVertice(id)->toString() << endl;
+    // }
+
+
+    // ? Sin floyd warchall
+
     pair<list<Elemento*>, float> res = make_pair(list<Elemento*>(), 0);
 
     for (Elemento* el: sistema.getElementos()) {
@@ -480,6 +386,7 @@ void ruta_mas_larga(Sistema& sistema, vector<string> args) {
     for (Elemento* el: res.first) {
         cout << el->toString() << endl;
     }
+    
 }
 
 //! ----- comandos y funciones adicionales -----
